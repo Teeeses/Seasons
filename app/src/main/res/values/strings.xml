@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Features</string>
+    <string name="level">Уровень</string>
+    <string name="level_is_close">Уровень закрыт</string>
+</resources>
