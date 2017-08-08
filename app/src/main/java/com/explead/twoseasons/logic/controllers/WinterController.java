@@ -19,7 +19,7 @@ import java.util.Comparator;
 public class WinterController extends Modes {
 
     public interface OnControllerListener {
-        void onChangeCell(Cell startCell, Cell newCell);
+        void onChangeCell(Cell startCell, Cell newCell, String direction);
     }
 
     private OnControllerListener onControllerListener;
@@ -32,7 +32,7 @@ public class WinterController extends Modes {
         field.printField();
     }
 
-    public void logicMove(int start_x, int start_y, int end_x, int end_y) {
+    public void logicMove(final int start_x, final int start_y, final int end_x, final int end_y) {
         int side1 = (start_x - end_x);
         int side2 = (start_y - end_y);
         int hypotenuse = (int) (Math.sqrt(Math.abs(side1 * side1) + Math.abs(side2 * side2)));
@@ -48,6 +48,20 @@ public class WinterController extends Modes {
                 moveDown();
             }
         }
+        if(checkWin()) {
+            onGameListener.onWin();
+        }
+
+    }
+
+    public boolean checkWin() {
+        ArrayList<ContainerCells> actionCells = field.getActionCells();
+        for(int i = 0; i < actionCells.size(); i++) {
+            if(!actionCells.get(i).getStartCell().equals(actionCells.get(i).getEndCell())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void setOnControllerListener(OnControllerListener onControllerListener) {
@@ -79,11 +93,10 @@ public class WinterController extends Modes {
                     StartCell newCell = new StartCell(i, newCoordinate);
                     numberChanges++;
 
-                    onControllerListener.onChangeCell(startCell, newCell);
+                    onControllerListener.onChangeCell(startCell, newCell, "right");
                 }
             }
         }
-        field.printField();
     }
 
     private void moveLeft() {
@@ -111,11 +124,10 @@ public class WinterController extends Modes {
                     StartCell newCell = new StartCell(i, newCoordinate);
                     numberChanges++;
 
-                    onControllerListener.onChangeCell(startCell, newCell);
+                    onControllerListener.onChangeCell(startCell, newCell, "left");
                 }
             }
         }
-        field.printField();
     }
 
     private void moveUp() {
@@ -143,11 +155,10 @@ public class WinterController extends Modes {
                     StartCell newCell = new StartCell(newCoordinate, i);
                     numberChanges++;
 
-                    onControllerListener.onChangeCell(startCell, newCell);
+                    onControllerListener.onChangeCell(startCell, newCell, "up");
                 }
             }
         }
-        field.printField();
     }
 
     private void moveDown() {
@@ -175,10 +186,9 @@ public class WinterController extends Modes {
                     StartCell newCell = new StartCell(newCoordinate, i);
                     numberChanges++;
 
-                    onControllerListener.onChangeCell(startCell, newCell);
+                    onControllerListener.onChangeCell(startCell, newCell, "down");
                 }
             }
         }
-        field.printField();
     }
 }

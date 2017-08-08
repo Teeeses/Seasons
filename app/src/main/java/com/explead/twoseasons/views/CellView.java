@@ -1,19 +1,18 @@
 package com.explead.twoseasons.views;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.RelativeLayout;
 
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.logic.elements.Cell;
-import com.explead.twoseasons.logic.elements.StartCell;
 
 /**
  * Created by Александр on 09.07.2017.
@@ -76,38 +75,33 @@ public class CellView extends View {
         return coordinate*size;
     }
 
-    public void setAnimationFromPointToPoint(Cell startCell, Cell endCell) {
-        if(!startCell.equals(endCell)) {
-            float fromX = coordToGlobal(startCell.getX());
-            float toX = coordToGlobal(endCell.getX());
-            float fromY = coordToGlobal(startCell.getY());
-            float toY = coordToGlobal(endCell.getY());
-            TranslateAnimation animation = new TranslateAnimation(fromX, toX, fromY, toY);
-            animation.setDuration(5000);
-            animation.setAnimationListener(new MyAnimationListener(this, startCell, endCell));
-            this.startAnimation(animation);
-        }
-    }
+    public void setAnimationFromPointToPoint(Cell startCell, Cell endCell, final String direction) {
+            float from;
+            float to;
 
-    private class MyAnimationListener implements Animation.AnimationListener {
+            if (direction.equals("up") || direction.equals("down")) {
+                from = coordToGlobal(startCell.getY());
+                to = coordToGlobal(endCell.getY());
+            } else {
+                from = coordToGlobal(startCell.getX());
+                to = coordToGlobal(endCell.getX());
+            }
 
-        private CellView cellView;
-        private Cell startCell;
-        private Cell endCell;
+            final View view = this;
+            ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
 
-        public MyAnimationListener(CellView cellView, Cell startCell, Cell endCell) {
-            this.cellView = cellView;
-            this.startCell = startCell;
-            this.endCell = endCell;
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            cellView.setData(endCell);
-        }
-        @Override
-        public void onAnimationRepeat(Animation animation) {}
-        @Override
-        public void onAnimationStart(Animation animation) {}
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    float value = (float) animation.getAnimatedValue();
+                    if(direction.equals("up") || direction.equals("down")) {
+                        view.setTranslationY(value);
+                    } else {
+                        view.setTranslationX(value);
+                    }
+                }
+            });
+            valueAnimator.setDuration(250);
+            valueAnimator.start();
     }
 }

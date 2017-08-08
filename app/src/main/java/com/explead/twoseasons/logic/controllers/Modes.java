@@ -60,6 +60,10 @@ public class Modes {
         return new LevelContainer(mass, containerCells);
     }
 
+    public void setOnGameListener(OnGameListener onGameListener) {
+        this.onGameListener = onGameListener;
+    }
+
     public Field getField() {
         return field;
     }

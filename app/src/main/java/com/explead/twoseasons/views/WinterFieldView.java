@@ -45,11 +45,11 @@ public class WinterFieldView extends RelativeLayout {
         this.context = context;
     }
 
-    public void onChange(Cell startCell, Cell newCell) {
+    public void onChange(Cell startCell, Cell newCell, String direction) {
         for (int i = 0; i < actionViews.size(); i++) {
             CellView view = actionViews.get(i);
             if (newCell.equals(view.getCell()) && view.getCell() instanceof StartCell) {
-                view.setAnimationFromPointToPoint(startCell, newCell);
+                view.setAnimationFromPointToPoint(startCell, newCell, direction);
                 return;
             }
         }
@@ -99,7 +99,11 @@ public class WinterFieldView extends RelativeLayout {
             cellStart.setDate(sizeCell, actionCells.get(i).getStartCell());
             actionViews.add(cellStart);
             this.addView(cellStart);
-
         }
+    }
+
+    public void clearField() {
+        actionViews = new ArrayList<>();
+        this.removeAllViews();
     }
 }
