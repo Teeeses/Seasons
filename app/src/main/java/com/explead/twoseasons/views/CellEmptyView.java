@@ -30,6 +30,6 @@ public class CellEmptyView extends CellView {
 
     private void init(Context context) {
         this.context = context;
-        setBackground(Color.WHITE);
+        setBackground(Color.rgb(202, 202, 202));
     }
 }

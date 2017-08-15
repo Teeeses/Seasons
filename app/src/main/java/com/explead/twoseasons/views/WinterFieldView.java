@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+import com.explead.twoseasons.logic.controllers.WinterController;
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.logic.elements.ContainerCells;
 import com.explead.twoseasons.logic.elements.EmptyCell;
@@ -45,11 +46,11 @@ public class WinterFieldView extends RelativeLayout {
         this.context = context;
     }
 
-    public void onChange(Cell startCell, Cell newCell, String direction) {
+    public void onChange(Cell startCell, Cell newCell, String direction, WinterController controller) {
         for (int i = 0; i < actionViews.size(); i++) {
             CellView view = actionViews.get(i);
             if (newCell.equals(view.getCell()) && view.getCell() instanceof StartCell) {
-                view.setAnimationFromPointToPoint(startCell, newCell, direction);
+                view.setAnimationFromPointToPoint(startCell, newCell, direction, controller);
                 return;
             }
         }
@@ -74,7 +75,6 @@ public class WinterFieldView extends RelativeLayout {
         for (int i = 0; i < emptyCells.size(); i++) {
             CellEmptyView cellEmpty = new CellEmptyView(context);
             cellEmpty.setDate(sizeCell, emptyCells.get(i));
-            cellEmpty.setAlpha(0.6f);
             this.addView(cellEmpty);
         }
 

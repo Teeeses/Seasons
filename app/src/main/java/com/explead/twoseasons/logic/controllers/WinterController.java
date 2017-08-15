@@ -18,6 +18,10 @@ import java.util.Comparator;
 
 public class WinterController extends Modes {
 
+
+    public static int NO_MOVE = 0, MOVE = 1, WIN = 2;
+    private int status = NO_MOVE;
+
     public interface OnControllerListener {
         void onChangeCell(Cell startCell, Cell newCell, String direction);
     }
@@ -33,25 +37,26 @@ public class WinterController extends Modes {
     }
 
     public void logicMove(final int start_x, final int start_y, final int end_x, final int end_y) {
-        int side1 = (start_x - end_x);
-        int side2 = (start_y - end_y);
-        int hypotenuse = (int) (Math.sqrt(Math.abs(side1 * side1) + Math.abs(side2 * side2)));
-        double angle = (Math.asin((double) side2 / hypotenuse)) * 57.295f;
-        if (hypotenuse > 50 && ((angle < 30 && angle > -30) || (angle > 60) || (angle < -60))) {
-            if ((side1 <= 0 && side2 >= 0 && angle < 30) || (side1 <= 0 && side2 <= 0 && angle > -30)) {
-                moveRight();
-            } else if ((side1 <= 0 && side2 >= 0 && angle > 60) || (side1 >= 0 && side2 >= 0 && angle > 60)) {
-                moveUp();
-            } else if ((side1 >= 0 && side2 >= 0 && angle < 30) || (side1 >= 0 && side2 <= 0 && angle > -30)) {
-                moveLeft();
-            } else if ((side1 >= 0 && side2 <= 0 && angle < -60) || (side1 <= 0 && side2 <= 0 && angle < -60)) {
-                moveDown();
+        if(status == NO_MOVE) {
+            int side1 = (start_x - end_x);
+            int side2 = (start_y - end_y);
+            int hypotenuse = (int) (Math.sqrt(Math.abs(side1 * side1) + Math.abs(side2 * side2)));
+            double angle = (Math.asin((double) side2 / hypotenuse)) * 57.295f;
+            if (hypotenuse > 50 && ((angle < 30 && angle > -30) || (angle > 60) || (angle < -60))) {
+                if ((side1 <= 0 && side2 >= 0 && angle < 30) || (side1 <= 0 && side2 <= 0 && angle > -30)) {
+                    moveRight();
+                } else if ((side1 <= 0 && side2 >= 0 && angle > 60) || (side1 >= 0 && side2 >= 0 && angle > 60)) {
+                    moveUp();
+                } else if ((side1 >= 0 && side2 >= 0 && angle < 30) || (side1 >= 0 && side2 <= 0 && angle > -30)) {
+                    moveLeft();
+                } else if ((side1 >= 0 && side2 <= 0 && angle < -60) || (side1 <= 0 && side2 <= 0 && angle < -60)) {
+                    moveDown();
+                }
+            }
+            if (checkWin()) {
+                onGameListener.onWin();
             }
         }
-        if(checkWin()) {
-            onGameListener.onWin();
-        }
-
     }
 
     public boolean checkWin() {
@@ -61,6 +66,7 @@ public class WinterController extends Modes {
                 return false;
             }
         }
+        status = WIN;
         return true;
     }
 
@@ -190,5 +196,13 @@ public class WinterController extends Modes {
                 }
             }
         }
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

@@ -1,5 +1,6 @@
 package com.explead.twoseasons.views;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.RelativeLayout;
 
 import com.explead.twoseasons.R;
+import com.explead.twoseasons.logic.controllers.WinterController;
 import com.explead.twoseasons.logic.elements.Cell;
 
 /**
@@ -75,33 +77,49 @@ public class CellView extends View {
         return coordinate*size;
     }
 
-    public void setAnimationFromPointToPoint(Cell startCell, Cell endCell, final String direction) {
-            float from;
-            float to;
 
-            if (direction.equals("up") || direction.equals("down")) {
-                from = coordToGlobal(startCell.getY());
-                to = coordToGlobal(endCell.getY());
-            } else {
-                from = coordToGlobal(startCell.getX());
-                to = coordToGlobal(endCell.getX());
-            }
 
-            final View view = this;
-            ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
+    public void setAnimationFromPointToPoint(Cell startCell, Cell endCell, final String direction, final WinterController controller) {
+        float from;
+        float to;
 
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float value = (float) animation.getAnimatedValue();
-                    if(direction.equals("up") || direction.equals("down")) {
-                        view.setTranslationY(value);
-                    } else {
-                        view.setTranslationX(value);
-                    }
+        if (direction.equals("up") || direction.equals("down")) {
+            from = coordToGlobal(startCell.getY());
+            to = coordToGlobal(endCell.getY());
+        } else {
+            from = coordToGlobal(startCell.getX());
+            to = coordToGlobal(endCell.getX());
+        }
+
+        final View view = this;
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
+
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                if(direction.equals("up") || direction.equals("down")) {
+                    view.setTranslationY(value);
+                } else {
+                    view.setTranslationX(value);
                 }
-            });
-            valueAnimator.setDuration(250);
-            valueAnimator.start();
+            }
+        });
+
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                controller.setStatus(WinterController.NO_MOVE);
+            }
+        });
+        valueAnimator.setDuration(300);
+        controller.setStatus(WinterController.MOVE);
+        valueAnimator.start();
     }
 }

@@ -84,7 +84,7 @@ public class WinterFragment extends GameFragment implements Modes.OnGameListener
     public void onChangeCell(final Cell startCell, final Cell newCell, final String direction) {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                winterFieldView.onChange(startCell, newCell, direction);
+                winterFieldView.onChange(startCell, newCell, direction, controller);
             }
         });
     }
