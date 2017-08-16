@@ -1,22 +1,22 @@
-package com.explead.twoseasons.views;
+package com.explead.twoseasons.views.summer_views;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.logic.elements.ContainerCells;
 import com.explead.twoseasons.logic.elements.EmptyCell;
 import com.explead.twoseasons.logic.elements.Field;
-import com.explead.twoseasons.logic.elements.StartCell;
 import com.explead.twoseasons.logic.elements.WallCell;
+import com.explead.twoseasons.views.winter_views.CellEndWinterView;
+import com.explead.twoseasons.views.winter_views.CellStartWinterView;
+import com.explead.twoseasons.views.winter_views.CellWinterView;
+import com.explead.twoseasons.views.winter_views.CellWallWinterView;
+import com.explead.twoseasons.views.winter_views.CellEmptyWinterView;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Created by Александр on 09.07.2017.
  */
 
-public class SummerFieldView extends RelativeLayout {
+public class FieldSummerView extends RelativeLayout {
 
     public interface OnActionField {
         void onUp(int x, int y);
@@ -35,22 +35,22 @@ public class SummerFieldView extends RelativeLayout {
     private OnActionField onActionField;
     private Context context;
 
-    private ArrayList<CellView> cellViews = new ArrayList<>();
+    private ArrayList<CellWinterView> mCellWinterViews = new ArrayList<>();
 
     private float size;
     private Field field;
 
-    public SummerFieldView(Context context) {
+    public FieldSummerView(Context context) {
         super(context);
         init(context);
     }
 
-    public SummerFieldView(Context context, AttributeSet attrs) {
+    public FieldSummerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public SummerFieldView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FieldSummerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -127,39 +127,39 @@ public class SummerFieldView extends RelativeLayout {
 
         ArrayList<EmptyCell> emptyCells = field.getEmptyCells();
         for(int i = 0; i < emptyCells.size(); i++) {
-            CellEmptyView cellEmpty = new CellEmptyView(context);
+            CellEmptyWinterView cellEmpty = new CellEmptyWinterView(context);
             cellEmpty.setDate(sizeCell, emptyCells.get(i));
             cellEmpty.setAlpha(0.25f);
-            cellViews.add(cellEmpty);
+            mCellWinterViews.add(cellEmpty);
         }
 
         ArrayList<WallCell> wallCells = field.getWallCells();
         for(int i = 0; i < wallCells.size(); i++) {
-            CellWallView cellWall = new CellWallView(context);
+            CellWallWinterView cellWall = new CellWallWinterView(context);
             cellWall.setDate(sizeCell, wallCells.get(i));
-            cellViews.add(cellWall);
+            mCellWinterViews.add(cellWall);
         }
 
         ArrayList<ContainerCells> actionCells = field.getActionCells();
         for(int i = 0; i < actionCells.size(); i++) {
-            CellStartView cellStart = new CellStartView(context);
-            CellEndView cellEnd = new CellEndView(context);
+            CellStartWinterView cellStart = new CellStartWinterView(context);
+            CellEndWinterView cellEnd = new CellEndWinterView(context);
             cellStart.setId(actionCells.get(i).getId());
             cellEnd.setId(actionCells.get(i).getId());
             cellStart.setDate(sizeCell, actionCells.get(i).getStartCell());
             cellEnd.setDate(sizeCell, actionCells.get(i).getEndCell());
-            cellViews.add(cellStart);
-            cellViews.add(cellEnd);
+            mCellWinterViews.add(cellStart);
+            mCellWinterViews.add(cellEnd);
         }
 
-        for(int i = 0; i < cellViews.size(); i++) {
-            this.addView(cellViews.get(i));
+        for(int i = 0; i < mCellWinterViews.size(); i++) {
+            this.addView(mCellWinterViews.get(i));
         }
     }
 
     private Cell findTouchCell(int x, int y) {
-        for(int i = 0; i < cellViews.size(); i++) {
-            CellView view = cellViews.get(i);
+        for(int i = 0; i < mCellWinterViews.size(); i++) {
+            CellWinterView view = mCellWinterViews.get(i);
             if(view.getCell().getX() == x && view.getCell().getY() == y) {
                 return view.getCell();
             }

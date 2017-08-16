@@ -29,7 +29,7 @@ public class WinterController extends Modes {
     private OnControllerListener onControllerListener;
 
     public WinterController(int level) {
-        level = 1;
+        this.level = level;
         LevelContainer container = getWinterLevel(level);
         field = new Field(container.getField(), container.getCells());
         field.addActionCellsOnField();

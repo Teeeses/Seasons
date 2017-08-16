@@ -10,8 +10,9 @@ import com.explead.twoseasons.beans.Level;
 import com.explead.twoseasons.ui.game_ui.fragments.GameFragment;
 import com.explead.twoseasons.ui.game_ui.fragments.SummerFragment;
 import com.explead.twoseasons.ui.game_ui.fragments.WinterFragment;
+import com.explead.twoseasons.utils.Utils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private Fragment fragment;
 
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sPref = getSharedPreferences(Utils.APP_PREFERENCES, MODE_PRIVATE);
 
         int mode = getIntent().getExtras().getInt("mode");
         int level = getIntent().getExtras().getInt("level");

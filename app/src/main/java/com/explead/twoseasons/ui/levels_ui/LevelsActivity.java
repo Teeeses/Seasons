@@ -13,18 +13,18 @@ import android.util.DisplayMetrics;
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.adapters.MyPagerAdapter;
 import com.explead.twoseasons.app.App;
+import com.explead.twoseasons.ui.game_ui.BaseActivity;
 import com.explead.twoseasons.ui.game_ui.MainActivity;
 import com.explead.twoseasons.utils.Utils;
 
 import github.chenupt.springindicator.SpringIndicator;
 import github.chenupt.springindicator.viewpager.ScrollerViewPager;
 
-public class LevelsActivity extends AppCompatActivity {
+public class LevelsActivity extends BaseActivity {
 
     private ScrollerViewPager viewPager;
     private MyPagerAdapter adapter;
 
-    private static SharedPreferences sPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,22 +45,6 @@ public class LevelsActivity extends AppCompatActivity {
         viewPager.fixScrollSpeed();
 
         springIndicator.setViewPager(viewPager);
-    }
-
-    public void setCurrentEasyLevel(int currentLevel) {
-        System.out.println("Сохранение нового текущего уровня");
-        SharedPreferences.Editor editor = sPref.edit();
-        if(currentLevel == sPref.getInt(Utils.SUMMER_CURRENT_LEVEL, 1)) {
-            editor.putInt(Utils.SUMMER_CURRENT_LEVEL, currentLevel + 1);
-        }
-        if(currentLevel == sPref.getInt(Utils.WINTER_CURRENT_LEVEL, 1)) {
-            editor.putInt(Utils.WINTER_CURRENT_LEVEL, currentLevel + 1);
-        }
-        editor.apply();
-    }
-
-    public static SharedPreferences getPref() {
-        return sPref;
     }
 
     public void openGameActivity(int mode, int level) {

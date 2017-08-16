@@ -1,4 +1,4 @@
-package com.explead.twoseasons.views;
+package com.explead.twoseasons.views.winter_views;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -18,26 +18,26 @@ import java.util.ArrayList;
  * Created by Александр on 13.07.2017.
  */
 
-public class WinterFieldView extends RelativeLayout {
+public class FieldWinterView extends RelativeLayout {
 
     private Context context;
 
-    private ArrayList<CellView> actionViews = new ArrayList<>();
+    private ArrayList<CellWinterView> actionViews = new ArrayList<>();
 
     private float size;
     private Field field;
 
-    public WinterFieldView(Context context) {
+    public FieldWinterView(Context context) {
         super(context);
         init(context);
     }
 
-    public WinterFieldView(Context context, AttributeSet attrs) {
+    public FieldWinterView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public WinterFieldView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FieldWinterView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -48,7 +48,7 @@ public class WinterFieldView extends RelativeLayout {
 
     public void onChange(Cell startCell, Cell newCell, String direction, WinterController controller) {
         for (int i = 0; i < actionViews.size(); i++) {
-            CellView view = actionViews.get(i);
+            CellWinterView view = actionViews.get(i);
             if (newCell.equals(view.getCell()) && view.getCell() instanceof StartCell) {
                 view.setAnimationFromPointToPoint(startCell, newCell, direction, controller);
                 return;
@@ -73,28 +73,28 @@ public class WinterFieldView extends RelativeLayout {
 
         ArrayList<EmptyCell> emptyCells = field.getEmptyCells();
         for (int i = 0; i < emptyCells.size(); i++) {
-            CellEmptyView cellEmpty = new CellEmptyView(context);
+            CellEmptyWinterView cellEmpty = new CellEmptyWinterView(context);
             cellEmpty.setDate(sizeCell, emptyCells.get(i));
             this.addView(cellEmpty);
         }
 
         ArrayList<WallCell> wallCells = field.getWallCells();
         for (int i = 0; i < wallCells.size(); i++) {
-            CellWallView cellWall = new CellWallView(context);
+            CellWallWinterView cellWall = new CellWallWinterView(context);
             cellWall.setDate(sizeCell, wallCells.get(i));
             this.addView(cellWall);
         }
 
         ArrayList<ContainerCells> actionCells = field.getActionCells();
         for (int i = 0; i < actionCells.size(); i++) {
-            CellEndView cellEnd = new CellEndView(context);
+            CellEndWinterView cellEnd = new CellEndWinterView(context);
             cellEnd.setId(actionCells.get(i).getId());
             cellEnd.setDate(sizeCell, actionCells.get(i).getEndCell());
             actionViews.add(cellEnd);
             this.addView(cellEnd);
         }
         for(int i = 0; i < actionCells.size(); i++) {
-            CellStartView cellStart = new CellStartView(context);
+            CellStartWinterView cellStart = new CellStartWinterView(context);
             cellStart.setId(actionCells.get(i).getId());
             cellStart.setDate(sizeCell, actionCells.get(i).getStartCell());
             actionViews.add(cellStart);

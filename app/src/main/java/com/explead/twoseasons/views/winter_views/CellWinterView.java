@@ -1,4 +1,4 @@
-package com.explead.twoseasons.views;
+package com.explead.twoseasons.views.winter_views;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -20,7 +20,7 @@ import com.explead.twoseasons.logic.elements.Cell;
  * Created by Александр on 09.07.2017.
  */
 
-public class CellView extends View {
+public class CellWinterView extends View {
 
     public final int[] COLORS_START = {R.drawable.icon_blue_cube, R.drawable.icon_red_cube};
     public final int[] COLORS_END = {R.drawable.icon_inside_blue_cube, R.drawable.icon_inside_red_cube};
@@ -33,15 +33,15 @@ public class CellView extends View {
 
     protected Drawable image;
 
-    public CellView(Context context) {
+    public CellWinterView(Context context) {
         super(context);
     }
 
-    public CellView(Context context, @Nullable AttributeSet attrs) {
+    public CellWinterView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CellView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CellWinterView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -118,7 +118,7 @@ public class CellView extends View {
                 controller.setStatus(WinterController.NO_MOVE);
             }
         });
-        valueAnimator.setDuration(300);
+        valueAnimator.setDuration(200);
         controller.setStatus(WinterController.MOVE);
         valueAnimator.start();
     }

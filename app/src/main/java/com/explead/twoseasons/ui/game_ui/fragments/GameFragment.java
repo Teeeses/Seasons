@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.explead.twoseasons.ui.game_ui.MainActivity;
-import com.explead.twoseasons.views.SummerFieldView;
 
 /**
  * Created by Александр on 09.07.2017.

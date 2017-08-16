@@ -14,7 +14,7 @@ import com.explead.twoseasons.logic.controllers.Modes;
 import com.explead.twoseasons.logic.controllers.SummerController;
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.utils.Utils;
-import com.explead.twoseasons.views.SummerFieldView;
+import com.explead.twoseasons.views.summer_views.FieldSummerView;
 
 import java.util.ArrayList;
 
@@ -22,10 +22,10 @@ import java.util.ArrayList;
  * Created by Александр on 09.07.2017.
  */
 
-public class SummerFragment extends GameFragment implements Modes.OnGameListener, SummerFieldView.OnActionField, SummerController.OnControllerListener {
+public class SummerFragment extends GameFragment implements Modes.OnGameListener, FieldSummerView.OnActionField, SummerController.OnControllerListener {
 
     private SummerController controller;
-    private SummerFieldView summerFieldView;
+    private FieldSummerView mFieldSummerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,10 +39,10 @@ public class SummerFragment extends GameFragment implements Modes.OnGameListener
         tvNumberLevel.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
         tvLevel.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
 
-        summerFieldView = (SummerFieldView) view.findViewById(R.id.fieldView);
-        summerFieldView.createField(App.getWidthScreen()*0.96f, controller.getField());
-        summerFieldView.setOnTouch();
-        summerFieldView.setOnActionField(this);
+        mFieldSummerView = (FieldSummerView) view.findViewById(R.id.fieldView);
+        mFieldSummerView.createField(App.getWidthScreen()*0.96f, controller.getField());
+        mFieldSummerView.setOnTouch();
+        mFieldSummerView.setOnActionField(this);
 
         tvNumberLevel.setText(String.format("%s", level));
 
@@ -93,6 +93,6 @@ public class SummerFragment extends GameFragment implements Modes.OnGameListener
 
     @Override
     public void onChangePath(ArrayList<ArrayList<Cell>> result) {
-        summerFieldView.changePath(result);
+        mFieldSummerView.changePath(result);
     }
 }

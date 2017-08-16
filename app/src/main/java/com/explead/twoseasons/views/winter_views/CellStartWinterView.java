@@ -1,4 +1,4 @@
-package com.explead.twoseasons.views;
+package com.explead.twoseasons.views.winter_views;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -8,22 +8,22 @@ import android.util.AttributeSet;
  * Created by Александр on 09.07.2017.
  */
 
-public class CellEndView extends CellView {
+public class CellStartWinterView extends CellWinterView {
 
     private Context context;
     private int id;
 
-    public CellEndView(Context context) {
+    public CellStartWinterView(Context context) {
         super(context);
         init(context);
     }
 
-    public CellEndView(Context context, @Nullable AttributeSet attrs) {
+    public CellStartWinterView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public CellEndView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CellStartWinterView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -40,6 +40,6 @@ public class CellEndView extends CellView {
     @Override
     public void setId(int id) {
         this.id = id;
-        setBackgroundDrawable(context.getResources().getDrawable(COLORS_END[id]));
+        setBackgroundDrawable(context.getResources().getDrawable(COLORS_START[id]));
     }
 }

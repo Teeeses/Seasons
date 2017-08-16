@@ -1,6 +1,7 @@
 package com.explead.twoseasons.ui.game_ui.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,8 +16,9 @@ import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.logic.controllers.Modes;
 import com.explead.twoseasons.logic.controllers.WinterController;
 import com.explead.twoseasons.logic.elements.Cell;
+import com.explead.twoseasons.ui.game_ui.MainActivity;
 import com.explead.twoseasons.utils.Utils;
-import com.explead.twoseasons.views.WinterFieldView;
+import com.explead.twoseasons.views.winter_views.FieldWinterView;
 
 /**
  * Created by Александр on 09.07.2017.
@@ -27,7 +29,7 @@ public class WinterFragment extends GameFragment implements Modes.OnGameListener
     private WinterController controller;
     private int start_x, start_y, end_x, end_y;
 
-    private WinterFieldView winterFieldView;
+    private FieldWinterView mFieldWinterView;
     private int level;
 
     @Override
@@ -46,7 +48,7 @@ public class WinterFragment extends GameFragment implements Modes.OnGameListener
         btnMenu = (ImageView) view.findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(btnMenuClick);
 
-        winterFieldView = (WinterFieldView) view.findViewById(R.id.fieldView);
+        mFieldWinterView = (FieldWinterView) view.findViewById(R.id.fieldView);
 
         level = getArguments().getInt("level");
         onRestart();
@@ -84,7 +86,7 @@ public class WinterFragment extends GameFragment implements Modes.OnGameListener
     public void onChangeCell(final Cell startCell, final Cell newCell, final String direction) {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                winterFieldView.onChange(startCell, newCell, direction, controller);
+                mFieldWinterView.onChange(startCell, newCell, direction, controller);
             }
         });
     }
@@ -107,12 +109,19 @@ public class WinterFragment extends GameFragment implements Modes.OnGameListener
     @Override
     public void onWin() {
         Toast.makeText(getContext(), "WIN", Toast.LENGTH_SHORT).show();
+        ((MainActivity)getActivity()).setCurrentWinterLevel(controller.getLevel());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().onBackPressed();
+            }
+        }, 1000);
     }
 
     public void onRestart() {
         controller = new WinterController(level);
-        winterFieldView.clearField();
-        winterFieldView.createField(App.getWidthScreen()*0.96f, controller.getField());
+        mFieldWinterView.clearField();
+        mFieldWinterView.createField(App.getWidthScreen()*0.96f, controller.getField());
         controller.setOnControllerListener(this);
         controller.setOnGameListener(this);
     }
