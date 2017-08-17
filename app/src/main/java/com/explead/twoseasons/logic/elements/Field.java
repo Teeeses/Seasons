@@ -57,7 +57,7 @@ public class Field {
                 if(field[i][j] == WALL_CELL) {
                     wallCells.add(new WallCell(j, i));
                 }
-                if(field[i][j] == EMPTY_CELL) {
+                if(field[i][j] != WALL_CELL) {
                     emptyCells.add(new EmptyCell(j, i));
                 }
             }

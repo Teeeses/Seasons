@@ -14,7 +14,6 @@ import com.explead.twoseasons.ui.levels_ui.fragments.WinterLevelsFragment;
 public class MyPagerAdapter extends FragmentPagerAdapter {
 
     private Fragment[] fragments = {
-            new SummerLevelsFragment(),
             new WinterLevelsFragment()
     };
 

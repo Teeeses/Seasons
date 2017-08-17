@@ -1,89 +1,88 @@
-package com.explead.twoseasons.logic.controllers;
+package com.explead.twoseasons.utils;
 
 import android.util.Log;
 
-import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.beans.LevelContainer;
-import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.logic.elements.ContainerCells;
+import com.explead.twoseasons.logic.elements.EndCell;
 import com.explead.twoseasons.logic.elements.Field;
 import com.explead.twoseasons.logic.elements.StartCell;
-import com.explead.twoseasons.utils.Generate;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
- * Created by Александр on 09.07.2017.
+ * Created by develop on 17.08.2017.
  */
 
-public class WinterController extends Modes {
+public class Generate {
 
+    public static LevelContainer generate(int size) {
+        ArrayList<ContainerCells> containerCells;
 
-    public static int NO_MOVE = 0, MOVE = 1, WIN = 2;
-    private int status = NO_MOVE;
-
-    public interface OnControllerListener {
-        void onChangeCell(Cell startCell, Cell newCell, String direction);
-    }
-
-    private OnControllerListener onControllerListener;
-
-    public WinterController(int level) {
-        this.level = level;
-        LevelContainer container;
-        try {
-            container = App.getWinterLevels().get(level);
-        } catch (Exception e) {
-            container = Generate.generate(4);
-        }
-        field = new Field(container.getField(), container.getCells());
-        field.addActionCellsOnField();
-        field.printField();
-    }
-
-    public void logicMove(final int start_x, final int start_y, final int end_x, final int end_y) {
-        if(status == NO_MOVE) {
-            int side1 = (start_x - end_x);
-            int side2 = (start_y - end_y);
-            int hypotenuse = (int) (Math.sqrt(Math.abs(side1 * side1) + Math.abs(side2 * side2)));
-            double angle = (Math.asin((double) side2 / hypotenuse)) * 57.295f;
-            if (hypotenuse > 50 && ((angle < 30 && angle > -30) || (angle > 60) || (angle < -60))) {
-                if ((side1 <= 0 && side2 >= 0 && angle < 30) || (side1 <= 0 && side2 <= 0 && angle > -30)) {
-                    moveRight();
-                } else if ((side1 <= 0 && side2 >= 0 && angle > 60) || (side1 >= 0 && side2 >= 0 && angle > 60)) {
-                    moveUp();
-                } else if ((side1 >= 0 && side2 >= 0 && angle < 30) || (side1 >= 0 && side2 <= 0 && angle > -30)) {
-                    moveLeft();
-                } else if ((side1 >= 0 && side2 <= 0 && angle < -60) || (side1 <= 0 && side2 <= 0 && angle < -60)) {
-                    moveDown();
-                }
-            }
-            if (checkWin()) {
-                onGameListener.onWin();
+        int mass[][] = new int[size][size];
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                mass[i][j] = randomWallOrEmpty();
             }
         }
+
+        int a = random(0, size);
+        int b = random(0, size);
+        StartCell startCell = new StartCell(a, b);
+
+        EndCell endCell;
+        int c;
+        int d;
+        do {
+            c = random(0, size);
+            d = random(0, size);
+            endCell = new EndCell(c, d);
+        } while (endCell.equals(startCell));
+
+
+        containerCells = new ArrayList<>();
+        containerCells.add(new ContainerCells(new StartCell(a, b), new EndCell(c, d)));
+        containerCells.add(new ContainerCells(new StartCell(c, d), new EndCell(a, b)));
+
+        writeField(mass, containerCells);
+
+        return new LevelContainer(mass, containerCells);
     }
 
-    public boolean checkWin() {
-        ArrayList<ContainerCells> actionCells = field.getActionCells();
-        for(int i = 0; i < actionCells.size(); i++) {
-            if(!actionCells.get(i).getStartCell().equals(actionCells.get(i).getEndCell())) {
-                return false;
-            }
+    public static int random(int a, int b) {
+        return a + (int) (Math.random() * b);
+    }
+
+    public static int randomWallOrEmpty() {
+        int value = 0;
+        if(random(0, 2) == 0) {
+            value = Field.EMPTY_CELL;
+        } else if(random(0, 2) == 1) {
+            value = Field.WALL_CELL;
         }
-        status = WIN;
-        return true;
+        return value;
     }
 
-    public void setOnControllerListener(OnControllerListener onControllerListener) {
-        this.onControllerListener = onControllerListener;
+    public static void writeField(int[][] mass, ArrayList<ContainerCells> container) {
+        for(int i = 0; i < mass.length; i++) {
+            for(int j = 0; j < mass.length; j++) {
+                System.out.print(mass[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println("x: " + container.get(0).getStartCell().getX() + " y: " + container.get(0).getEndCell().getY());
+        System.out.println("x: " + container.get(1).getStartCell().getX() + " y: " + container.get(1).getEndCell().getY());
+        System.out.println();
+        System.out.println();
     }
 
-    private void moveRight() {
-        Log.d("TAG", "RIGHT");
+    public static void check(int[][] mass, ArrayList<ContainerCells> containerCells) {
 
+    }
+
+    private void moveRight(Field field) {
         for(int i = 0; i < field.getSizeField(); i++) {
             int wallY = field.getSizeField();
             int numberChanges = 0;
@@ -105,16 +104,12 @@ public class WinterController extends Modes {
                     field.getActionCells().get(value-1).getStartCell().setY(i);
                     StartCell newCell = new StartCell(i, newCoordinate);
                     numberChanges++;
-
-                    onControllerListener.onChangeCell(startCell, newCell, "right");
                 }
             }
         }
     }
 
-    private void moveLeft() {
-        Log.d("TAG", "LEFT");
-
+    private void moveLeft(Field field) {
         for(int i = 0; i < field.getSizeField(); i++) {
             int wallY = -1;
             int numberChanges = 0;
@@ -136,16 +131,12 @@ public class WinterController extends Modes {
                     field.getActionCells().get(value-1).getStartCell().setY(i);
                     StartCell newCell = new StartCell(i, newCoordinate);
                     numberChanges++;
-
-                    onControllerListener.onChangeCell(startCell, newCell, "left");
                 }
             }
         }
     }
 
-    private void moveUp() {
-        Log.d("TAG", "UP");
-
+    private void moveUp(Field field) {
         for(int i = 0; i < field.getSizeField(); i++) {
             int wallY = -1;
             int numberChanges = 0;
@@ -168,15 +159,12 @@ public class WinterController extends Modes {
                     StartCell newCell = new StartCell(newCoordinate, i);
                     numberChanges++;
 
-                    onControllerListener.onChangeCell(startCell, newCell, "up");
                 }
             }
         }
     }
 
-    private void moveDown() {
-        Log.d("TAG", "DOWN");
-
+    private void moveDown(Field field) {
         for(int i = 0; i < field.getSizeField(); i++) {
             int wallY = field.getSizeField();
             int numberChanges = 0;
@@ -198,18 +186,8 @@ public class WinterController extends Modes {
                     field.getActionCells().get(value-1).getStartCell().setY(newCoordinate);
                     StartCell newCell = new StartCell(newCoordinate, i);
                     numberChanges++;
-
-                    onControllerListener.onChangeCell(startCell, newCell, "down");
                 }
             }
         }
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 }

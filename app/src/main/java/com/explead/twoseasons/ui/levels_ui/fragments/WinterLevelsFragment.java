@@ -24,7 +24,7 @@ public class WinterLevelsFragment extends LevelsFragment {
         View view = inflater.inflate(R.layout.fragment_levels_summer, container, false);
 
         gvMain = (GridView) view.findViewById(R.id.gvMain);
-        createButtons(40, Level.WINTER);
+        createButtons(App.getWinterLevels().size() + 1, Level.WINTER);
 
         ImageView bottomImage = (ImageView) view.findViewById(R.id.bottomImage);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) App.getWidthScreen(), (int)(App.getWidthScreen()*0.646f));

@@ -38,6 +38,7 @@ public class GridAdapter extends BaseAdapter {
     private int widthCell;
 
     private Drawable imageOpen;
+    private Drawable imageClose;
 
     public GridAdapter(Context context, ArrayList<ButtonLevel> array, OnLevelListener onLevelListener){
         this.context = context;
@@ -47,6 +48,7 @@ public class GridAdapter extends BaseAdapter {
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         widthCell = (int)(App.getWidthScreen() - context.getResources().getDimension(R.dimen.standard_margin)*8)/3;
         imageOpen = context.getResources().getDrawable(R.drawable.circle_level);
+        imageClose = context.getResources().getDrawable(R.drawable.circle_closed);
     }
 
     @Override
@@ -70,12 +72,15 @@ public class GridAdapter extends BaseAdapter {
         viewHolder.tvLevel.setText(Integer.toString(buttonLevel.getNumber()));
         if(buttonLevel.getStatus() == ButtonLevel.STATUS_CURRENT) {
             viewHolder.ivLevel.setBackgroundDrawable(imageOpen);
-        }
-        if(buttonLevel.getStatus() == ButtonLevel.STATUS_CLOSE) {
-            viewHolder.ivLevel.setBackgroundDrawable(imageOpen);
+            viewHolder.tvLevel.setVisibility(View.VISIBLE);
         }
         if(buttonLevel.getStatus() == ButtonLevel.STATUS_OPEN) {
             viewHolder.ivLevel.setBackgroundDrawable(imageOpen);
+            viewHolder.tvLevel.setVisibility(View.VISIBLE);
+        }
+        if(buttonLevel.getStatus() == ButtonLevel.STATUS_CLOSE) {
+            viewHolder.ivLevel.setBackgroundDrawable(imageClose);
+            viewHolder.tvLevel.setVisibility(View.GONE);
         }
 
 
