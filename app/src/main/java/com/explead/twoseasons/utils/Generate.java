@@ -1,6 +1,7 @@
 package com.explead.twoseasons.utils;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.explead.twoseasons.beans.LevelContainer;
 import com.explead.twoseasons.logic.elements.ContainerCells;
@@ -16,7 +17,27 @@ import java.util.ArrayList;
 
 public class Generate {
 
+    private static int LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3;
+
     public static LevelContainer generate(int size) {
+        LevelContainer container = createField(size);
+
+        int[][] mass = container.getField();
+        StartCell a = container.getCells().get(0).getStartCell();
+        StartCell b = container.getCells().get(1).getStartCell();
+        mass[a.getX()][a.getY()] = 1;
+        mass[b.getX()][b.getY()] = 2;
+        EndCell aa = container.getCells().get(0).getEndCell();
+        EndCell bb = container.getCells().get(1).getEndCell();
+
+        writeField(mass);
+
+        checkV(mass, aa, bb, DOWN, 0);
+
+        return createField(size);
+    }
+
+    private static  LevelContainer createField(int size) {
         ArrayList<ContainerCells> containerCells;
 
         int mass[][] = new int[size][size];
@@ -39,21 +60,23 @@ public class Generate {
             endCell = new EndCell(c, d);
         } while (endCell.equals(startCell));
 
+        mass[a][b] = 0;
+        mass[c][d] = 0;
 
         containerCells = new ArrayList<>();
         containerCells.add(new ContainerCells(new StartCell(a, b), new EndCell(c, d)));
         containerCells.add(new ContainerCells(new StartCell(c, d), new EndCell(a, b)));
 
-        writeField(mass, containerCells);
-
         return new LevelContainer(mass, containerCells);
     }
 
-    public static int random(int a, int b) {
+
+
+    private static int random(int a, int b) {
         return a + (int) (Math.random() * b);
     }
 
-    public static int randomWallOrEmpty() {
+    private static int randomWallOrEmpty() {
         int value = 0;
         if(random(0, 2) == 0) {
             value = Field.EMPTY_CELL;
@@ -71,23 +94,69 @@ public class Generate {
             System.out.println();
         }
         System.out.println();
-        System.out.println();
         System.out.println("x: " + container.get(0).getStartCell().getX() + " y: " + container.get(0).getEndCell().getY());
         System.out.println("x: " + container.get(1).getStartCell().getX() + " y: " + container.get(1).getEndCell().getY());
         System.out.println();
+    }
+
+    public static void writeField(int[][] mass) {
+        for(int i = 0; i < mass.length; i++) {
+            for(int j = 0; j < mass.length; j++) {
+                System.out.print(mass[i][j] + " ");
+            }
+            System.out.println();
+        }
         System.out.println();
     }
 
-    public static void check(int[][] mass, ArrayList<ContainerCells> containerCells) {
+    public static void checkV(int[][] mass, EndCell a, EndCell b, int direction, int number) {
+        number++;
+        if(checkWin(mass, a, b) || number == 20) {
+            System.out.println("КОНЕЦ");
+            return;
+        }
+        //if(direction == UP) {
+            moveDown(mass, a, b);
+            checkG(mass, a, b, direction, number);
 
+            moveUp(mass, a, b);
+            checkG(mass, a, b, direction, number);
+        /*} else if(direction == DOWN) {
+            moveUp(mass, a, b);
+            checkG(mass, a, b, direction, number);
+
+            moveDown(mass, a, b);
+            checkG(mass, a, b, direction, number);
+        }*/
     }
 
-    private void moveRight(Field field) {
-        for(int i = 0; i < field.getSizeField(); i++) {
-            int wallY = field.getSizeField();
+    public static void checkG(int[][] mass, EndCell a, EndCell b, int direction, int number) {
+        number++;
+        if(checkWin(mass, a, b) || number == 20) {
+            System.out.println("КОНЕЦ");
+            return;
+        }
+        //if(direction == LEFT) {
+            moveRight(mass, a, b);
+            checkV(mass, a, b, direction, number);
+
+            moveLeft(mass, a, b);
+            checkV(mass, a, b, direction, number);
+        /*} else if(direction == RIGHT) {
+            moveLeft(mass, a, b);
+            checkV(mass, a, b, direction, number);
+
+            moveRight(mass, a, b);
+            checkV(mass, a, b, direction, number);
+        }*/
+    }
+
+    private static void moveRight(int[][] mass, EndCell a, EndCell b) {
+        for(int i = 0; i < mass.length; i++) {
+            int wallY = mass.length;
             int numberChanges = 0;
-            for(int j = field.getSizeField()-1; j >= 0; j--) {
-                int value = field.getField()[i][j];
+            for(int j = mass.length-1; j >= 0; j--) {
+                int value = mass[i][j];
                 if(value == Field.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
@@ -96,80 +165,70 @@ public class Generate {
 
                     if(newCoordinate < 0)
                         newCoordinate = 0;
-                    field.getField()[i][j] = 0;
-                    field.getField()[i][newCoordinate] = value;
+                    mass[i][j] = 0;
+                    mass[i][newCoordinate] = value;
 
-                    StartCell startCell = new StartCell(field.getActionCells().get(value-1).getStartCell().getY(), field.getActionCells().get(value-1).getStartCell().getX());
-                    field.getActionCells().get(value-1).getStartCell().setX(newCoordinate);
-                    field.getActionCells().get(value-1).getStartCell().setY(i);
-                    StartCell newCell = new StartCell(i, newCoordinate);
-                    numberChanges++;
                 }
             }
         }
+        checkWin(mass, a, b);
     }
 
-    private void moveLeft(Field field) {
-        for(int i = 0; i < field.getSizeField(); i++) {
+    private static void moveLeft(int[][] mass, EndCell a, EndCell b) {
+        for(int i = 0; i < mass.length; i++) {
             int wallY = -1;
             int numberChanges = 0;
-            for(int j = 0; j < field.getSizeField(); j++) {
-                int value = field.getField()[i][j];
+            for(int j = 0; j < mass.length; j++) {
+                int value = mass[i][j];
                 if(value == Field.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
                 } else if(value != 0 && value < Field.WALL_CELL) {
                     int newCoordinate = wallY + 1 + numberChanges;
 
-                    if(newCoordinate > field.getSizeField()-1)
-                        newCoordinate = field.getSizeField() - 1;
-                    field.getField()[i][j] = 0;
-                    field.getField()[i][newCoordinate] = value;
+                    if(newCoordinate > mass.length-1)
+                        newCoordinate = mass.length - 1;
+                    mass[i][j] = 0;
+                    mass[i][newCoordinate] = value;
 
-                    StartCell startCell = new StartCell(field.getActionCells().get(value-1).getStartCell().getY(), field.getActionCells().get(value-1).getStartCell().getX());
-                    field.getActionCells().get(value-1).getStartCell().setX(newCoordinate);
-                    field.getActionCells().get(value-1).getStartCell().setY(i);
-                    StartCell newCell = new StartCell(i, newCoordinate);
                     numberChanges++;
                 }
             }
         }
+        checkWin(mass, a, b);
     }
 
-    private void moveUp(Field field) {
-        for(int i = 0; i < field.getSizeField(); i++) {
+    private static void moveUp(int[][] mass, EndCell a, EndCell b) {
+        for(int i = 0; i < mass.length; i++) {
             int wallY = -1;
             int numberChanges = 0;
-            for(int j = 0; j < field.getSizeField(); j++) {
-                int value = field.getField()[j][i];
+            for(int j = 0; j < mass.length; j++) {
+                int value = mass[j][i];
                 if(value == Field.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
                 } else if(value != 0 && value < Field.WALL_CELL) {
                     int newCoordinate = wallY + 1 + numberChanges;
 
-                    if(newCoordinate > field.getSizeField()-1)
-                        newCoordinate = field.getSizeField()-1;
-                    field.getField()[j][i] = 0;
-                    field.getField()[newCoordinate][i] = value;
+                    if(newCoordinate > mass.length-1)
+                        newCoordinate = mass.length-1;
+                    mass[j][i] = 0;
+                    mass[newCoordinate][i] = value;
 
-                    StartCell startCell = new StartCell(field.getActionCells().get(value-1).getStartCell().getY(), field.getActionCells().get(value-1).getStartCell().getX());
-                    field.getActionCells().get(value-1).getStartCell().setX(i);
-                    field.getActionCells().get(value-1).getStartCell().setY(newCoordinate);
-                    StartCell newCell = new StartCell(newCoordinate, i);
                     numberChanges++;
 
                 }
             }
         }
+        checkWin(mass, a, b);
     }
 
-    private void moveDown(Field field) {
-        for(int i = 0; i < field.getSizeField(); i++) {
-            int wallY = field.getSizeField();
+    private static void moveDown(int[][] mass, EndCell a, EndCell b) {
+        for(int i = 0; i < mass.length; i++) {
+            int wallY = mass.length;
             int numberChanges = 0;
-            for(int j = field.getSizeField() - 1; j >= 0; j--) {
-                int value = field.getField()[j][i];
+            for(int j = mass.length - 1; j >= 0; j--) {
+                int value = mass[j][i];
                 if(value == Field.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
@@ -178,16 +237,24 @@ public class Generate {
 
                     if(newCoordinate < 0)
                         newCoordinate = 0;
-                    field.getField()[j][i] = 0;
-                    field.getField()[newCoordinate][i] = value;
+                    mass[j][i] = 0;
+                    mass[newCoordinate][i] = value;
 
-                    StartCell startCell = new StartCell(field.getActionCells().get(value-1).getStartCell().getY(), field.getActionCells().get(value-1).getStartCell().getX());
-                    field.getActionCells().get(value-1).getStartCell().setX(i);
-                    field.getActionCells().get(value-1).getStartCell().setY(newCoordinate);
-                    StartCell newCell = new StartCell(newCoordinate, i);
                     numberChanges++;
                 }
             }
         }
+
+        checkWin(mass, a, b);
+    }
+
+    private static boolean checkWin(int[][] mass, EndCell a, EndCell b) {
+        boolean win = false;
+        if(mass[a.getX()][a.getY()] == 1 && mass[b.getX()][b.getY()] == 2) {
+            System.out.println("AAAAAAAAAAAAAA WIN");
+            win = true;
+        }
+
+        return win;
     }
 }

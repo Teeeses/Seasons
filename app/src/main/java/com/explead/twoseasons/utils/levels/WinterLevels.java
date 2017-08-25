@@ -58,6 +58,66 @@ public class WinterLevels {
 
         mass = new int[][]{
                 {0, 0, 0, 0, 0},
+                {0, 6, 6, 6, 0},
+                {0, 0, 0, 6, 0},
+                {6, 0, 6, 6, 0},
+                {6, 0, 0, 0, 0}
+        };
+        containerCells = new ArrayList<>();
+        containerCells.add(new ContainerCells(new StartCell(2, 1), new EndCell(2, 2)));
+        containerCells.add(new ContainerCells(new StartCell(2, 2), new EndCell(2, 1)));
+        levels.add(new LevelContainer(mass, containerCells));
+
+        mass = new int[][]{
+                {0, 0, 6, 6, 6},
+                {0, 0, 0, 0, 6},
+                {6, 0, 0, 6, 6},
+                {0, 0, 0, 0, 0},
+                {6, 6, 0, 0, 6}
+        };
+        containerCells = new ArrayList<>();
+        containerCells.add(new ContainerCells(new StartCell(1, 3), new EndCell(3, 4)));
+        containerCells.add(new ContainerCells(new StartCell(3, 4), new EndCell(1, 3)));
+        levels.add(new LevelContainer(mass, containerCells));
+
+        mass = new int[][]{
+                {0, 0, 0, 0, 6},
+                {0, 6, 6, 6, 6},
+                {0, 0, 6, 0, 6},
+                {6, 0, 0, 0, 0},
+                {6, 6, 0, 0, 6}
+        };
+        containerCells = new ArrayList<>();
+        containerCells.add(new ContainerCells(new StartCell(0, 3), new EndCell(3, 4)));
+        containerCells.add(new ContainerCells(new StartCell(3, 4), new EndCell(0, 3)));
+        levels.add(new LevelContainer(mass, containerCells));
+
+        mass = new int[][]{
+                {6, 0, 0, 0, 0},
+                {0, 0, 0, 6, 0},
+                {6, 0, 0, 0, 0},
+                {0, 0, 6, 0, 0},
+                {6, 6, 6, 6, 6}
+        };
+        containerCells = new ArrayList<>();
+        containerCells.add(new ContainerCells(new StartCell(1, 0), new EndCell(3, 0)));
+        containerCells.add(new ContainerCells(new StartCell(3, 0), new EndCell(1, 0)));
+        levels.add(new LevelContainer(mass, containerCells));
+
+        mass = new int[][]{
+                {6, 0, 6, 0, 0},
+                {6, 0, 0, 0, 0},
+                {0, 0, 0, 6, 0},
+                {6, 6, 0, 6, 6},
+                {6, 0, 0, 6, 6}
+        };
+        containerCells = new ArrayList<>();
+        containerCells.add(new ContainerCells(new StartCell(4, 1), new EndCell(2, 4)));
+        containerCells.add(new ContainerCells(new StartCell(2, 4), new EndCell(4, 1)));
+        levels.add(new LevelContainer(mass, containerCells));
+
+        mass = new int[][]{
+                {0, 0, 0, 0, 0},
                 {0, 0, 0, 6, 0},
                 {6, 6, 0, 6, 6},
                 {0, 0, 0, 0, 0},
@@ -143,6 +203,19 @@ public class WinterLevels {
         containerCells = new ArrayList<>();
         containerCells.add(new ContainerCells(new StartCell(1, 5), new EndCell(0, 2)));
         containerCells.add(new ContainerCells(new StartCell(0, 2), new EndCell(1, 5)));
+        levels.add(new LevelContainer(mass, containerCells));
+
+        mass = new int[][]{
+                {6, 0, 0, 0, 0, 0},
+                {6, 6, 0, 0, 6, 0},
+                {0, 6, 0, 6, 6, 0},
+                {0, 0, 0, 0, 6, 0},
+                {6, 0, 6, 0, 0, 0},
+                {6, 0, 0, 0, 0, 0}
+        };
+        containerCells = new ArrayList<>();
+        containerCells.add(new ContainerCells(new StartCell(2, 0), new EndCell(0, 1)));
+        containerCells.add(new ContainerCells(new StartCell(0, 1), new EndCell(2, 0)));
         levels.add(new LevelContainer(mass, containerCells));
 
         mass = new int[][] {

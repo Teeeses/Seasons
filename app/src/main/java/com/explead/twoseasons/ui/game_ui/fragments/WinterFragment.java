@@ -84,7 +84,7 @@ public class WinterFragment extends GameFragment implements Modes.OnGameListener
 
     @Override
     public void onChangeCell(final Cell startCell, final Cell newCell, final String direction) {
-        getActivity().runOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
             public void run() {
                 mFieldWinterView.onChange(startCell, newCell, direction, controller);
             }
@@ -94,7 +94,7 @@ public class WinterFragment extends GameFragment implements Modes.OnGameListener
     View.OnClickListener btnMenuClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            getActivity().onBackPressed();
+            activity.onBackPressed();
         }
     };
 
@@ -109,11 +109,11 @@ public class WinterFragment extends GameFragment implements Modes.OnGameListener
     @Override
     public void onWin() {
         Toast.makeText(getContext(), "WIN", Toast.LENGTH_SHORT).show();
-        ((MainActivity)getActivity()).setCurrentWinterLevel(controller.getLevel());
+        activity.setCurrentWinterLevel(controller.getLevel());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getActivity().onBackPressed();
+                activity.onBackPressed();
             }
         }, 1000);
     }

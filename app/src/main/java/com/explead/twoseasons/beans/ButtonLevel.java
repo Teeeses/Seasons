@@ -2,6 +2,7 @@ package com.explead.twoseasons.beans;
 
 import android.content.Context;
 
+import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.ui.levels_ui.LevelsActivity;
 import com.explead.twoseasons.utils.Utils;
 
@@ -27,12 +28,13 @@ public class ButtonLevel {
 
     public void findStatus() {
         if(mode == Level.SUMMER) {
-            int easy_current_level = ((LevelsActivity)context).getPref().getInt(Utils.SUMMER_CURRENT_LEVEL, 1);
-            installStatus(easy_current_level);
+            int summer_current_level = ((LevelsActivity)context).getPref().getInt(Utils.SUMMER_CURRENT_LEVEL, 1);
+            installStatus(summer_current_level);
         }
         if(mode == Level.WINTER) {
-            int medium_current_level = ((LevelsActivity)context).getPref().getInt(Utils.WINTER_CURRENT_LEVEL, 1);
-            installStatus(medium_current_level);
+            int winter_current_level = ((LevelsActivity)context).getPref().getInt(Utils.WINTER_CURRENT_LEVEL, 1);
+            winter_current_level = App.getWinterLevels().size();
+            installStatus(winter_current_level);
         }
     }
 
