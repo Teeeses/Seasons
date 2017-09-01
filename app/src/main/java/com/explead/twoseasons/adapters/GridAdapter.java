@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.beans.ButtonLevel;
+import com.explead.twoseasons.beans.Level;
 import com.explead.twoseasons.utils.Utils;
 
 import java.util.ArrayList;
@@ -40,14 +41,21 @@ public class GridAdapter extends BaseAdapter {
     private Drawable imageOpen;
     private Drawable imageClose;
 
-    public GridAdapter(Context context, ArrayList<ButtonLevel> array, OnLevelListener onLevelListener){
+
+    public GridAdapter(Context context, ArrayList<ButtonLevel> array, int mode, OnLevelListener onLevelListener){
         this.context = context;
         this.onLevelListener = onLevelListener;
         this.array.clear();
         this.array.addAll(array);
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         widthCell = (int)(App.getWidthScreen() - context.getResources().getDimension(R.dimen.standard_margin)*8)/3;
-        imageOpen = context.getResources().getDrawable(R.drawable.circle_level);
+
+        if(mode == Level.SUMMER) {
+            imageOpen = context.getResources().getDrawable(R.drawable.circle_summer_level);
+        }
+        if(mode == Level.WINTER) {
+            imageOpen = context.getResources().getDrawable(R.drawable.circle_winter_level);
+        }
         imageClose = context.getResources().getDrawable(R.drawable.circle_closed);
     }
 

@@ -20,7 +20,6 @@ import java.util.Comparator;
 
 public class WinterController extends Modes {
 
-
     public static int NO_MOVE = 0, MOVE = 1, WIN = 2;
     private int status = NO_MOVE;
 
@@ -33,11 +32,7 @@ public class WinterController extends Modes {
     public WinterController(int level) {
         this.level = level;
         LevelContainer container;
-        try {
-            container = App.getWinterLevels().get(level);
-        } catch (Exception e) {
-            container = Generate.generate(4);
-        }
+        container = App.getWinterLevels().get(level-1);
         field = new Field(container.getField(), container.getCells());
         field.addActionCellsOnField();
         field.printField();

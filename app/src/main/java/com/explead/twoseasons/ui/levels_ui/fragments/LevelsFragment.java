@@ -27,7 +27,7 @@ public class LevelsFragment extends Fragment {
         for(int i = 0; i < size; i++) {
             array.add(new ButtonLevel(activity, mode, i + 1));
         }
-        adapter = new GridAdapter(getContext(), array, new GridAdapter.OnLevelListener() {
+        adapter = new GridAdapter(getContext(), array, mode, new GridAdapter.OnLevelListener() {
             @Override
             public void onClickLevel(int mode, int level) {
                 activity.openGameActivity(mode, level);

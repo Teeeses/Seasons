@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/si_default_text_color_selected"
-                android:clickable="true"
-                android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_winter"
+    android:clickable="true"
+    android:orientation="vertical">
+
 
     <GridView
         android:id="@+id/gvMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/standard_margin"
         android:scrollbars="none"
         android:paddingLeft="@dimen/standard_margin"
         android:paddingRight="@dimen/standard_margin"
-        android:paddingBottom="88dp" />
+        android:paddingBottom="160dp"
+        android:paddingTop="@dimen/standard_margin"
+        android:clipToPadding="false" />
+
+    <ImageView
+        android:id="@+id/bottomImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_winter_layout"
+        android:adjustViewBounds="true" />
 
 </RelativeLayout>

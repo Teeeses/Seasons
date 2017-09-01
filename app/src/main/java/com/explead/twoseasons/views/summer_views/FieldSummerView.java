@@ -35,7 +35,7 @@ public class FieldSummerView extends RelativeLayout {
     private OnActionField onActionField;
     private Context context;
 
-    private ArrayList<CellWinterView> mCellWinterViews = new ArrayList<>();
+    private ArrayList<CellSummerView> mCellWinterViews = new ArrayList<>();
 
     private float size;
     private Field field;
@@ -127,23 +127,22 @@ public class FieldSummerView extends RelativeLayout {
 
         ArrayList<EmptyCell> emptyCells = field.getEmptyCells();
         for(int i = 0; i < emptyCells.size(); i++) {
-            CellEmptyWinterView cellEmpty = new CellEmptyWinterView(context);
+            CellEmptySummerView cellEmpty = new CellEmptySummerView(context);
             cellEmpty.setDate(sizeCell, emptyCells.get(i));
-            cellEmpty.setAlpha(0.25f);
             mCellWinterViews.add(cellEmpty);
         }
 
         ArrayList<WallCell> wallCells = field.getWallCells();
         for(int i = 0; i < wallCells.size(); i++) {
-            CellWallWinterView cellWall = new CellWallWinterView(context);
+            CellWallSummerView cellWall = new CellWallSummerView(context);
             cellWall.setDate(sizeCell, wallCells.get(i));
             mCellWinterViews.add(cellWall);
         }
 
         ArrayList<ContainerCells> actionCells = field.getActionCells();
         for(int i = 0; i < actionCells.size(); i++) {
-            CellStartWinterView cellStart = new CellStartWinterView(context);
-            CellEndWinterView cellEnd = new CellEndWinterView(context);
+            CellStartSummerView cellStart = new CellStartSummerView(context);
+            CellEndSummerView cellEnd = new CellEndSummerView(context);
             cellStart.setId(actionCells.get(i).getId());
             cellEnd.setId(actionCells.get(i).getId());
             cellStart.setDate(sizeCell, actionCells.get(i).getStartCell());
@@ -159,7 +158,7 @@ public class FieldSummerView extends RelativeLayout {
 
     private Cell findTouchCell(int x, int y) {
         for(int i = 0; i < mCellWinterViews.size(); i++) {
-            CellWinterView view = mCellWinterViews.get(i);
+            CellSummerView view = mCellWinterViews.get(i);
             if(view.getCell().getX() == x && view.getCell().getY() == y) {
                 return view.getCell();
             }

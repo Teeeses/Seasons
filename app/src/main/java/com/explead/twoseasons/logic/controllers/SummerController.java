@@ -1,5 +1,6 @@
 package com.explead.twoseasons.logic.controllers;
 
+import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.beans.LevelContainer;
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.logic.elements.ContainerCells;
@@ -21,20 +22,14 @@ public class SummerController extends Modes {
 
     private OnControllerListener onControllerListener;
 
-    private ArrayList<ArrayList<Cell>> paths = new ArrayList<>();
-
     public SummerController(int level) {
-        level = 1;
-        LevelContainer container = getSummerLevel(level);
+        this.level = level;
+        LevelContainer container = App.getSummerLevels().get(level-1);
         field = new Field(container.getField(), container.getCells());
-        createPaths();
+        field.addActionCellsOnField();
+        field.printField();
     }
 
-    private void createPaths() {
-        for(int i = 0; i < field.getSizeField(); i++) {
-            paths.add(new ArrayList<Cell>());
-        }
-    }
 
     public void setOnControllerListener(OnControllerListener onControllerListener) {
         this.onControllerListener = onControllerListener;
@@ -51,7 +46,7 @@ public class SummerController extends Modes {
     }
 
     public void down(int x, int y) {
-        Cell obj = new Cell(x, y);
+        /*Cell obj = new Cell(x, y);
         ArrayList<ContainerCells> actionCells = field.getActionCells();
         for(int i = 0; i < actionCells.size(); i++) {
             Cell startCell = actionCells.get(i).getStartCell();
@@ -62,6 +57,6 @@ public class SummerController extends Modes {
                 paths.get(id).add(startCell);
                 onControllerListener.onChangePath(paths);
             }
-        }
+        }*/
     }
 }
