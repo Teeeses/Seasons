@@ -3,8 +3,9 @@ package com.explead.twoseasons.logic.controllers;
 import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.beans.LevelContainer;
 import com.explead.twoseasons.logic.elements.Cell;
-import com.explead.twoseasons.logic.elements.ContainerCells;
-import com.explead.twoseasons.logic.elements.Field;
+import com.explead.twoseasons.logic.elements.EmptyCell;
+import com.explead.twoseasons.logic.elements.summer_elements.BetweenCell;
+import com.explead.twoseasons.logic.elements.summer_elements.FieldSummer;
 
 import java.util.ArrayList;
 
@@ -12,51 +13,59 @@ import java.util.ArrayList;
  * Created by Александр on 09.07.2017.
  */
 
-public class SummerController extends Modes {
+public class SummerController extends BaseController {
 
     public interface OnControllerListener {
-        void onChangePath(ArrayList<ArrayList<Cell>> result);
+        void onAddCellOnPath(Cell cell);
     }
 
-    private boolean action = false;
+    private FieldSummer field;
 
     private OnControllerListener onControllerListener;
+
+    private ArrayList<Cell> path;
 
     public SummerController(int level) {
         this.level = level;
         LevelContainer container = App.getSummerLevels().get(level-1);
-        field = new Field(container.getField(), container.getCells());
-        field.addActionCellsOnField();
-        field.printField();
+        field = new FieldSummer(container.getField(), container.getCells());
     }
 
+    public void startPath(int x, int y) {
+        path = new ArrayList<>();
+        path.add(field.getWorkingField()[x][y].getCopy());
+    }
+
+    public void addingCell(int x, int y) {
+        if(field.getWorkingField()[x][y] instanceof EmptyCell) {
+            Cell lastCell = path.get(path.size() - 1);
+            if (x == lastCell.getX()) {
+                int difference = Math.abs(y - lastCell.getY());
+                if (difference == 1) {
+                    addOnPath(x, y, lastCell);
+                }
+            } else if (y == lastCell.getY()) {
+                int difference = Math.abs(x - lastCell.getX());
+                if (difference == 1) {
+                    addOnPath(x, y, lastCell);
+                }
+            }
+        }
+    }
+
+    private void addOnPath(int x, int y, Cell lastCell) {
+            BetweenCell betweenCell = new BetweenCell(x, y);
+            betweenCell.setId(lastCell.getId());
+            path.add(betweenCell);
+
+            onControllerListener.onAddCellOnPath(betweenCell);
+    }
 
     public void setOnControllerListener(OnControllerListener onControllerListener) {
         this.onControllerListener = onControllerListener;
     }
 
-    public void up(int x, int y) {
-        action = false;
-    }
-
-    public void move(int x, int y) {
-        if(action) {
-
-        }
-    }
-
-    public void down(int x, int y) {
-        /*Cell obj = new Cell(x, y);
-        ArrayList<ContainerCells> actionCells = field.getActionCells();
-        for(int i = 0; i < actionCells.size(); i++) {
-            Cell startCell = actionCells.get(i).getStartCell();
-            Cell endCell = actionCells.get(i).getEndCell();
-            int id = actionCells.get(i).getId();
-            if(startCell.equals(obj) || endCell.equals(obj)) {
-                action = true;
-                paths.get(id).add(startCell);
-                onControllerListener.onChangePath(paths);
-            }
-        }*/
+    public FieldSummer getField() {
+        return field;
     }
 }

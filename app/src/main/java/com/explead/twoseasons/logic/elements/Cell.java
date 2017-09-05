@@ -6,6 +6,7 @@ package com.explead.twoseasons.logic.elements;
 
 public class Cell {
 
+    protected int id;
     protected int x;
     protected int y;
 
@@ -21,6 +22,20 @@ public class Cell {
             return true;
         }
         return false;
+    }
+
+    public Cell getCopy() {
+        Cell newCell = new Cell(this.x, this.y);
+        newCell.setId(this.id);
+        return newCell;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setX(int x) {

@@ -6,21 +6,12 @@ package com.explead.twoseasons.logic.elements;
 
 public class ContainerCells {
 
-    private int id;
     private StartCell startCell;
     private EndCell endCell;
 
     public ContainerCells(StartCell startCell, EndCell endCell) {
         this.startCell = startCell;
         this.endCell = endCell;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setStartCell(StartCell startCell) {

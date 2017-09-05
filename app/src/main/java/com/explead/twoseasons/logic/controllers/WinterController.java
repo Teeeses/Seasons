@@ -6,22 +6,21 @@ import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.beans.LevelContainer;
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.logic.elements.ContainerCells;
-import com.explead.twoseasons.logic.elements.Field;
+import com.explead.twoseasons.logic.elements.winter_elements.FieldWinter;
 import com.explead.twoseasons.logic.elements.StartCell;
-import com.explead.twoseasons.utils.Generate;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Created by Александр on 09.07.2017.
  */
 
-public class WinterController extends Modes {
+public class WinterController extends BaseController {
 
     public static int NO_MOVE = 0, MOVE = 1, WIN = 2;
     private int status = NO_MOVE;
+
+    private FieldWinter field;
 
     public interface OnControllerListener {
         void onChangeCell(Cell startCell, Cell newCell, String direction);
@@ -33,9 +32,7 @@ public class WinterController extends Modes {
         this.level = level;
         LevelContainer container;
         container = App.getWinterLevels().get(level-1);
-        field = new Field(container.getField(), container.getCells());
-        field.addActionCellsOnField();
-        field.printField();
+        field = new FieldWinter(container.getField(), container.getCells());
     }
 
     public void logicMove(final int start_x, final int start_y, final int end_x, final int end_y) {
@@ -84,10 +81,10 @@ public class WinterController extends Modes {
             int numberChanges = 0;
             for(int j = field.getSizeField()-1; j >= 0; j--) {
                 int value = field.getField()[i][j];
-                if(value == Field.WALL_CELL) {
+                if(value == FieldWinter.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
-                } else if(value != 0 && value < Field.WALL_CELL) {
+                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
                     int newCoordinate = wallY - 1 - numberChanges;
 
                     if(newCoordinate < 0)
@@ -115,10 +112,10 @@ public class WinterController extends Modes {
             int numberChanges = 0;
             for(int j = 0; j < field.getSizeField(); j++) {
                 int value = field.getField()[i][j];
-                if(value == Field.WALL_CELL) {
+                if(value == FieldWinter.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
-                } else if(value != 0 && value < Field.WALL_CELL) {
+                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
                     int newCoordinate = wallY + 1 + numberChanges;
 
                     if(newCoordinate > field.getSizeField()-1)
@@ -146,10 +143,10 @@ public class WinterController extends Modes {
             int numberChanges = 0;
             for(int j = 0; j < field.getSizeField(); j++) {
                 int value = field.getField()[j][i];
-                if(value == Field.WALL_CELL) {
+                if(value == FieldWinter.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
-                } else if(value != 0 && value < Field.WALL_CELL) {
+                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
                     int newCoordinate = wallY + 1 + numberChanges;
 
                     if(newCoordinate > field.getSizeField()-1)
@@ -177,10 +174,10 @@ public class WinterController extends Modes {
             int numberChanges = 0;
             for(int j = field.getSizeField() - 1; j >= 0; j--) {
                 int value = field.getField()[j][i];
-                if(value == Field.WALL_CELL) {
+                if(value == FieldWinter.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
-                } else if(value != 0 && value < Field.WALL_CELL) {
+                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
                     int newCoordinate = wallY - 1 - numberChanges;
 
                     if(newCoordinate < 0)
@@ -198,6 +195,10 @@ public class WinterController extends Modes {
                 }
             }
         }
+    }
+
+    public FieldWinter getField() {
+        return field;
     }
 
     public int getStatus() {

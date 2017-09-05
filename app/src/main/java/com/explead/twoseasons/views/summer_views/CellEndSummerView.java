@@ -18,6 +18,11 @@ public class CellEndSummerView extends CellSummerView {
         init(context);
     }
 
+    public CellEndSummerView(Context context, int id) {
+        super(context);
+        init(context, id);
+    }
+
     public CellEndSummerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -30,6 +35,11 @@ public class CellEndSummerView extends CellSummerView {
 
     private void init(Context context) {
         this.context = context;
+    }
+
+    private void init(Context context, int id) {
+        this.context = context;
+        setId(id);
     }
 
     @Override

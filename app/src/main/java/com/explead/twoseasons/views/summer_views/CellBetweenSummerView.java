@@ -5,30 +5,30 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 /**
- * Created by Александр on 09.07.2017.
+ * Created by develop on 05.09.2017.
  */
 
-public class CellStartSummerView extends CellSummerView {
+public class CellBetweenSummerView extends CellSummerView {
 
     private Context context;
     private int id;
 
-    public CellStartSummerView(Context context) {
+    public CellBetweenSummerView(Context context) {
         super(context);
         init(context);
     }
 
-    public CellStartSummerView(Context context, int id) {
+    public CellBetweenSummerView(Context context, int id) {
         super(context);
         init(context, id);
     }
 
-    public CellStartSummerView(Context context, @Nullable AttributeSet attrs) {
+    public CellBetweenSummerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public CellStartSummerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CellBetweenSummerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -41,6 +41,7 @@ public class CellStartSummerView extends CellSummerView {
         this.context = context;
         setId(id);
     }
+
 
     @Override
     public int getId() {

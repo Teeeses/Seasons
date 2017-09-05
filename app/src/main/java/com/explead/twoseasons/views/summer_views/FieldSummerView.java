@@ -2,21 +2,16 @@ package com.explead.twoseasons.views.summer_views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.explead.twoseasons.logic.elements.Cell;
-import com.explead.twoseasons.logic.elements.ContainerCells;
 import com.explead.twoseasons.logic.elements.EmptyCell;
-import com.explead.twoseasons.logic.elements.Field;
+import com.explead.twoseasons.logic.elements.EndCell;
+import com.explead.twoseasons.logic.elements.StartCell;
+import com.explead.twoseasons.logic.elements.summer_elements.FieldSummer;
 import com.explead.twoseasons.logic.elements.WallCell;
-import com.explead.twoseasons.views.winter_views.CellEndWinterView;
-import com.explead.twoseasons.views.winter_views.CellStartWinterView;
-import com.explead.twoseasons.views.winter_views.CellWinterView;
-import com.explead.twoseasons.views.winter_views.CellWallWinterView;
-import com.explead.twoseasons.views.winter_views.CellEmptyWinterView;
 
 import java.util.ArrayList;
 
@@ -27,18 +22,21 @@ import java.util.ArrayList;
 public class FieldSummerView extends RelativeLayout {
 
     public interface OnActionField {
-        void onUp(int x, int y);
+        void onUpPath(int x, int y);
         void onMove(int x, int y);
-        void onDown(int x, int y);
+        void onStartPath(int x, int y);
     }
+
+    private CellSummerView[][] cellSummerViews;
+
+    private ArrayList<CellSummerView> addingCells = new ArrayList<>();
 
     private OnActionField onActionField;
     private Context context;
 
-    private ArrayList<CellSummerView> mCellWinterViews = new ArrayList<>();
-
     private float size;
-    private Field field;
+    private float sizeCell;
+    private FieldSummer field;
 
     public FieldSummerView(Context context) {
         super(context);
@@ -65,33 +63,23 @@ public class FieldSummerView extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        final int x = (int) (event.getX() / field.getSizeField());
-                        final int y = (int) (event.getY() / field.getSizeField());
-                        Cell cell = findTouchCell(x, y);
-                        if(cell != null) {
-                            Log.d("TAG", "DOWN: " + x + " " + y);
-                            //onActionField.onDown(x, y);
+                        final int x = (int) (event.getX() / (size/field.getSizeField()));
+                        final int y = (int) (event.getY() / (size/field.getSizeField()));
+                        if(findCellView(x, y)) {
+                            onActionField.onStartPath(x, y);
                         }
                         break;
                     }
                     case MotionEvent.ACTION_MOVE: {
-                        final int x = (int) (event.getX() / field.getSizeField());
-                        final int y = (int) (event.getY() / field.getSizeField());
-                        Cell cell = findTouchCell(x, y);
-                        if(cell != null) {
-                            Log.d("TAG", "MOVE: " + x + " " + y);
-                            //onActionField.onMove(x, y);
-                        }
+                        final int x = (int) (event.getX() / (size/field.getSizeField()));
+                        final int y = (int) (event.getY() / (size/field.getSizeField()));
+                        onActionField.onMove(x, y);
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
-                        final int x = (int) (event.getX() / field.getSizeField());
-                        final int y = (int) (event.getY() / field.getSizeField());
-                        Cell cell = findTouchCell(x, y);
-                        if(cell != null) {
-                            Log.d("TAG", "UP: " + x + " " + y);
-                            //onActionField.onUp(x, y);
-                        }
+                        final int x = (int) (event.getX() / (size/field.getSizeField()));
+                        final int y = (int) (event.getY() / (size/field.getSizeField()));
+                        onActionField.onUpPath(x, y);
                         break;
                     }
                     default:
@@ -100,10 +88,6 @@ public class FieldSummerView extends RelativeLayout {
                 return true;
             }
         });
-    }
-
-    public void changePath(ArrayList<ArrayList<Cell>> result) {
-
     }
 
     public void setOnActionField(OnActionField onActionField) {
@@ -115,54 +99,60 @@ public class FieldSummerView extends RelativeLayout {
      * @param size - размер поля
      * @param field - данные для построения
      */
-    public void createField(float size, Field field) {
+    public void createField(float size, FieldSummer field) {
         this.size = size;
         this.field = field;
+
+        cellSummerViews = new CellSummerView[field.getSizeField()][field.getSizeField()];
 
         RelativeLayout.LayoutParams params = new LayoutParams((int)size, (int)size);
         params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
         this.setLayoutParams(params);
 
-        float sizeCell = size/field.getSizeField();
+        sizeCell = size/field.getSizeField();
 
-        ArrayList<EmptyCell> emptyCells = field.getEmptyCells();
-        for(int i = 0; i < emptyCells.size(); i++) {
-            CellEmptySummerView cellEmpty = new CellEmptySummerView(context);
-            cellEmpty.setDate(sizeCell, emptyCells.get(i));
-            mCellWinterViews.add(cellEmpty);
-        }
+        Cell[][] workingField = field.getWorkingField();
 
-        ArrayList<WallCell> wallCells = field.getWallCells();
-        for(int i = 0; i < wallCells.size(); i++) {
-            CellWallSummerView cellWall = new CellWallSummerView(context);
-            cellWall.setDate(sizeCell, wallCells.get(i));
-            mCellWinterViews.add(cellWall);
-        }
-
-        ArrayList<ContainerCells> actionCells = field.getActionCells();
-        for(int i = 0; i < actionCells.size(); i++) {
-            CellStartSummerView cellStart = new CellStartSummerView(context);
-            CellEndSummerView cellEnd = new CellEndSummerView(context);
-            cellStart.setId(actionCells.get(i).getId());
-            cellEnd.setId(actionCells.get(i).getId());
-            cellStart.setDate(sizeCell, actionCells.get(i).getStartCell());
-            cellEnd.setDate(sizeCell, actionCells.get(i).getEndCell());
-            mCellWinterViews.add(cellStart);
-            mCellWinterViews.add(cellEnd);
-        }
-
-        for(int i = 0; i < mCellWinterViews.size(); i++) {
-            this.addView(mCellWinterViews.get(i));
-        }
-    }
-
-    private Cell findTouchCell(int x, int y) {
-        for(int i = 0; i < mCellWinterViews.size(); i++) {
-            CellSummerView view = mCellWinterViews.get(i);
-            if(view.getCell().getX() == x && view.getCell().getY() == y) {
-                return view.getCell();
+        for(int i = 0; i < field.getSizeField(); i++) {
+            for(int j = 0; j < field.getSizeField(); j++) {
+                if(workingField[i][j] instanceof WallCell) {
+                    CellWallSummerView cell = new CellWallSummerView(context);
+                    cell.setDate(sizeCell, workingField[i][j]);
+                    cellSummerViews[i][j] = cell;
+                    this.addView(cell);
+                } else if(workingField[i][j] instanceof EmptyCell) {
+                    CellEmptySummerView cell = new CellEmptySummerView(context);
+                    cell.setDate(sizeCell, workingField[i][j]);
+                    cellSummerViews[i][j] = cell;
+                    this.addView(cell);
+                } else if(workingField[i][j] instanceof EndCell) {
+                    CellEndSummerView cell = new CellEndSummerView(context, workingField[i][j].getId());
+                    cell.setDate(sizeCell, workingField[i][j]);
+                    cellSummerViews[i][j] = cell;
+                    this.addView(cell);
+                } else if(workingField[i][j] instanceof StartCell) {
+                    CellStartSummerView cell = new CellStartSummerView(context, workingField[i][j].getId());
+                    cell.setDate(sizeCell, workingField[i][j]);
+                    cellSummerViews[i][j] = cell;
+                    this.addView(cell);
+                }
             }
         }
-        return null;
     }
+
+    public void onAddCellOnPath(Cell cell) {
+        CellBetweenSummerView betweenSummerView = new CellBetweenSummerView(context, cell.getId());
+        betweenSummerView.setDate(sizeCell, cell);
+        addingCells.add(betweenSummerView);
+        this.addView(betweenSummerView);
+    }
+
+
+    private boolean findCellView(int x, int y) {
+        if(cellSummerViews[x][y] instanceof CellStartSummerView || cellSummerViews[x][y] instanceof CellEndSummerView) {
+            return true;
+        }
+        return false;
+    }
+
 }

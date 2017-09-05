@@ -1,12 +1,9 @@
 package com.explead.twoseasons.utils;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.explead.twoseasons.beans.LevelContainer;
 import com.explead.twoseasons.logic.elements.ContainerCells;
 import com.explead.twoseasons.logic.elements.EndCell;
-import com.explead.twoseasons.logic.elements.Field;
+import com.explead.twoseasons.logic.elements.winter_elements.FieldWinter;
 import com.explead.twoseasons.logic.elements.StartCell;
 
 import java.util.ArrayList;
@@ -79,9 +76,9 @@ public class Generate {
     private static int randomWallOrEmpty() {
         int value = 0;
         if(random(0, 2) == 0) {
-            value = Field.EMPTY_CELL;
+            value = FieldWinter.EMPTY_CELL;
         } else if(random(0, 2) == 1) {
-            value = Field.WALL_CELL;
+            value = FieldWinter.WALL_CELL;
         }
         return value;
     }
@@ -157,10 +154,10 @@ public class Generate {
             int numberChanges = 0;
             for(int j = mass.length-1; j >= 0; j--) {
                 int value = mass[i][j];
-                if(value == Field.WALL_CELL) {
+                if(value == FieldWinter.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
-                } else if(value != 0 && value < Field.WALL_CELL) {
+                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
                     int newCoordinate = wallY - 1 - numberChanges;
 
                     if(newCoordinate < 0)
@@ -180,10 +177,10 @@ public class Generate {
             int numberChanges = 0;
             for(int j = 0; j < mass.length; j++) {
                 int value = mass[i][j];
-                if(value == Field.WALL_CELL) {
+                if(value == FieldWinter.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
-                } else if(value != 0 && value < Field.WALL_CELL) {
+                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
                     int newCoordinate = wallY + 1 + numberChanges;
 
                     if(newCoordinate > mass.length-1)
@@ -204,10 +201,10 @@ public class Generate {
             int numberChanges = 0;
             for(int j = 0; j < mass.length; j++) {
                 int value = mass[j][i];
-                if(value == Field.WALL_CELL) {
+                if(value == FieldWinter.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
-                } else if(value != 0 && value < Field.WALL_CELL) {
+                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
                     int newCoordinate = wallY + 1 + numberChanges;
 
                     if(newCoordinate > mass.length-1)
@@ -229,10 +226,10 @@ public class Generate {
             int numberChanges = 0;
             for(int j = mass.length - 1; j >= 0; j--) {
                 int value = mass[j][i];
-                if(value == Field.WALL_CELL) {
+                if(value == FieldWinter.WALL_CELL) {
                     wallY = j;
                     numberChanges = 0;
-                } else if(value != 0 && value < Field.WALL_CELL) {
+                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
                     int newCoordinate = wallY - 1 - numberChanges;
 
                     if(newCoordinate < 0)

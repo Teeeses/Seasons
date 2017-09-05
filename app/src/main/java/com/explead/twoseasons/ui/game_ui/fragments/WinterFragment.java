@@ -13,10 +13,9 @@ import android.widget.Toast;
 
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
-import com.explead.twoseasons.logic.controllers.Modes;
+import com.explead.twoseasons.logic.controllers.BaseController;
 import com.explead.twoseasons.logic.controllers.WinterController;
 import com.explead.twoseasons.logic.elements.Cell;
-import com.explead.twoseasons.ui.game_ui.MainActivity;
 import com.explead.twoseasons.utils.Utils;
 import com.explead.twoseasons.views.winter_views.FieldWinterView;
 
@@ -24,7 +23,7 @@ import com.explead.twoseasons.views.winter_views.FieldWinterView;
  * Created by Александр on 09.07.2017.
  */
 
-public class WinterFragment extends GameFragment implements Modes.OnGameListener, WinterController.OnControllerListener{
+public class WinterFragment extends GameFragment implements BaseController.OnGameListener, WinterController.OnControllerListener{
 
     private WinterController controller;
     private int start_x, start_y, end_x, end_y;

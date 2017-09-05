@@ -10,19 +10,17 @@ import android.widget.TextView;
 
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
-import com.explead.twoseasons.logic.controllers.Modes;
+import com.explead.twoseasons.logic.controllers.BaseController;
 import com.explead.twoseasons.logic.controllers.SummerController;
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.utils.Utils;
 import com.explead.twoseasons.views.summer_views.FieldSummerView;
 
-import java.util.ArrayList;
-
 /**
  * Created by Александр on 09.07.2017.
  */
 
-public class SummerFragment extends GameFragment implements Modes.OnGameListener, FieldSummerView.OnActionField, SummerController.OnControllerListener {
+public class SummerFragment extends GameFragment implements BaseController.OnGameListener, FieldSummerView.OnActionField, SummerController.OnControllerListener {
 
     private SummerController controller;
     private FieldSummerView mFieldSummerView;
@@ -43,6 +41,7 @@ public class SummerFragment extends GameFragment implements Modes.OnGameListener
         mFieldSummerView.createField(App.getWidthScreen()*0.96f, controller.getField());
         mFieldSummerView.setOnTouch();
         mFieldSummerView.setOnActionField(this);
+        controller.setOnControllerListener(this);
 
         tvNumberLevel.setText(String.format("%s", level));
 
@@ -77,22 +76,25 @@ public class SummerFragment extends GameFragment implements Modes.OnGameListener
     }
 
     @Override
-    public void onUp(int x, int y) {
+    public void onAddCellOnPath(Cell cell) {
+        mFieldSummerView.onAddCellOnPath(cell);
+    }
+
+
+
+    @Override
+    public void onUpPath(int x, int y) {
 
     }
 
     @Override
     public void onMove(int x, int y) {
-
+        controller.addingCell(x, y);
     }
 
     @Override
-    public void onDown(int x, int y) {
-        controller.down(x, y);
+    public void onStartPath(int x, int y) {
+        controller.startPath(x, y);
     }
 
-    @Override
-    public void onChangePath(ArrayList<ArrayList<Cell>> result) {
-        mFieldSummerView.changePath(result);
-    }
 }

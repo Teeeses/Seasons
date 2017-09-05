@@ -8,7 +8,7 @@ import com.explead.twoseasons.logic.controllers.WinterController;
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.logic.elements.ContainerCells;
 import com.explead.twoseasons.logic.elements.EmptyCell;
-import com.explead.twoseasons.logic.elements.Field;
+import com.explead.twoseasons.logic.elements.winter_elements.FieldWinter;
 import com.explead.twoseasons.logic.elements.StartCell;
 import com.explead.twoseasons.logic.elements.WallCell;
 
@@ -25,7 +25,7 @@ public class FieldWinterView extends RelativeLayout {
     private ArrayList<CellWinterView> actionViews = new ArrayList<>();
 
     private float size;
-    private Field field;
+    private FieldWinter field;
 
     public FieldWinterView(Context context) {
         super(context);
@@ -61,7 +61,7 @@ public class FieldWinterView extends RelativeLayout {
      * @param size  - размер поля
      * @param field - данные для построения
      */
-    public void createField(float size, Field field) {
+    public void createField(float size, FieldWinter field) {
         this.size = size;
         this.field = field;
 
@@ -88,14 +88,14 @@ public class FieldWinterView extends RelativeLayout {
         ArrayList<ContainerCells> actionCells = field.getActionCells();
         for (int i = 0; i < actionCells.size(); i++) {
             CellEndWinterView cellEnd = new CellEndWinterView(context);
-            cellEnd.setId(actionCells.get(i).getId());
+            cellEnd.setId(actionCells.get(i).getEndCell().getId());
             cellEnd.setDate(sizeCell, actionCells.get(i).getEndCell());
             actionViews.add(cellEnd);
             this.addView(cellEnd);
         }
         for(int i = 0; i < actionCells.size(); i++) {
             CellStartWinterView cellStart = new CellStartWinterView(context);
-            cellStart.setId(actionCells.get(i).getId());
+            cellStart.setId(actionCells.get(i).getStartCell().getId());
             cellStart.setDate(sizeCell, actionCells.get(i).getStartCell());
             actionViews.add(cellStart);
             this.addView(cellStart);

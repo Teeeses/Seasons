@@ -74,49 +74,4 @@ public class CellSummerView extends View {
         return coordinate*size;
     }
 
-
-
-    public void setAnimationFromPointToPoint(Cell startCell, Cell endCell, final String direction, final WinterController controller) {
-        float from;
-        float to;
-
-        if (direction.equals("up") || direction.equals("down")) {
-            from = coordToGlobal(startCell.getY());
-            to = coordToGlobal(endCell.getY());
-        } else {
-            from = coordToGlobal(startCell.getX());
-            to = coordToGlobal(endCell.getX());
-        }
-
-        final View view = this;
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
-
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
-                if(direction.equals("up") || direction.equals("down")) {
-                    view.setTranslationY(value);
-                } else {
-                    view.setTranslationX(value);
-                }
-            }
-        });
-
-        valueAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {}
-            @Override
-            public void onAnimationCancel(Animator animator) {}
-            @Override
-            public void onAnimationRepeat(Animator animator) {}
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                controller.setStatus(WinterController.NO_MOVE);
-            }
-        });
-        valueAnimator.setDuration(200);
-        controller.setStatus(WinterController.MOVE);
-        valueAnimator.start();
-    }
 }
