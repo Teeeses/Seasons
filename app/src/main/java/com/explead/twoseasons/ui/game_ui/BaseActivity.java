@@ -22,6 +22,15 @@ public class BaseActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    public void setCurrentSummerLevel(int currentLevel) {
+        System.out.println("Сохранение нового текущего уровня");
+        SharedPreferences.Editor editor = sPref.edit();
+        if(currentLevel == sPref.getInt(Utils.SUMMER_CURRENT_LEVEL, 1)) {
+            editor.putInt(Utils.SUMMER_CURRENT_LEVEL, currentLevel + 1);
+        }
+        editor.apply();
+    }
+
 
     public SharedPreferences getPref() {
         return sPref;

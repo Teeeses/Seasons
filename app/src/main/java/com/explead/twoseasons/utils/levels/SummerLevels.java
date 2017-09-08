@@ -145,7 +145,7 @@ public class SummerLevels {
         containerCells.add(new ContainerCells(new StartCell(4, 3), new EndCell(7, 6)));
         containerCells.add(new ContainerCells(new StartCell(6, 6), new EndCell(3, 4)));
         containerCells.add(new ContainerCells(new StartCell(2, 1), new EndCell(0, 7)));
-        containerCells.add(new ContainerCells(new StartCell(0, 5), new EndCell(2, 2)));
+        containerCells.add(new ContainerCells(new StartCell(5, 5), new EndCell(2, 2)));
         containerCells.add(new ContainerCells(new StartCell(6, 0), new EndCell(2, 6)));
         levels.add(new LevelContainer(mass, containerCells));
 

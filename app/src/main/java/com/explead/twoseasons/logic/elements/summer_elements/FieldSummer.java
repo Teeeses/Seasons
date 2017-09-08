@@ -51,6 +51,33 @@ public class FieldSummer {
     }
 
     /**
+     * Поиск клетки из пары
+     * @return - StartCell или EndCell
+     */
+    public Cell findCellFromPair(Cell oneCell) {
+        Cell cell = null;
+        for(int i = 0; i < getSizeField(); i++) {
+            for(int j = 0; j < getSizeField(); j++) {
+                Cell twoCell = workingField[i][j];
+                if((twoCell instanceof StartCell || twoCell instanceof EndCell) && twoCell.getId() == oneCell.getId() && !oneCell.equals(twoCell)) {
+                    cell = twoCell;
+                }
+            }
+        }
+        return cell;
+    }
+
+    public void addingPathOnField(ArrayList<Cell> path) {
+        for(int i = 1; i < path.size() - 1; i++) {
+            int x = path.get(i).getX();
+            int y = path.get(i).getY();
+            BetweenCell cell = new BetweenCell(x, y);
+            cell.setId(path.get(i).getId());
+            workingField[y][x] = cell;
+        }
+    }
+
+    /**
      * Добавляем стартовые клетки на поле
      * Прибавляем +1 для того, что бы отличить пустые клетки от активной клетки с индексом 0
      */

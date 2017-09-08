@@ -17,48 +17,128 @@ public class SummerController extends BaseController {
 
     public interface OnControllerListener {
         void onAddCellOnPath(Cell cell);
+        void onDeleteLastFromPath();
+        void onDeleteAllPath();
+        void onAddingPathOnField();
     }
 
+    private boolean action = false;
     private FieldSummer field;
 
     private OnControllerListener onControllerListener;
 
     private ArrayList<Cell> path;
 
+    private int readyIds = 0;
+    private int numberIds;
+
     public SummerController(int level) {
         this.level = level;
         LevelContainer container = App.getSummerLevels().get(level-1);
         field = new FieldSummer(container.getField(), container.getCells());
+        numberIds = container.getCells().size();
     }
 
+    /**
+     * Начинаем путь при прикосновении
+     */
     public void startPath(int x, int y) {
+        action = true;
         path = new ArrayList<>();
-        path.add(field.getWorkingField()[x][y].getCopy());
+        Cell cell = field.getWorkingField()[y][x].getCopy();
+        path.add(cell);
     }
 
-    public void addingCell(int x, int y) {
-        if(field.getWorkingField()[x][y] instanceof EmptyCell) {
-            Cell lastCell = path.get(path.size() - 1);
-            if (x == lastCell.getX()) {
-                int difference = Math.abs(y - lastCell.getY());
-                if (difference == 1) {
-                    addOnPath(x, y, lastCell);
-                }
-            } else if (y == lastCell.getY()) {
-                int difference = Math.abs(x - lastCell.getX());
-                if (difference == 1) {
-                    addOnPath(x, y, lastCell);
-                }
-            }
+    /**
+     * Удаляем весь путь
+     */
+    public void endPath() {
+        if(path != null) {
+            path.clear();
+            onControllerListener.onDeleteAllPath();
+        }
+        action = false;
+    }
+
+    /**
+     * Проверка, достигли ли конечной точки
+     */
+    private void checkEndPath() {
+        if(isNearCells(path.get(path.size()-1), field.findCellFromPair(path.get(0)))) {
+            action = false;
+            field.addingPathOnField(path);
+            onControllerListener.onAddingPathOnField();
+            readyIds++;
+
+            checkWin();
         }
     }
 
-    private void addOnPath(int x, int y, Cell lastCell) {
-            BetweenCell betweenCell = new BetweenCell(x, y);
-            betweenCell.setId(lastCell.getId());
-            path.add(betweenCell);
+    /**
+     * Проверка, находятся ли летки рядом
+     */
+    private boolean isNearCells(Cell oneCell, Cell twoCell) {
+        return ((Math.abs(oneCell.getX() - twoCell.getX()) == 1 && (Math.abs(oneCell.getY() - twoCell.getY()) == 0)) ||
+                (Math.abs(oneCell.getY() - twoCell.getY()) == 1 && (Math.abs(oneCell.getX() - twoCell.getX()) == 0)));
+    }
 
-            onControllerListener.onAddCellOnPath(betweenCell);
+    /**
+     * Главный алгоритм добавления, удаления и проверок
+     */
+    public void addingCell(int x, int y) {
+        if(action) {
+            removeFromPath(x, y);
+            if (field.getWorkingField()[y][x] instanceof EmptyCell) {
+                Cell lastCell = path.get(path.size() - 1);
+                Cell cell = field.getWorkingField()[y][x];
+                if (isNearCells(lastCell, cell)) {
+                    addOnPath(x, y, lastCell);
+                }
+            }
+            checkEndPath();
+        }
+    }
+
+    /**
+     * Удаляем клетку, если пошли назад
+     */
+    private void removeFromPath(int x, int y) {
+        int size = howCellRemove(x, y);
+        for(int i = 0; i < size; i++) {
+            path.remove(path.size()-1);
+            onControllerListener.onDeleteLastFromPath();
+        }
+    }
+
+    /**
+     * Сколько удалить клеток, до той на которой палец
+     */
+    private int howCellRemove(int x, int y) {
+        int value = 0;
+        for(int i = 0; i < path.size(); i++) {
+            Cell cell = path.get(i);
+            if(cell.getX() == x && cell.getY() == y) {
+                value = path.size() - i - 1;
+            }
+        }
+        return value;
+    }
+
+    /**
+     * Добавить клетку
+     */
+    private void addOnPath(int x, int y, Cell lastCell) {
+        BetweenCell betweenCell = new BetweenCell(x, y);
+        betweenCell.setId(lastCell.getId());
+        path.add(betweenCell);
+
+        onControllerListener.onAddCellOnPath(betweenCell);
+    }
+
+    private void checkWin() {
+        if(numberIds == readyIds) {
+            onGameListener.onWin();
+        }
     }
 
     public void setOnControllerListener(OnControllerListener onControllerListener) {

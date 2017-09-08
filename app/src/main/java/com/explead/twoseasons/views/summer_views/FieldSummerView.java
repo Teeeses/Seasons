@@ -2,6 +2,7 @@ package com.explead.twoseasons.views.summer_views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -22,17 +23,21 @@ import java.util.ArrayList;
 public class FieldSummerView extends RelativeLayout {
 
     public interface OnActionField {
-        void onUpPath(int x, int y);
-        void onMove(int x, int y);
-        void onStartPath(int x, int y);
+        void onFingerUp(int x, int y);
+        void onFingerMove(int x, int y);
+        void onFingerDown(int x, int y);
     }
 
-    private CellSummerView[][] cellSummerViews;
+    private CellSummerView[][] workingField;
 
-    private ArrayList<CellSummerView> addingCells = new ArrayList<>();
+    private ArrayList<CellSummerView> path;
 
     private OnActionField onActionField;
     private Context context;
+
+
+    private int lastX = -1;
+    private int lastY = -1;
 
     private float size;
     private float sizeCell;
@@ -55,6 +60,7 @@ public class FieldSummerView extends RelativeLayout {
 
     private void init(Context context) {
         this.context = context;
+        setOnTouch();
     }
 
     public void setOnTouch() {
@@ -66,20 +72,28 @@ public class FieldSummerView extends RelativeLayout {
                         final int x = (int) (event.getX() / (size/field.getSizeField()));
                         final int y = (int) (event.getY() / (size/field.getSizeField()));
                         if(findCellView(x, y)) {
-                            onActionField.onStartPath(x, y);
+                            Log.d("TAG", "UP");
+                            onActionField.onFingerDown(x, y);
                         }
                         break;
                     }
                     case MotionEvent.ACTION_MOVE: {
                         final int x = (int) (event.getX() / (size/field.getSizeField()));
                         final int y = (int) (event.getY() / (size/field.getSizeField()));
-                        onActionField.onMove(x, y);
+                        if(x >= 0 && y >= 0 && x < field.getSizeField() && y < field.getSizeField()) {
+                            if (x != lastX || y != lastY) {
+                                lastX = x;
+                                lastY = y;
+                                Log.d("TAG", "MOVE");
+                                onActionField.onFingerMove(x, y);
+                            }
+                        }
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
                         final int x = (int) (event.getX() / (size/field.getSizeField()));
                         final int y = (int) (event.getY() / (size/field.getSizeField()));
-                        onActionField.onUpPath(x, y);
+                        onActionField.onFingerUp(x, y);
                         break;
                     }
                     default:
@@ -103,7 +117,8 @@ public class FieldSummerView extends RelativeLayout {
         this.size = size;
         this.field = field;
 
-        cellSummerViews = new CellSummerView[field.getSizeField()][field.getSizeField()];
+        workingField = new CellSummerView[field.getSizeField()][field.getSizeField()];
+        path = new ArrayList<>();
 
         RelativeLayout.LayoutParams params = new LayoutParams((int)size, (int)size);
         params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
@@ -118,38 +133,57 @@ public class FieldSummerView extends RelativeLayout {
                 if(workingField[i][j] instanceof WallCell) {
                     CellWallSummerView cell = new CellWallSummerView(context);
                     cell.setDate(sizeCell, workingField[i][j]);
-                    cellSummerViews[i][j] = cell;
+                    this.workingField[i][j] = cell;
                     this.addView(cell);
                 } else if(workingField[i][j] instanceof EmptyCell) {
                     CellEmptySummerView cell = new CellEmptySummerView(context);
                     cell.setDate(sizeCell, workingField[i][j]);
-                    cellSummerViews[i][j] = cell;
+                    this.workingField[i][j] = cell;
                     this.addView(cell);
                 } else if(workingField[i][j] instanceof EndCell) {
                     CellEndSummerView cell = new CellEndSummerView(context, workingField[i][j].getId());
                     cell.setDate(sizeCell, workingField[i][j]);
-                    cellSummerViews[i][j] = cell;
+                    this.workingField[i][j] = cell;
                     this.addView(cell);
                 } else if(workingField[i][j] instanceof StartCell) {
                     CellStartSummerView cell = new CellStartSummerView(context, workingField[i][j].getId());
                     cell.setDate(sizeCell, workingField[i][j]);
-                    cellSummerViews[i][j] = cell;
+                    this.workingField[i][j] = cell;
                     this.addView(cell);
                 }
             }
         }
     }
 
-    public void onAddCellOnPath(Cell cell) {
+    public void addCellOnPath(Cell cell) {
         CellBetweenSummerView betweenSummerView = new CellBetweenSummerView(context, cell.getId());
         betweenSummerView.setDate(sizeCell, cell);
-        addingCells.add(betweenSummerView);
+        path.add(betweenSummerView);
         this.addView(betweenSummerView);
     }
 
+    public void deleteAllPath() {
+        for(int i = 0; i < path.size(); i++) {
+            this.removeView(path.get(i));
+        }
+        path.clear();
+    }
+
+    public void deleteLastFromPath() {
+        this.removeView(path.get(path.size()-1));
+        path.remove(path.get(path.size()-1));
+    }
+
+    public void addingPathOnField() {
+        for(int i = 0; i < path.size(); i++) {
+            CellSummerView cell = path.get(i);
+            workingField[cell.getCell().getY()][cell.getCell().getX()] = cell;
+        }
+        path.clear();
+    }
 
     private boolean findCellView(int x, int y) {
-        if(cellSummerViews[x][y] instanceof CellStartSummerView || cellSummerViews[x][y] instanceof CellEndSummerView) {
+        if(workingField[y][x] instanceof CellStartSummerView || workingField[y][x] instanceof CellEndSummerView) {
             return true;
         }
         return false;
