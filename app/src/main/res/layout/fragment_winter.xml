@@ -28,19 +28,26 @@
                 android:id="@+id/btnMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/standard_margin"
-                android:layout_marginLeft="@dimen/mini_margin"
+                android:layout_marginRight="@dimen/mini_margin"
                 android:adjustViewBounds="true"
                 android:src="@drawable/icon_menu"
                 android:layout_weight="1"/>
-
 
             <ImageView
                 android:id="@+id/btnRestart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/mini_margin"
                 android:adjustViewBounds="true"
                 android:src="@drawable/icon_again"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/btnHelp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon_help"
                 android:layout_weight="1"/>
 
         </LinearLayout>

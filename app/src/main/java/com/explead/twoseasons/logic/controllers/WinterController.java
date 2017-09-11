@@ -31,8 +31,8 @@ public class WinterController extends BaseController {
     public WinterController(int level) {
         this.level = level;
         LevelContainer container;
-        container = App.getWinterLevels().get(level-1);
-        field = new FieldWinter(container.getField(), container.getCells());
+        container = App.getWinterLevels().get(level - 1);
+        field = new FieldWinter(container.getCopyField(), container.getCopyCells());
     }
 
     public void logicMove(final int start_x, final int start_y, final int end_x, final int end_y) {

@@ -93,6 +93,18 @@ public class WinterLevels {
         levels.add(new LevelContainer(mass, containerCells));
 
         mass = new int[][]{
+                {0, 0, 0, 0, 0},
+                {6, 6, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 6, 0, 6, 0},
+                {0, 6, 0, 6, 6}
+        };
+        containerCells = new ArrayList<>();
+        containerCells.add(new ContainerCells(new StartCell(0, 0), new EndCell(4, 2)));
+        containerCells.add(new ContainerCells(new StartCell(4, 2), new EndCell(0, 0)));
+        levels.add(new LevelContainer(mass, containerCells));
+
+        mass = new int[][]{
                 {6, 0, 0, 0, 0},
                 {0, 0, 0, 6, 0},
                 {6, 0, 0, 0, 0},

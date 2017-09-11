@@ -24,8 +24,8 @@ public class FieldWinter {
         this.field = field;
         this.actionCells = actionCells;
         findCells();
-        setIds(actionCells);
-        addActionCellsOnField(actionCells);
+        setIds(this.actionCells);
+        addActionCellsOnField(this.actionCells);
     }
 
     private void setIds(ArrayList<ContainerCells> actionCells) {

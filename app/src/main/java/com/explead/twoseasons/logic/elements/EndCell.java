@@ -9,4 +9,11 @@ public class EndCell extends Cell {
     public EndCell(int x, int y) {
         super(y, x);
     }
+
+    @Override
+    public EndCell getCopy() {
+        EndCell newCell = new EndCell(this.y, this.x);
+        newCell.setId(this.id);
+        return newCell;
+    }
 }

@@ -35,7 +35,7 @@ public class SummerController extends BaseController {
     public SummerController(int level) {
         this.level = level;
         LevelContainer container = App.getSummerLevels().get(level-1);
-        field = new FieldSummer(container.getField(), container.getCells());
+        field = new FieldSummer(container.getCopyField(), container.getCopyCells());
         numberIds = container.getCells().size();
     }
 

@@ -26,5 +26,23 @@ public class LevelContainer {
         return cells;
     }
 
+    public ArrayList<ContainerCells> getCopyCells() {
+        ArrayList<ContainerCells> copy = new ArrayList<>();
+        for(int i = 0; i < cells.size(); i++) {
+            ContainerCells container = new ContainerCells(cells.get(i).getStartCell().getCopy(), cells.get(i).getEndCell().getCopy());
+            copy.add(container);
+        }
+        return copy;
+    }
 
+    public int[][] getCopyField() {
+        int size = field.length;
+        int[][] copy = new int[size][size];
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                copy[i][j] = field[i][j];
+            }
+        }
+        return copy;
+    }
 }

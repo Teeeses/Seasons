@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
+import com.explead.twoseasons.dialogs.DialogWinterHelp;
 import com.explead.twoseasons.logic.controllers.BaseController;
 import com.explead.twoseasons.logic.controllers.WinterController;
 import com.explead.twoseasons.logic.elements.Cell;
@@ -43,6 +44,8 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
         btnRestart = (ImageView) view.findViewById(R.id.btnRestart);
         btnRestart.setOnClickListener(btnRestartClick);
 
+        btnHelp = (ImageView) view.findViewById(R.id.btnHelp);
+        btnHelp.setOnClickListener(btnHelpClick);
 
         btnMenu = (ImageView) view.findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(btnMenuClick);
@@ -101,6 +104,14 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
         @Override
         public void onClick(View v) {
             onRestart();
+        }
+    };
+
+    View.OnClickListener btnHelpClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            DialogWinterHelp dialog = new DialogWinterHelp(getActivity());
+            dialog.show();
         }
     };
 

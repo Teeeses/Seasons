@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
+import com.explead.twoseasons.dialogs.DialogSummerHelp;
+import com.explead.twoseasons.dialogs.DialogWinterHelp;
 import com.explead.twoseasons.logic.controllers.BaseController;
 import com.explead.twoseasons.logic.controllers.SummerController;
 import com.explead.twoseasons.logic.elements.Cell;
@@ -47,6 +49,9 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
         btnRestart = (ImageView) view.findViewById(R.id.btnRestart);
         btnRestart.setOnClickListener(btnRestartClick);
 
+        btnHelp = (ImageView) view.findViewById(R.id.btnHelp);
+        btnHelp.setOnClickListener(btnHelpClick);
+
         btnMenu = (ImageView) view.findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(btnMenuClick);
 
@@ -66,6 +71,14 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
         @Override
         public void onClick(View v) {
             startGame();
+        }
+    };
+
+    View.OnClickListener btnHelpClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            DialogSummerHelp dialog = new DialogSummerHelp(getActivity());
+            dialog.show();
         }
     };
 

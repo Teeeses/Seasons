@@ -17,6 +17,7 @@ public class GameFragment extends Fragment {
 
     protected ImageView btnRestart;
     protected ImageView btnMenu;
+    protected ImageView btnHelp;
     protected TextView tvNumberLevel;
     protected TextView tvLevel;
 

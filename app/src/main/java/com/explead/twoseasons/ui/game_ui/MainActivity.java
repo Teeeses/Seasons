@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
         bundle.putInt("level", level);
         fragment.setArguments(bundle);
         transaction.replace(R.id.fragmentContainer, fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     @Override
