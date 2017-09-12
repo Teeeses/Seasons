@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
+import com.explead.twoseasons.dialogs.DialogLevelCompletion;
 import com.explead.twoseasons.dialogs.DialogSummerHelp;
 import com.explead.twoseasons.dialogs.DialogWinterHelp;
 import com.explead.twoseasons.logic.controllers.BaseController;
@@ -29,7 +30,7 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
     private SummerController controller;
     private FieldSummerView mFieldSummerView;
 
-    int level;
+    private int level;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,8 +45,6 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
 
         mFieldSummerView = (FieldSummerView) view.findViewById(R.id.fieldView);
 
-        tvNumberLevel.setText(String.format("%s", level));
-
         btnRestart = (ImageView) view.findViewById(R.id.btnRestart);
         btnRestart.setOnClickListener(btnRestartClick);
 
@@ -55,7 +54,7 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
         btnMenu = (ImageView) view.findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(btnMenuClick);
 
-        startGame();
+        startGame(level);
 
         return view;
     }
@@ -70,7 +69,7 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
     View.OnClickListener btnRestartClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startGame();
+            startGame(level);
         }
     };
 
@@ -82,7 +81,8 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
         }
     };
 
-    private void startGame() {
+    private void startGame(int level) {
+        tvNumberLevel.setText(String.format("%s", level));
         controller = new SummerController(level);
         controller.setOnControllerListener(SummerFragment.this);
         controller.setOnGameListener(SummerFragment.this);
@@ -93,14 +93,27 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
 
     @Override
     public void onWin() {
-        Toast.makeText(getContext(), "WIN", Toast.LENGTH_SHORT).show();
         activity.setCurrentSummerLevel(controller.getLevel());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                activity.onBackPressed();
+                if(App.getSummerLevels().size() > level) {
+                    DialogLevelCompletion dialog = new DialogLevelCompletion(activity, new DialogLevelCompletion.OnDialogCompletionListener() {
+                        @Override
+                        public void onMenu() {
+                            activity.onBackPressed();
+                        }
+
+                        @Override
+                        public void onNextLevel() {
+                            level++;
+                            startGame(level);
+                        }
+                    });
+                    dialog.show();
+                }
             }
-        }, 1000);
+        }, 500);
     }
 
     @Override

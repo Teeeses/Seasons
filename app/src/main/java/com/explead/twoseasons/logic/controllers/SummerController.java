@@ -64,7 +64,13 @@ public class SummerController extends BaseController {
      * Проверка, достигли ли конечной точки
      */
     private void checkEndPath() {
-        if(isNearCells(path.get(path.size()-1), field.findCellFromPair(path.get(0)))) {
+        Cell last = path.get(path.size()-1);
+        Cell pair = field.findCellFromPair(path.get(0));
+        if(isNearCells(last, pair)) {
+            if(!last.equals(pair)) {
+                path.add(pair);
+            }
+
             action = false;
             field.addingPathOnField(path);
             onControllerListener.onAddingPathOnField();

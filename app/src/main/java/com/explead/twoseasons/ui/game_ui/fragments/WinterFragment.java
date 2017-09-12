@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
+import com.explead.twoseasons.dialogs.DialogLevelCompletion;
 import com.explead.twoseasons.dialogs.DialogWinterHelp;
 import com.explead.twoseasons.logic.controllers.BaseController;
 import com.explead.twoseasons.logic.controllers.WinterController;
@@ -36,6 +37,8 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_winter, container, false);
 
+        level = getArguments().getInt("level");
+
         tvNumberLevel = (TextView) view.findViewById(R.id.tvNumberLevel);
         tvLevel = (TextView) view.findViewById(R.id.tvLevel);
         tvNumberLevel.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
@@ -52,12 +55,10 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
 
         mFieldWinterView = (FieldWinterView) view.findViewById(R.id.fieldView);
 
-        level = getArguments().getInt("level");
-        onRestart();
-
-        tvNumberLevel.setText(String.format("%s", level));
-
         setTouchView(view);
+
+        startGame(level);
+
         return view;
     }
 
@@ -103,7 +104,7 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
     View.OnClickListener btnRestartClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            onRestart();
+            startGame(level);
         }
     };
 
@@ -118,17 +119,31 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
 
     @Override
     public void onWin() {
-        Toast.makeText(getContext(), "WIN", Toast.LENGTH_SHORT).show();
         activity.setCurrentWinterLevel(controller.getLevel());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                activity.onBackPressed();
+                if(App.getSummerLevels().size() > level) {
+                    DialogLevelCompletion dialog = new DialogLevelCompletion(activity, new DialogLevelCompletion.OnDialogCompletionListener() {
+                        @Override
+                        public void onMenu() {
+                            activity.onBackPressed();
+                        }
+
+                        @Override
+                        public void onNextLevel() {
+                            level++;
+                            startGame(level);
+                        }
+                    });
+                    dialog.show();
+                }
             }
         }, 1000);
     }
 
-    public void onRestart() {
+    public void startGame(int level) {
+        tvNumberLevel.setText(String.format("%s", level));
         controller = new WinterController(level);
         mFieldWinterView.clearField();
         mFieldWinterView.createField(App.getWidthScreen()*0.96f, controller.getField());
