@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.beans.Level;
+import com.explead.twoseasons.views.winter_views.SnowfallView;
 
 /**
  * Created by Александр on 09.07.2017.
@@ -19,9 +20,13 @@ import com.explead.twoseasons.beans.Level;
 
 public class WinterLevelsFragment extends LevelsFragment {
 
+    private SnowfallView snowfall;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_levels_winter, container, false);
+
+        snowfall = (SnowfallView) view.findViewById(R.id.snowfall);
 
         gvMain = (GridView) view.findViewById(R.id.gvMain);
         createButtons(App.getWinterLevels().size(), Level.WINTER);
@@ -33,4 +38,5 @@ public class WinterLevelsFragment extends LevelsFragment {
 
         return view;
     }
+
 }

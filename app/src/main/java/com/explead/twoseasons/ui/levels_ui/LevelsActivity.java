@@ -32,13 +32,11 @@ public class LevelsActivity extends BaseActivity {
         App.setHeightScreen(displaymetrics.heightPixels);
 
         viewPager = (ScrollerViewPager) findViewById(R.id.view_pager);
-        SpringIndicator springIndicator = (SpringIndicator) findViewById(R.id.indicator);
 
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.fixScrollSpeed();
 
-        springIndicator.setViewPager(viewPager);
     }
 
     public void openGameActivity(int mode, int level) {
