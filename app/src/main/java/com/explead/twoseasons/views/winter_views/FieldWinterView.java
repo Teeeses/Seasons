@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+import com.explead.twoseasons.R;
 import com.explead.twoseasons.logic.controllers.WinterController;
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.logic.elements.ContainerCells;
@@ -75,6 +76,7 @@ public class FieldWinterView extends RelativeLayout {
         for (int i = 0; i < emptyCells.size(); i++) {
             CellEmptyWinterView cellEmpty = new CellEmptyWinterView(context);
             cellEmpty.setDate(sizeCell, emptyCells.get(i));
+            cellEmpty.setBackgroundColor(getColorEmptyCell(cellEmpty.getCell().getX(), cellEmpty.getCell().getY()));
             this.addView(cellEmpty);
         }
 
@@ -100,6 +102,13 @@ public class FieldWinterView extends RelativeLayout {
             actionViews.add(cellStart);
             this.addView(cellStart);
         }
+    }
+
+    private int getColorEmptyCell(int x, int y) {
+        if((x + y) % 2 == 0) {
+            return context.getResources().getColor(R.color.cell_light);
+        }
+        return context.getResources().getColor(R.color.cell_dark);
     }
 
     public void clearField() {

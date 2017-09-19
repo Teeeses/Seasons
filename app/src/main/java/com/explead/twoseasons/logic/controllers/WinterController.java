@@ -58,7 +58,7 @@ public class WinterController extends BaseController {
         }
     }
 
-    public boolean checkWin() {
+    private boolean checkWin() {
         ArrayList<ContainerCells> actionCells = field.getActionCells();
         for(int i = 0; i < actionCells.size(); i++) {
             if(!actionCells.get(i).getStartCell().equals(actionCells.get(i).getEndCell())) {

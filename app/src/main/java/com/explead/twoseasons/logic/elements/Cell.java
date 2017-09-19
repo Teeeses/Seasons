@@ -18,10 +18,7 @@ public class Cell {
     @Override
     public boolean equals(Object obj) {
         Cell cell = (Cell) obj;
-        if(x == cell.getX() && y == cell.getY()) {
-            return true;
-        }
-        return false;
+        return (x == cell.getX() && y == cell.getY());
     }
 
     public Cell getCopy() {

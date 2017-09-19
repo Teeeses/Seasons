@@ -4,5 +4,5 @@
            android:layout_width="5dp"
            android:layout_height="5dp"
            android:layout_centerHorizontal="true"
-           android:src="@drawable/snowflake"
+           android:src="@drawable/snowflake1"
            android:scaleType="fitCenter" />

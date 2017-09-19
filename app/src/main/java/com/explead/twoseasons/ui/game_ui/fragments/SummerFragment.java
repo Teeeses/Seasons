@@ -3,6 +3,7 @@ package com.explead.twoseasons.ui.game_ui.fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,7 @@ public class SummerFragment extends GameFragment implements BaseController.OnGam
 
     @Override
     public void onWin() {
+        Log.d("TAG", "WIN");
         activity.setCurrentSummerLevel(controller.getLevel());
         new Handler().postDelayed(new Runnable() {
             @Override

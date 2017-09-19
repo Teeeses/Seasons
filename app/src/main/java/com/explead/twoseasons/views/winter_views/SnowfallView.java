@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -35,7 +34,8 @@ public class SnowfallView  extends RelativeLayout {
     public static final int MESSAGE_CREATE_SNOWFLAKE = 0x001;
     public static final int MESSAGE_CREATE_CLOUD = 0x002;
 
-    private int[] SNOWFLAKE = {R.drawable.snowflake};
+    private int[] SNOWFLAKE = {R.drawable.snowflake1, R.drawable.snowflake2, R.drawable.snowflake5};
+    private int[] CLOUDS = {R.drawable.cloud2};
     private ArrayList<View> snowflakeViews = new ArrayList<>();
 
     private ArrayList<View> cloudViews = new ArrayList<>();
@@ -67,7 +67,7 @@ public class SnowfallView  extends RelativeLayout {
         inflate = LayoutInflater.from(context);
 
         float heightScreen = App.getHeightScreen();
-        cloudY = new float[]{heightScreen/4f, heightScreen/2.6f, heightScreen/5.6f, heightScreen/1.8f, heightScreen/3.1f, heightScreen/7f};
+        cloudY = new float[]{heightScreen/4f, heightScreen/2.6f, heightScreen/5.6f, heightScreen/1.8f, heightScreen/3.1f, heightScreen/7f, heightScreen/1.3f, heightScreen/5f};
 
         resumeAnimation();
     }
@@ -136,13 +136,14 @@ public class SnowfallView  extends RelativeLayout {
 
     private void createSnowflake() {
         removeSnowflakes();
-        //int viewId = new Random().nextInt(SNOWFLAKE.length);
-        Drawable d = getResources().getDrawable(R.drawable.snowflake);
+        int viewId = new Random().nextInt(SNOWFLAKE.length);
+        Drawable d = getResources().getDrawable(SNOWFLAKE[viewId]);
 
         ImageView imageView = (ImageView) inflate.inflate(R.layout.snowflake, null, false);
         imageView.setImageDrawable(d);
         int size = randInt(20, 40);
         imageView.setLayoutParams(new LayoutParams(size, size));
+        imageView.setAlpha(0.1f*randInt(5, 10));
         snowflakeViews.add(imageView);
         root.addView(imageView);
 
@@ -151,13 +152,17 @@ public class SnowfallView  extends RelativeLayout {
 
     private void createCloud() {
         removeClouds();
-        Drawable d = getResources().getDrawable(R.drawable.cloud);
+        int viewId = new Random().nextInt(CLOUDS.length);
+        Drawable d = getResources().getDrawable(CLOUDS[viewId]);
         final ImageView cloud = (ImageView) inflate.inflate(R.layout.cloud, null, false);
+        cloud.setAlpha(0.1f*randInt(4, 10));
         cloud.setImageDrawable(d);
 
+        if(randInt(0, 1) == 0) {
+            cloud.setScaleX(-1);
+        }
         int width = randInt((int)App.getWidthScreen()/4, (int)(App.getWidthScreen()/2.5f));
-        int height = (int)(width/1.5f);
-        cloud.setLayoutParams(new LayoutParams(width, height));
+        cloud.setLayoutParams(new LayoutParams(width, width));
 
         cloud.setY(cloudY[idCurrentY]);
 
@@ -207,10 +212,10 @@ public class SnowfallView  extends RelativeLayout {
 
     public void resumeAnimation() {
         timerSnowflake = new Timer();
-        timerSnowflake.schedule(new ExeTimerTask(MESSAGE_CREATE_SNOWFLAKE), 0, 500);
+        timerSnowflake.schedule(new ExeTimerTask(MESSAGE_CREATE_SNOWFLAKE), 0, randInt(150, 500));
 
         timerCloud = new Timer();
-        timerCloud.schedule(new ExeTimerTask(MESSAGE_CREATE_CLOUD), 0, 12000);
+        timerCloud.schedule(new ExeTimerTask(MESSAGE_CREATE_CLOUD), 0, 10000);
     }
 
     private class ExeTimerTask extends TimerTask {

@@ -3,6 +3,7 @@ package com.explead.twoseasons.ui.game_ui.fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -119,11 +120,12 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
 
     @Override
     public void onWin() {
+        Log.d("TAG", "WIN");
         activity.setCurrentWinterLevel(controller.getLevel());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(App.getSummerLevels().size() > level) {
+                if(App.getWinterLevels().size() > level) {
                     DialogLevelCompletion dialog = new DialogLevelCompletion(activity, new DialogLevelCompletion.OnDialogCompletionListener() {
                         @Override
                         public void onMenu() {
