@@ -1,5 +1,7 @@
 package com.explead.twoseasons.ui.game_ui.fragments;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -16,11 +18,13 @@ import com.explead.twoseasons.R;
 import com.explead.twoseasons.app.App;
 import com.explead.twoseasons.dialogs.DialogLevelCompletion;
 import com.explead.twoseasons.dialogs.DialogWinterHelp;
+import com.explead.twoseasons.dialogs.DialogWinterWin;
 import com.explead.twoseasons.logic.controllers.BaseController;
 import com.explead.twoseasons.logic.controllers.WinterController;
 import com.explead.twoseasons.logic.elements.Cell;
 import com.explead.twoseasons.utils.Utils;
 import com.explead.twoseasons.views.winter_views.FieldWinterView;
+import com.explead.twoseasons.views.winter_views.SnowfallView;
 
 /**
  * Created by Александр on 09.07.2017.
@@ -34,11 +38,27 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
     private FieldWinterView mFieldWinterView;
     private int level;
 
+    private SnowfallView snowfall;
+
+    private SoundPool soundPool;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_winter, container, false);
 
+        soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
+        soundPool.load(getActivity(), R.raw.sound_win, 1);
+        soundPool.load(getActivity(), R.raw.sound_move_cube, 2);
+
+        snowfall = (SnowfallView) view.findViewById(R.id.snowfall);
+        snowfall.setPeriodicityCreateSnowflake(400, 800);
+        snowfall.setPeriodicityCreateCloud(15000);
+        snowfall.startAnimation();
+
         level = getArguments().getInt("level");
+        if(level == 1) {
+            openHelpDialog();
+        }
 
         tvNumberLevel = (TextView) view.findViewById(R.id.tvNumberLevel);
         tvLevel = (TextView) view.findViewById(R.id.tvLevel);
@@ -88,6 +108,7 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
 
     @Override
     public void onChangeCell(final Cell startCell, final Cell newCell, final String direction) {
+        soundPool.play(2, 0.1f, 0.1f, 1, 0, 1f);
         activity.runOnUiThread(new Runnable() {
             public void run() {
                 mFieldWinterView.onChange(startCell, newCell, direction, controller);
@@ -112,21 +133,26 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
     View.OnClickListener btnHelpClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            DialogWinterHelp dialog = new DialogWinterHelp(getActivity());
-            dialog.show();
+            openHelpDialog();
         }
     };
+
+    private void openHelpDialog() {
+        DialogWinterHelp dialog = new DialogWinterHelp(getActivity());
+        dialog.show();
+    }
 
 
     @Override
     public void onWin() {
         Log.d("TAG", "WIN");
+        soundPool.play(1, 1f, 1f, 1, 0, 1f);
         activity.setCurrentWinterLevel(controller.getLevel());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(App.getWinterLevels().size() > level) {
-                    DialogLevelCompletion dialog = new DialogLevelCompletion(activity, new DialogLevelCompletion.OnDialogCompletionListener() {
+                    DialogWinterWin dialog = new DialogWinterWin(activity, new DialogWinterWin.OnDialogCompletionListener() {
                         @Override
                         public void onMenu() {
                             activity.onBackPressed();
@@ -151,5 +177,11 @@ public class WinterFragment extends GameFragment implements BaseController.OnGam
         mFieldWinterView.createField(App.getWidthScreen()*0.96f, controller.getField());
         controller.setOnControllerListener(this);
         controller.setOnGameListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        snowfall.stopAnimation();
+        super.onDestroy();
     }
 }

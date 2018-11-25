@@ -46,6 +46,10 @@ public class SnowfallView  extends RelativeLayout {
     private float[] cloudY;
     private int idCurrentY = 0;
 
+    private int minPeriodicitySnowflake = 150;
+    private int maxPeriodicitySnowflake = 500;
+    private int periodicityCloud = 10000;
+
     public SnowfallView(Context context) {
         super(context);
         init(context);
@@ -68,8 +72,6 @@ public class SnowfallView  extends RelativeLayout {
 
         float heightScreen = App.getHeightScreen();
         cloudY = new float[]{heightScreen/4f, heightScreen/2.6f, heightScreen/5.6f, heightScreen/1.8f, heightScreen/3.1f, heightScreen/7f, heightScreen/1.3f, heightScreen/5f};
-
-        resumeAnimation();
     }
 
     private Handler mHandler = new Handler() {
@@ -210,12 +212,22 @@ public class SnowfallView  extends RelativeLayout {
         timerCloud.cancel();
     }
 
-    public void resumeAnimation() {
+    public void setPeriodicityCreateSnowflake(int min, int max) {
+        minPeriodicitySnowflake = min;
+        maxPeriodicitySnowflake = max;
+    }
+
+    public void setPeriodicityCreateCloud(int periodicity) {
+        periodicityCloud = periodicity;
+    }
+
+
+    public void startAnimation() {
         timerSnowflake = new Timer();
-        timerSnowflake.schedule(new ExeTimerTask(MESSAGE_CREATE_SNOWFLAKE), 0, randInt(150, 500));
+        timerSnowflake.schedule(new ExeTimerTask(MESSAGE_CREATE_SNOWFLAKE), 0, randInt(minPeriodicitySnowflake, maxPeriodicitySnowflake));
 
         timerCloud = new Timer();
-        timerCloud.schedule(new ExeTimerTask(MESSAGE_CREATE_CLOUD), 0, 10000);
+        timerCloud.schedule(new ExeTimerTask(MESSAGE_CREATE_CLOUD), 0, periodicityCloud);
     }
 
     private class ExeTimerTask extends TimerTask {

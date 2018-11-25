@@ -20,4 +20,8 @@ public class Utils {
         return Typeface.createFromAsset(manager,"fonts/level_personal.ttf");
     }
 
+    public static Typeface getTypeGecko(AssetManager manager) {
+        return Typeface.createFromAsset(manager,"fonts/gecko.ttf");
+    }
+
 }

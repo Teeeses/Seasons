@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.explead.twoseasons.R;
 
@@ -19,6 +22,8 @@ import com.explead.twoseasons.R;
 public class DialogWinterHelp extends Dialog {
 
     private Context context;
+    private ImageView imageFingerHelp;
+    private Animation animation;
 
     public DialogWinterHelp(@NonNull Context context) {
         super(context);
@@ -38,5 +43,33 @@ public class DialogWinterHelp extends Dialog {
         Drawable drawable = new ColorDrawable(Color.BLACK);
         drawable.setAlpha(100);
         getWindow().setBackgroundDrawable(drawable);
+
+        imageFingerHelp = findViewById(R.id.imageFingerHelp);
+        animation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_finger_help);
+        imageFingerHelp.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animation.setAnimationListener(this);
+                imageFingerHelp.startAnimation(animation);
+            }
+            @Override
+            public void onAnimationRepeat(Animation arg0) {}
+            @Override
+            public void onAnimationStart(Animation arg0) {}
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        animation.cancel();
+        super.onBackPressed();
+    }
+
+    @Override
+    public void dismiss() {
+        animation.cancel();
+        super.dismiss();
     }
 }

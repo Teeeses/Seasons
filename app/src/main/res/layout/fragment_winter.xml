@@ -8,6 +8,11 @@
     android:background="@drawable/winter_game_background"
     android:clickable="true">
 
+    <com.explead.twoseasons.views.winter_views.SnowfallView
+        android:id="@+id/snowfall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <LinearLayout
         android:id="@+id/layoutMenu"
         android:layout_width="match_parent"

@@ -1,7 +1,6 @@
 package com.explead.twoseasons.app;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.explead.twoseasons.beans.LevelContainer;
 import com.explead.twoseasons.utils.levels.SummerLevels;
