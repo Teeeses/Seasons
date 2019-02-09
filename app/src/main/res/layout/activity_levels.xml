@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.levels_ui.LevelsActivity" >
+    tools:context=".common.ui.LevelsActivity" >
 
     <github.chenupt.springindicator.viewpager.ScrollerViewPager
         android:id="@+id/view_pager"

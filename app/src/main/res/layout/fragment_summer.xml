@@ -119,13 +119,23 @@
 
     </LinearLayout>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/layoutMenu" >
 
 
-        <com.explead.twoseasons.views.summer_views.FieldSummerView
+        <com.explead.seasons.summer.summer_views.ContainerDeleteRoutesView
+            android:id="@+id/containerDeleteRoutesView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/standard_margin"
+            android:layout_above="@id/fieldView"/>
+
+
+        <com.explead.seasons.summer.summer_views.FieldSummerView
             android:id="@+id/fieldView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
