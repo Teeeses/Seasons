@@ -84,10 +84,11 @@ public class SummerFragment extends GameFragment implements FieldSummerView.OnGa
 
     private void startGame(int level) {
         tvNumberLevel.setText(String.format("%s", level));
+
         fieldView.setOnGameViewListener(this);
         fieldView.setController(level);
         fieldView.clearField();
-        fieldView.createField(App.getWidthScreen()*0.96f);
+        fieldView.createField();
     }
 
     @Override

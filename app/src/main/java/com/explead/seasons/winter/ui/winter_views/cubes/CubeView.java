@@ -1,45 +1,88 @@
 package com.explead.seasons.winter.ui.winter_views.cubes;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.RelativeLayout;
 
-import com.explead.seasons.R;
-import com.explead.seasons.winter.logic.WinterCell;
+import com.explead.seasons.common.beans.GetIds;
+import com.explead.seasons.common.ui.CellView;
+import com.explead.seasons.winter.logic.WinterCube;
 
-public class CubeView extends BaseCubeView {
+public class CubeView extends CellView implements WinterCube.OnMoveListener {
 
-    protected WinterCell insideCell;
+    protected WinterCube cell;
 
     public CubeView(Context context) {
         super(context);
+        init(context);
     }
 
     public CubeView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public CubeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
 
-    public void setAnimationFromPointToPoint(WinterCell startCell, final WinterCell endCell, final String direction) {
-        float from, to;
+    private void init(Context context) {
+        this.context = context;
+    }
 
-        if (direction.equals("up") || direction.equals("down")) {
-            from = coordToGlobal(startCell.getX());
-            to = coordToGlobal(endCell.getX());
-        } else {
-            from = coordToGlobal(startCell.getY());
-            to = coordToGlobal(endCell.getY());
-        }
+    public void create(float size, WinterCube cell) {
+        this.size = size;
+        this.cell = cell;
+        cell.setOnMoveListener(this);
+        this.setLayoutParams(new RelativeLayout.LayoutParams((int)(size + 2f), (int)(size + 2f)));
+        calculateGlobalValue(cell.getX(), cell.getY());
+        this.setBackgroundDrawable(context.getResources().getDrawable(GetIds.getIdWinterCubeFromColor(cell.getColor())));
+    }
+
+    @Override
+    public void onUp(int x, int y) {
+        float from = coordinateToGlobal(cell.getX());
+        float to = coordinateToGlobal(x);
+        setAnimationFromPointToPoint(from, to, "up");
+        cell.setX(x);
+        cell.setY(y);
+    }
+
+    @Override
+    public void onDown(int x, int y) {
+        float from = coordinateToGlobal(cell.getX());
+        float to = coordinateToGlobal(x);
+        setAnimationFromPointToPoint(from, to, "down");
+        cell.setX(x);
+        cell.setY(y);
+    }
+
+    @Override
+    public void onRight(int x, int y) {
+        float from = coordinateToGlobal(cell.getY());
+        float to = coordinateToGlobal(y);
+        setAnimationFromPointToPoint(from, to, "right");
+        cell.setX(x);
+        cell.setY(y);
+    }
+
+    @Override
+    public void onLeft(int x, int y) {
+        float from = coordinateToGlobal(cell.getY());
+        float to = coordinateToGlobal(y);
+        setAnimationFromPointToPoint(from, to, "left");
+        cell.setX(x);
+        cell.setY(y);
+    }
+
+    public void setAnimationFromPointToPoint(float from, float to, final String direction) {
 
         final View view = this;
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
-
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -52,44 +95,7 @@ public class CubeView extends BaseCubeView {
             }
         });
 
-        valueAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {}
-            @Override
-            public void onAnimationCancel(Animator animator) {}
-            @Override
-            public void onAnimationRepeat(Animator animator) {}
-            @Override
-            public void onAnimationEnd(Animator animator) {
-            }
-        });
         valueAnimator.setDuration(200);
         valueAnimator.start();
-    }
-
-    public WinterCell getInsideCell() {
-        return insideCell;
-    }
-
-    public void setInsideCell(WinterCell insideCell) {
-        this.insideCell = insideCell;
-    }
-
-    public void create(WinterCell.ColorCube color) {
-        this.colorCube = color;
-        findDrawable();
-        setBackground();
-    }
-
-    public void findDrawable() {
-        if(colorCube == WinterCell.ColorCube.RED) {
-            background = R.drawable.icon_red_cube;
-        }
-        if(colorCube == WinterCell.ColorCube.BLUE) {
-            background = R.drawable.icon_blue_cube;
-        }
-        if(colorCube == WinterCell.ColorCube.YELLOW) {
-            background = R.drawable.icon_yellow_cube;
-        }
     }
 }

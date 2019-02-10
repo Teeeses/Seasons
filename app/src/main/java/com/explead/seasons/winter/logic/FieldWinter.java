@@ -8,6 +8,8 @@ import com.explead.seasons.common.logic.Cell;
 import com.explead.seasons.common.logic.ContainerCells;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by Александр on 09.07.2017.
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 public class FieldWinter {
 
     public interface OnControllerListener {
-        void onChangeCell(WinterCell cell, WinterCell newCell, String direction);
+        void onWin();
     }
 
     private OnControllerListener onControllerListener;
@@ -24,18 +26,30 @@ public class FieldWinter {
     private static final int EMPTY_CELL = 0, WALL_CELL = 6;
 
     private int level;
-    private int[][] field;
-    private ArrayList<ContainerCells> actionCells;
-    private ArrayList<EmptyCell> emptyCells = new ArrayList<>();
-    private ArrayList<WallCell> wallCells = new ArrayList<>();
+    private WinterCell[][] field;
+    private ArrayList<WinterCube> cubes = new ArrayList<>();
 
     public FieldWinter(int level) {
         this.level = level;
         LevelContainer container = App.getWinterLevels().get(level - 1);
-        field = container.getCopyField();
-        actionCells = container.getCopyCells();
-        findCells();
-        addActionCellsOnField(actionCells);
+        createField(container.getCopyField());
+        addActionCellsOnField(container.getCopyCells());
+    }
+
+    private void createField(int[][] mass) {
+        field = new WinterCell[mass.length][mass.length];
+        for(int i = 0; i < mass.length; i++) {
+            for(int j = 0; j < mass.length; j++) {
+                WinterCell cell = new WinterCell(i, j);
+                if(mass[i][j] == WALL_CELL) {
+                    cell.makeWall();
+                }
+                if(mass[i][j] == EMPTY_CELL) {
+                    cell.makeEmpty();
+                }
+                field[i][j] = cell;
+            }
+        }
     }
 
     /**
@@ -45,20 +59,13 @@ public class FieldWinter {
     private void addActionCellsOnField(ArrayList<ContainerCells> actionCells) {
         for (int i = 0; i < actionCells.size(); i++) {
             Cell cell = actionCells.get(i).getOneCell();
-            field[cell.getX()][cell.getY()] = i + 1;
-        }
-    }
+            Cell insideCell = actionCells.get(i).getTwoCell();
+            Cell.ColorCube color = actionCells.get(i).getColor();
+            WinterCube winterCube = new WinterCube(cell.getX(), cell.getY());
+            WinterInsideCube winterInsideCube = new WinterInsideCube(insideCell.getX(), insideCell.getY(), color);
+            winterCube.create(color, winterInsideCube);
 
-    private void findCells() {
-        for(int i = 0; i < field.length; i++) {
-            for(int j = 0; j < field.length; j++) {
-                if(field[i][j] == WALL_CELL) {
-                    wallCells.add(new WallCell(i, j));
-                }
-                if(field[i][j] != WALL_CELL) {
-                    emptyCells.add(new EmptyCell(i, j));
-                }
-            }
+            cubes.add(winterCube);
         }
     }
 
@@ -66,148 +73,142 @@ public class FieldWinter {
     public void moveRight() {
         Log.d("TAG", "RIGHT");
 
-        for(int i = 0; i < field.length; i++) {
-            int wallY = field.length;
-            int numberChanges = 0;
-            for(int j = field.length-1; j >= 0; j--) {
-                int value = field[i][j];
-                if(value == FieldWinter.WALL_CELL) {
-                    wallY = j;
-                    numberChanges = 0;
-                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
-                    int newCoordinate = wallY - 1 - numberChanges;
+        Collections.sort(cubes, WinterCubeComparators.RIGHT);
 
-                    if(newCoordinate < 0)
-                        newCoordinate = 0;
-                    field[i][j] = 0;
-                    field[i][newCoordinate] = value;
-
-                    WinterCell cell = new WinterCell(actionCells.get(value-1).getOneCell().getX(), actionCells.get(value-1).getOneCell().getY());
-                    actionCells.get(value-1).getOneCell().setX(i);
-                    actionCells.get(value-1).getOneCell().setY(newCoordinate);
-                    WinterCell newCell = new WinterCell(i, newCoordinate);
-                    numberChanges++;
-
-                    onControllerListener.onChangeCell(cell, newCell, "right");
+        for(int i = 0; i < cubes.size(); i++) {
+            WinterCube cube = cubes.get(i);
+            int x = cube.getX();
+            int y = cube.getY();
+            loop:
+            while(field[x][y].getPurpose() == WinterCell.PurposeCell.EMPTY && y < field.length-1) {
+                y++;
+                if(field[x][y].getPurpose() == WinterCell.PurposeCell.WALL) {
+                    y--;
+                    break;
+                } else {
+                    for(int k = i-1; k >= 0; k--){
+                        if(cubes.get(k).isCoordinate(x, y)) {
+                            y--;
+                            break loop;
+                        }
+                    }
                 }
             }
+            cube.right(x, y);
         }
+        checkWin();
     }
 
     public void moveLeft() {
         Log.d("TAG", "LEFT");
 
-        for(int i = 0; i < field.length; i++) {
-            int wallY = -1;
-            int numberChanges = 0;
-            for(int j = 0; j < field.length; j++) {
-                int value = field[i][j];
-                if(value == FieldWinter.WALL_CELL) {
-                    wallY = j;
-                    numberChanges = 0;
-                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
-                    int newCoordinate = wallY + 1 + numberChanges;
+        Collections.sort(cubes, WinterCubeComparators.LEFT);
 
-                    if(newCoordinate > field.length-1)
-                        newCoordinate = field.length - 1;
-                    field[i][j] = 0;
-                    field[i][newCoordinate] = value;
-
-                    WinterCell cell = new WinterCell(actionCells.get(value-1).getOneCell().getX(), actionCells.get(value-1).getOneCell().getY());
-                    actionCells.get(value-1).getOneCell().setX(i);
-                    actionCells.get(value-1).getOneCell().setY(newCoordinate);
-                    WinterCell newCell = new WinterCell(i, newCoordinate);
-                    numberChanges++;
-
-                    onControllerListener.onChangeCell(cell, newCell, "left");
+        for(int i = 0; i < cubes.size(); i++) {
+            WinterCube cube = cubes.get(i);
+            int x = cube.getX();
+            int y = cube.getY();
+            loop:
+            while(field[x][y].getPurpose() == WinterCell.PurposeCell.EMPTY && y > 0) {
+                y--;
+                if(field[x][y].getPurpose() == WinterCell.PurposeCell.WALL) {
+                    y++;
+                    break;
+                } else {
+                    for(int k = i-1; k >= 0; k--){
+                        if(cubes.get(k).isCoordinate(x, y)) {
+                            y++;
+                            break loop;
+                        }
+                    }
                 }
             }
+            cube.left(x, y);
         }
+        checkWin();
     }
 
     public void moveUp() {
         Log.d("TAG", "UP");
 
-        for(int i = 0; i < field.length; i++) {
-            int wallY = -1;
-            int numberChanges = 0;
-            for(int j = 0; j < field.length; j++) {
-                int value = field[j][i];
-                if(value == FieldWinter.WALL_CELL) {
-                    wallY = j;
-                    numberChanges = 0;
-                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
-                    int newCoordinate = wallY + 1 + numberChanges;
+        Collections.sort(cubes, WinterCubeComparators.UP);
 
-                    if(newCoordinate > field.length-1)
-                        newCoordinate = field.length-1;
-                    field[j][i] = 0;
-                    field[newCoordinate][i] = value;
-
-                    WinterCell cell = new WinterCell(actionCells.get(value-1).getOneCell().getX(), actionCells.get(value-1).getOneCell().getY());
-                    actionCells.get(value-1).getOneCell().setX(newCoordinate);
-                    actionCells.get(value-1).getOneCell().setY(i);
-                    WinterCell newCell = new WinterCell(newCoordinate, i);
-                    numberChanges++;
-
-                    onControllerListener.onChangeCell(cell, newCell, "up");
+        for(int i = 0; i < cubes.size(); i++) {
+            WinterCube cube = cubes.get(i);
+            int x = cube.getX();
+            int y = cube.getY();
+            loop:
+            while(field[x][y].getPurpose() == WinterCell.PurposeCell.EMPTY && x > 0) {
+                x--;
+                if(field[x][y].getPurpose() == WinterCell.PurposeCell.WALL) {
+                    x++;
+                    break;
+                } else {
+                    for(int k = i-1; k >= 0; k--){
+                        if(cubes.get(k).isCoordinate(x, y)) {
+                            x++;
+                            break loop;
+                        }
+                    }
                 }
             }
+            cube.up(x, y);
         }
+        checkWin();
     }
-
-
 
     public void moveDown() {
         Log.d("TAG", "DOWN");
 
-        for(int i = 0; i < field.length; i++) {
-            int wallY = field.length;
-            int numberChanges = 0;
-            for(int j = field.length - 1; j >= 0; j--) {
-                int value = field[j][i];
-                if(value == FieldWinter.WALL_CELL) {
-                    wallY = j;
-                    numberChanges = 0;
-                } else if(value != 0 && value < FieldWinter.WALL_CELL) {
-                    int newCoordinate = wallY - 1 - numberChanges;
+        Collections.sort(cubes, WinterCubeComparators.DOWN);
 
-                    if(newCoordinate < 0)
-                        newCoordinate = 0;
-                    field[j][i] = 0;
-                    field[newCoordinate][i] = value;
-
-                    WinterCell cell = new WinterCell(actionCells.get(value-1).getOneCell().getX(), actionCells.get(value-1).getOneCell().getY());
-                    actionCells.get(value-1).getOneCell().setX(newCoordinate);
-                    actionCells.get(value-1).getOneCell().setY(i);
-                    WinterCell newCell = new WinterCell(newCoordinate, i);
-                    numberChanges++;
-
-                    onControllerListener.onChangeCell(cell, newCell, "down");
+        for(int i = 0; i < cubes.size(); i++) {
+            WinterCube cube = cubes.get(i);
+            int x = cube.getX();
+            int y = cube.getY();
+            loop:
+            while(field[x][y].getPurpose() == WinterCell.PurposeCell.EMPTY && x < field.length-1) {
+                x++;
+                if(field[x][y].getPurpose() == WinterCell.PurposeCell.WALL) {
+                    x--;
+                    break;
+                } else {
+                    for(int k = i-1; k >= 0; k--){
+                        if(cubes.get(k).isCoordinate(x, y)) {
+                            x--;
+                            break loop;
+                        }
+                    }
                 }
             }
+            cube.down(x, y);
         }
+        checkWin();
     }
 
+    public void checkWin() {
+        boolean value = true;
+        for (int i = 0; i < cubes.size(); i++) {
+            WinterCube cube = cubes.get(i);
+            if(!cube.isTruePlace()) {
+                value = false;
+            }
+        }
+        if(value) {
+            onControllerListener.onWin();
+        }
+    }
 
     public int getLevel() {
         return level;
     }
 
-    public int[][] getField() {
+    public WinterCell[][] getField() {
         return field;
     }
 
-    public ArrayList<EmptyCell> getEmptyCells() {
-        return emptyCells;
-    }
-
-    public ArrayList<ContainerCells> getActionCells() {
-        return actionCells;
-    }
-
-    public ArrayList<WallCell> getWallCells() {
-        return wallCells;
+    public ArrayList<WinterCube> getCubes() {
+        return cubes;
     }
 
     public int getSizeField() {

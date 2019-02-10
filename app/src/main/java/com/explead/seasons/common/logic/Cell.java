@@ -7,7 +7,7 @@ public class Cell {
     protected ColorCube color;
 
     public enum ColorCube {
-        WHITE, RED, BLUE, YELLOW, GREEN, VIOLET
+        RED, BLUE, YELLOW, GREEN, VIOLET
     }
 
     public Cell(int x, int y) {

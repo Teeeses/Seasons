@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import com.explead.screenmovementfinger.SummerMovementFinger;
+import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.logic.Cell;
 import com.explead.seasons.summer.logic.FieldSummer;
 import com.explead.seasons.summer.logic.SummerCell;
@@ -44,6 +45,7 @@ public class FieldSummerView extends RelativeLayout implements SummerMovementFin
 
     private void init(Context context) {
         this.context = context;
+        size = App.getWidthScreen()*0.96f;
     }
 
 
@@ -53,10 +55,8 @@ public class FieldSummerView extends RelativeLayout implements SummerMovementFin
 
     /**
      * Создаем поле игры
-     * @param size  - размер поля
      */
-    public void createField(float size) {
-        this.size = size;
+    public void createField() {
 
         LayoutParams params = new LayoutParams((int) size, (int) size);
         params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);

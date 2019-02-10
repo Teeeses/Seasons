@@ -6,7 +6,7 @@ import com.explead.seasons.common.logic.Cell;
 public class WinterCell extends Cell {
 
     public enum PurposeCell {
-        EMPTY, WALL, CUBE, ROUTE
+        EMPTY, WALL
     }
 
     private PurposeCell purpose;
@@ -31,5 +31,9 @@ public class WinterCell extends Cell {
     public boolean equals(Object obj) {
         WinterCell cell = (WinterCell) obj;
         return (x == cell.getX() && y == cell.getY());
+    }
+
+    public PurposeCell getPurpose() {
+        return purpose;
     }
 }

@@ -44,4 +44,33 @@ public class GetIds {
         }
         return id.intValue();
     }
+
+    public static int getIdWinterInsideCubeFromColor(Cell.ColorCube color) {
+        Integer id = null;
+        if(color == Cell.ColorCube.RED) {
+            id = R.drawable.icon_inside_red_cube;
+        }
+        if(color == Cell.ColorCube.BLUE) {
+            id = R.drawable.icon_inside_blue_cube;
+        }
+        if(color == Cell.ColorCube.YELLOW) {
+            id = R.drawable.icon_inside_yellow_cube;
+        }
+        return id.intValue();
+    }
+
+    public static int getIdWinterCubeFromColor(Cell.ColorCube color) {
+        Integer id = null;
+        if(color == Cell.ColorCube.RED) {
+            id = R.drawable.icon_red_cube;
+        }
+        if(color == Cell.ColorCube.BLUE) {
+            id = R.drawable.icon_blue_cube;
+        }
+        if(color == Cell.ColorCube.YELLOW) {
+            id = R.drawable.icon_yellow_cube;
+        }
+        return id.intValue();
+    }
+
 }

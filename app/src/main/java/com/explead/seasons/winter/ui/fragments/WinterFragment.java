@@ -15,7 +15,6 @@ import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.dialogs.DialogWinterHelp;
 import com.explead.seasons.common.dialogs.DialogWinterWin;
 import com.explead.seasons.common.ui.fragments.GameFragment;
-import com.explead.seasons.winter.logic.WinterCell;
 import com.explead.seasons.winter.logic.FieldWinter;
 import com.explead.seasons.winter.ui.WinterGameBar;
 import com.explead.seasons.winter.ui.winter_views.FieldWinterView;
@@ -32,6 +31,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
     private SnowfallView snowfall;
     private WinterGameBar bar;
+    private FieldWinter fieldWinter;
 
     private SoundPool soundPool;
 
@@ -70,44 +70,24 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
             new WinterMovementFinger.OnSideFingerMovementCallback() {
         @Override
         public void onUp() {
-            fieldView.getController().moveUp();
-            checkWin();
+            fieldWinter.moveUp();
         }
 
         @Override
         public void onDown() {
-            fieldView.getController().moveDown();
-            checkWin();
+            fieldWinter.moveDown();
         }
 
         @Override
         public void onRight() {
-            fieldView.getController().moveRight();
-            checkWin();
+            fieldWinter.moveRight();
         }
 
         @Override
         public void onLeft() {
-            fieldView.getController().moveLeft();
-            checkWin();
+            fieldWinter.moveLeft();
         }
     };
-
-    private void checkWin() {
-        if(fieldView.checkWin()) {
-            soundPool.play(1, 1f, 1f, 1, 0, 1f);
-            activity.setCurrentWinterLevel(level);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(App.getWinterLevels().size() > level) {
-                        DialogWinterWin dialog = new DialogWinterWin(activity, onDialogCompletionListener);
-                        dialog.show();
-                    }
-                }
-            }, 500);
-        }
-    }
 
     private void openHelpDialog() {
         DialogWinterHelp dialog = new DialogWinterHelp(getActivity());
@@ -146,19 +126,29 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     };
 
     @Override
-    public void onChangeCell(final WinterCell cell, final WinterCell newCell, final String direction) {
-        soundPool.play(2, 0.1f, 0.1f, 1, 0, 1f);
-        fieldView.startAnimation(cell, newCell, direction);
-
+    public void onWin() {
+        soundPool.play(1, 1f, 1f, 1, 0, 1f);
+        activity.setCurrentWinterLevel(level);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(App.getWinterLevels().size() > level) {
+                    DialogWinterWin dialog = new DialogWinterWin(activity, onDialogCompletionListener);
+                    dialog.show();
+                }
+            }
+        }, 500);
     }
 
     public void startGame(int level) {
         bar.setNumberLevel(level);
 
-        fieldView.setController(level);
-        fieldView.getController().setOnControllerListener(this);
+        fieldWinter = new FieldWinter(level);
+        fieldWinter.setOnControllerListener(this);
+        fieldView.setFieldWinter(fieldWinter);
+
         fieldView.clearField();
-        fieldView.createField(App.getWidthScreen()*0.96f);
+        fieldView.createField();
     }
 
     @Override
