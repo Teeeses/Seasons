@@ -1,4 +1,4 @@
-package com.explead.seasons.winter.ui.winter_views.cubes;
+package com.explead.seasons.winter.ui.winter_views;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -41,4 +41,7 @@ public class InsideCubeView extends CellView {
         this.setBackgroundDrawable(context.getResources().getDrawable(GetIds.getIdWinterInsideCubeFromColor(cell.getColor())));
     }
 
+    public WinterInsideCube getCell() {
+        return cell;
+    }
 }

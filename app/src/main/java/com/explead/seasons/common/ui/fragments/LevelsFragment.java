@@ -19,15 +19,26 @@ public class LevelsFragment extends Fragment {
 
     protected LevelsActivity activity;
     protected ArrayList<ButtonLevel> array = new ArrayList<>();
-    protected GridView gvMain;
-    protected GridAdapter adapter;
+    protected GridView gvDecember;
+    protected GridView gvJanuary;
+    protected GridView gvFebruary;
+    protected GridAdapter decemberAdapter;
+    protected GridAdapter januaryAdapter;
+    protected GridAdapter februaryAdapter;
 
     public void createButtons(int size, int mode) {
-        this.array.clear();
         for(int i = 0; i < size; i++) {
             array.add(new ButtonLevel(activity, mode, i + 1));
         }
-        adapter = new GridAdapter(getContext(), array, mode, new GridAdapter.OnLevelListener() {
+
+        createDecemberGrid();
+        createJanuaryGrid();
+        createFebruaryGrid();
+
+    }
+
+    private void createDecemberGrid(ArrayList<ButtonLevel> array, int mode) {
+        decemberAdapter = new GridAdapter(activity, array, mode, new GridAdapter.OnLevelListener() {
             @Override
             public void onClickLevel(int mode, int level) {
                 activity.openGameActivity(mode, level);
@@ -38,8 +49,40 @@ public class LevelsFragment extends Fragment {
                 Toast.makeText(activity, activity.getResources().getString(R.string.level_is_close), Toast.LENGTH_SHORT).show();
             }
         });
-        gvMain.setAdapter(adapter);
-        gvMain.setNumColumns(3);
+        gvDecember.setAdapter(decemberAdapter);
+        gvDecember.setNumColumns(3);
+    }
+
+    private void createJanuaryGrid(ArrayList<ButtonLevel> array, int mode) {
+        januaryAdapter = new GridAdapter(activity, array, mode, new GridAdapter.OnLevelListener() {
+            @Override
+            public void onClickLevel(int mode, int level) {
+                activity.openGameActivity(mode, level);
+            }
+
+            @Override
+            public void onLevelIsClose(int number) {
+                Toast.makeText(activity, activity.getResources().getString(R.string.level_is_close), Toast.LENGTH_SHORT).show();
+            }
+        });
+        gvJanuary.setAdapter(januaryAdapter);
+        gvJanuary.setNumColumns(3);
+    }
+
+    private void createFebruaryGrid(ArrayList<ButtonLevel> array, int mode) {
+        februaryAdapter = new GridAdapter(activity, array, mode, new GridAdapter.OnLevelListener() {
+            @Override
+            public void onClickLevel(int mode, int level) {
+                activity.openGameActivity(mode, level);
+            }
+
+            @Override
+            public void onLevelIsClose(int number) {
+                Toast.makeText(activity, activity.getResources().getString(R.string.level_is_close), Toast.LENGTH_SHORT).show();
+            }
+        });
+        gvFebruary.setAdapter(februaryAdapter);
+        gvFebruary.setNumColumns(3);
     }
 
     public void refreshStatus() {
@@ -51,9 +94,12 @@ public class LevelsFragment extends Fragment {
     @Override
     public void onResume() {
         refreshStatus();
-        if(adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
+        if(decemberAdapter != null)
+            decemberAdapter.notifyDataSetChanged();
+        if(januaryAdapter != null)
+            januaryAdapter.notifyDataSetChanged();
+        if(februaryAdapter != null)
+            februaryAdapter.notifyDataSetChanged();
         super.onResume();
     }
 

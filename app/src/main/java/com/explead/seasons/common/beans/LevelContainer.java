@@ -10,15 +10,15 @@ import java.util.ArrayList;
 
 public class LevelContainer {
 
-    private int[][] field;
+    private char[][] field;
     private ArrayList<ContainerCells> cells;
 
-    public LevelContainer(int[][] field, ArrayList<ContainerCells> cells) {
+    public LevelContainer(char[][] field, ArrayList<ContainerCells> cells) {
         this.field = field;
         this.cells = cells;
     }
 
-    public int[][] getField() {
+    public char[][] getField() {
         return field;
     }
 
@@ -36,9 +36,9 @@ public class LevelContainer {
         return copy;
     }
 
-    public int[][] getCopyField() {
+    public char[][] getCopyField() {
         int size = field.length;
-        int[][] copy = new int[size][size];
+        char[][] copy = new char[size][size];
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 copy[i][j] = field[i][j];

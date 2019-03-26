@@ -9,7 +9,7 @@ import com.explead.seasons.R;
 import com.explead.seasons.common.ui.CellView;
 import com.explead.seasons.winter.logic.WinterCell;
 
-public class WinterCellView extends CellView {
+public class WinterCellView extends CellView implements WinterCell.OnChangePurposeListener {
 
     protected int id;
     private WinterCell cell;
@@ -46,6 +46,7 @@ public class WinterCellView extends CellView {
     public void create(float size, WinterCell cell) {
         this.size = size;
         this.cell = cell;
+        this.cell.setOnChangePurposeListener(this);
         this.setLayoutParams(new RelativeLayout.LayoutParams((int)(size + 2f), (int)(size + 2f)));
         calculateGlobalValue(cell.getX(), cell.getY());
         setBackground();
@@ -57,7 +58,7 @@ public class WinterCellView extends CellView {
     }
 
     protected void setBackground() {
-        if(cell.getPurpose() == WinterCell.PurposeCell.EMPTY) {
+        if(cell.getPurpose() == WinterCell.PurposeCell.EMPTY || cell.getPurpose() == WinterCell.PurposeCell.ARROW) {
             boolean value = ((cell.getX() + cell.getY()) % 2) == 0;
             if(value) {
                 setBackground(context.getResources().getColor(R.color.cell_light));
@@ -68,6 +69,11 @@ public class WinterCellView extends CellView {
         if(cell.getPurpose() == WinterCell.PurposeCell.WALL) {
             setBackground(Color.TRANSPARENT);
         }
+    }
+
+    @Override
+    public void onChangePurpose() {
+        setBackground();
     }
 
     public void setBackground(int color) {

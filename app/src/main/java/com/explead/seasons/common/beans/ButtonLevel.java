@@ -33,8 +33,8 @@ public class ButtonLevel {
             installStatus(summer_current_level);
         }
         if(mode == Level.WINTER) {
-            int winter_current_level = ((LevelsActivity)context).getPref().getInt(Utils.WINTER_CURRENT_LEVEL, 1);
-            //winter_current_level = App.getWinterLevels().size();
+            //int winter_current_level = ((LevelsActivity)context).getPref().getInt(Utils.WINTER_CURRENT_LEVEL, 1);
+            int winter_current_level = App.getWinterLevels().size();
             installStatus(winter_current_level);
         }
     }

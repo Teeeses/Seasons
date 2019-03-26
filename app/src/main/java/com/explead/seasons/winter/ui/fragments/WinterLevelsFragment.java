@@ -31,7 +31,7 @@ public class WinterLevelsFragment extends LevelsFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_levels_winter, container, false);
 
-        snowfall = (SnowfallView) view.findViewById(R.id.snowfall);
+        snowfall = view.findViewById(R.id.snowfall);
         snowfall.startAnimation();
 
         soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
@@ -44,10 +44,12 @@ public class WinterLevelsFragment extends LevelsFragment {
         });
 
 
-        gvMain = (GridView) view.findViewById(R.id.gvMain);
+        gvDecember = view.findViewById(R.id.gvDecember);
+        gvJanuary = view.findViewById(R.id.gvJanuary);
+        gvFebruary = view.findViewById(R.id.gvFebruary);
         createButtons(App.getWinterLevels().size(), Level.WINTER);
 
-        ImageView bottomImage = (ImageView) view.findViewById(R.id.bottomImage);
+        ImageView bottomImage = view.findViewById(R.id.bottomImage);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) App.getWidthScreen(), (int)(App.getWidthScreen()*0.646f));
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         bottomImage.setLayoutParams(params);

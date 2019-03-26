@@ -1,5 +1,7 @@
-package com.explead.seasons.winter.ui.winter_views.cubes;
+package com.explead.seasons.winter.ui.winter_views;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -9,11 +11,17 @@ import android.widget.RelativeLayout;
 
 import com.explead.seasons.common.beans.GetIds;
 import com.explead.seasons.common.ui.CellView;
+import com.explead.seasons.winter.interfaces.OnMoveCubeListener;
 import com.explead.seasons.winter.logic.WinterCube;
 
-public class CubeView extends CellView implements WinterCube.OnMoveListener {
+import java.util.ArrayList;
+
+public class CubeView extends CellView implements OnMoveCubeListener {
 
     protected WinterCube cell;
+    private ArrayList<ValueAnimator> animationQueue = new ArrayList<>();
+
+    private final int DURATION = 300;
 
     public CubeView(Context context) {
         super(context);
@@ -44,39 +52,31 @@ public class CubeView extends CellView implements WinterCube.OnMoveListener {
     }
 
     @Override
-    public void onUp(int x, int y) {
-        float from = coordinateToGlobal(cell.getX());
-        float to = coordinateToGlobal(x);
+    public void onUp(int from_, int to_) {
+        float from = coordinateToGlobal(from_);
+        float to = coordinateToGlobal(to_);
         setAnimationFromPointToPoint(from, to, "up");
-        cell.setX(x);
-        cell.setY(y);
     }
 
     @Override
-    public void onDown(int x, int y) {
-        float from = coordinateToGlobal(cell.getX());
-        float to = coordinateToGlobal(x);
+    public void onDown(int from_, int to_) {
+        float from = coordinateToGlobal(from_);
+        float to = coordinateToGlobal(to_);
         setAnimationFromPointToPoint(from, to, "down");
-        cell.setX(x);
-        cell.setY(y);
     }
 
     @Override
-    public void onRight(int x, int y) {
-        float from = coordinateToGlobal(cell.getY());
-        float to = coordinateToGlobal(y);
+    public void onRight(int from_, int to_) {
+        float from = coordinateToGlobal(from_);
+        float to = coordinateToGlobal(to_);
         setAnimationFromPointToPoint(from, to, "right");
-        cell.setX(x);
-        cell.setY(y);
     }
 
     @Override
-    public void onLeft(int x, int y) {
-        float from = coordinateToGlobal(cell.getY());
-        float to = coordinateToGlobal(y);
+    public void onLeft(int from_, int to_) {
+        float from = coordinateToGlobal(from_);
+        float to = coordinateToGlobal(to_);
         setAnimationFromPointToPoint(from, to, "left");
-        cell.setX(x);
-        cell.setY(y);
     }
 
     public void setAnimationFromPointToPoint(float from, float to, final String direction) {
@@ -94,8 +94,28 @@ public class CubeView extends CellView implements WinterCube.OnMoveListener {
                 }
             }
         });
+        valueAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                animationQueue.remove(0);
+                if(animationQueue.size() != 0) {
+                    animationQueue.get(0).start();
+                } else {
+                    cell.setMOVE(false);
+                }
+            }
+        });
+        valueAnimator.setDuration(DURATION);
 
-        valueAnimator.setDuration(200);
-        valueAnimator.start();
+        if(animationQueue.size() == 0) {
+            cell.setMOVE(true);
+            valueAnimator.start();
+        }
+        animationQueue.add(valueAnimator);
+    }
+
+    public WinterCube getCell() {
+        return cell;
     }
 }

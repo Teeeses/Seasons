@@ -2,7 +2,6 @@ package com.explead.seasons.winter;
 
 import com.explead.seasons.common.beans.LevelContainer;
 import com.explead.seasons.common.logic.ContainerCells;
-import com.explead.seasons.winter.logic.WinterCell;
 
 import java.util.ArrayList;
 

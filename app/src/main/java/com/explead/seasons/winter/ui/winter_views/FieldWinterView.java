@@ -5,12 +5,11 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import com.explead.seasons.common.app.App;
-import com.explead.seasons.winter.logic.WinterCell;
 import com.explead.seasons.winter.logic.FieldWinter;
+import com.explead.seasons.winter.logic.WinterArrow;
+import com.explead.seasons.winter.logic.WinterCell;
 import com.explead.seasons.winter.logic.WinterCube;
 import com.explead.seasons.winter.logic.WinterInsideCube;
-import com.explead.seasons.winter.ui.winter_views.cubes.CubeView;
-import com.explead.seasons.winter.ui.winter_views.cubes.InsideCubeView;
 
 import java.util.ArrayList;
 
@@ -64,6 +63,13 @@ public class FieldWinterView extends RelativeLayout {
                 WinterCellView winterCellView = new WinterCellView(context);
                 winterCellView.create(sizeCell, field[i][j]);
                 this.addView(winterCellView);
+
+                if(field[i][j].getPurpose() == WinterCell.PurposeCell.ARROW) {
+                    WinterArrowView winterArrowView = new WinterArrowView(context);
+                    WinterArrow arrow = new WinterArrow(i, j, field[i][j].getDirection().getId());
+                    winterArrowView.create(sizeCell, arrow);
+                    this.addView(winterArrowView);
+                }
             }
         }
 

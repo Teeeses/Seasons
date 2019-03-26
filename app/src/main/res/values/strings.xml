@@ -6,6 +6,10 @@
     <string name="control">Управление</string>
     <string name="delete">Удалить</string>
 
+    <string name="december">Декабрь</string>
+    <string name="january">Январь</string>
+    <string name="february">Февраль</string>
+
     <string name="winter_help_text">Посмотри-ка, кубики стоят не на своих местах. Давай это исправим!\n\nКубики двигаются парой, передвигай их в нужном направлении.\n\nПоставь их так, что бы серединка соответствовала основному цвету кубика.</string>
     <string name="summer_help_text">Все просто!\nПопробуй соединить кубики одного цвета между собой.\n\n Для этого зажми и веди выбранный кубик к его паре. </string>
 
