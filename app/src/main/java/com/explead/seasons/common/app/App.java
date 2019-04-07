@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.explead.seasons.common.beans.LevelContainer;
 import com.explead.seasons.summer.SummerLevels;
-import com.explead.seasons.winter.WinterLevels;
 
 import java.util.ArrayList;
 
