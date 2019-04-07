@@ -2,6 +2,7 @@ package com.explead.seasons.common.app;
 
 import android.app.Application;
 
+import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.beans.LevelContainer;
 import com.explead.seasons.summer.SummerLevels;
 
@@ -16,22 +17,12 @@ public class App extends Application{
     private static float widthScreen;
     private static float heightScreen;
 
-    private static ArrayList<LevelContainer> winterLevels;
-    private static ArrayList<LevelContainer> summerLevels;
+    private static AllLevels levels;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        winterLevels = new WinterLevels().getLevels();
-        summerLevels = new SummerLevels().getLevels();
-    }
-
-    public static ArrayList<LevelContainer> getWinterLevels() {
-        return winterLevels;
-    }
-
-    public static ArrayList<LevelContainer> getSummerLevels() {
-        return summerLevels;
+        levels = new AllLevels();
     }
 
     public static float getWidthScreen() {
