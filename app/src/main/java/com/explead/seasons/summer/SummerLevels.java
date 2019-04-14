@@ -20,7 +20,7 @@ public class SummerLevels {
         int[][] mass;
         ArrayList<ContainerCells> container;
 
-
+        /*
         mass = new int[][] {
                 {0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0},

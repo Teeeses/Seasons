@@ -1,57 +1,47 @@
-<RelativeLayout
+<android.support.constraint.ConstraintLayout android:id="@+id/levelLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:padding="@dimen/standard_margin"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        android:id="@+id/levelLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" >
 
         <ImageView
             android:id="@+id/ivLevel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="false"
-            android:layout_centerInParent="true" />
+            android:adjustViewBounds="true"
+            android:src="@drawable/circle_winter_level" />
 
         <TextView
             android:id="@+id/tvLevel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="@dimen/big_text"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:gravity="center"/>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/starsLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/more_standard_margin"
-        android:layout_below="@+id/levelLayout"
-        android:layout_marginTop="@dimen/radius"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textStyle="bold"/>
 
         <ImageView
             android:id="@+id/ivStar_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/empty_start"
+            android:layout_width="@dimen/size_star"
+            android:layout_height="@dimen/size_star"
+            android:src="@drawable/star"
             android:adjustViewBounds="true"
-            android:layout_marginRight="@dimen/radius"/>
+            app:layout_constraintCircle="@+id/ivLevel"
+            app:layout_constraintCircleAngle="295"
+            app:layout_constraintCircleRadius="36dp"/>
 
         <ImageView
             android:id="@+id/ivStart_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/empty_start"
+            android:layout_width="@dimen/size_star"
+            android:layout_height="@dimen/size_star"
+            android:src="@drawable/star"
             android:adjustViewBounds="true"
-            android:layout_marginLeft="@dimen/radius"/>
-    </LinearLayout>
+            app:layout_constraintCircle="@+id/ivLevel"
+            app:layout_constraintCircleAngle="335"
+            app:layout_constraintCircleRadius="36dp"/>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.explead.seasons.winter.logic;
 
 import com.explead.seasons.common.app.App;
+import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.beans.LevelContainer;
 import com.explead.seasons.common.logic.Cell;
 import com.explead.seasons.common.logic.ContainerCells;
@@ -21,15 +22,15 @@ public class FieldWinter {
 
     private OnControllerListener onControllerListener;
 
-    private static final char EMPTY_CELL = 'O', WALL_CELL = 'X';
+    private static final char EMPTY_CELL = '0', WALL_CELL = 'x';
 
     private int level;
     private WinterCell[][] field;
     private ArrayList<WinterCube> cubes = new ArrayList<>();
 
-    public FieldWinter(int level) {
+    public FieldWinter(int level, AllLevels.Month month, AllLevels.Complication complication) {
         this.level = level;
-        LevelContainer container = App.getWinterLevels().get(level - 1);
+        LevelContainer container = App.getLevels().get(level - 1, month, complication);
         createField(container.getCopyField());
         addActionCellsOnField(container.getCopyCells());
     }

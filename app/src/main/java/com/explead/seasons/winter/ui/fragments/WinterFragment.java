@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import com.explead.screenmovementfinger.WinterMovementFinger;
 import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;
+import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.dialogs.DialogWinterHelp;
 import com.explead.seasons.common.dialogs.DialogWinterWin;
+import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.common.ui.fragments.GameFragment;
 import com.explead.seasons.winter.logic.FieldWinter;
 import com.explead.seasons.winter.ui.WinterGameBar;
@@ -35,6 +37,9 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
     private SoundPool soundPool;
 
+    private AllLevels.Month month;
+    private AllLevels.Complication complication = AllLevels.Complication.EASY;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_winter, container, false);
@@ -46,9 +51,9 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         snowfall = view.findViewById(R.id.snowfall);
         snowfall.setPeriodicityCreateSnowflake(400, 800);
         snowfall.setPeriodicityCreateCloud(15000);
-        snowfall.startAnimation();
 
         level = getArguments().getInt("level");
+        month = (AllLevels.Month) getArguments().get("month");
         if(level == 1) {
             openHelpDialog();
         }
@@ -58,7 +63,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
         fieldView = view.findViewById(R.id.fieldView);
 
-        startGame(level);
+        startGame(level, month, complication);
 
         WinterMovementFinger winterMovementFinger = new WinterMovementFinger(onSideFingerMovementCallback);
         winterMovementFinger.setTouchView(view);
@@ -70,22 +75,22 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
             new WinterMovementFinger.OnSideFingerMovementCallback() {
         @Override
         public void onUp() {
-            fieldWinter.moveUp();
+            fieldWinter.move(Direction.U);
         }
 
         @Override
         public void onDown() {
-            fieldWinter.moveDown();
+            fieldWinter.move(Direction.D);
         }
 
         @Override
         public void onRight() {
-            fieldWinter.moveRight();
+            fieldWinter.move(Direction.R);
         }
 
         @Override
         public void onLeft() {
-            fieldWinter.moveLeft();
+            fieldWinter.move(Direction.L);
         }
     };
 
@@ -102,7 +107,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     @Override
     public void onRestart() {
         fieldView.clearField();
-        startGame(level);
+        startGame(level, month, complication);
     }
 
     @Override
@@ -121,7 +126,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         @Override
         public void onNextLevel() {
             level++;
-            startGame(level);
+            startGame(level, month, AllLevels.Complication.EASY);
         }
     };
 
@@ -132,7 +137,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(App.getWinterLevels().size() > level) {
+                if(month.getDeis() > level) {
                     DialogWinterWin dialog = new DialogWinterWin(activity, onDialogCompletionListener);
                     dialog.show();
                 }
@@ -140,15 +145,29 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         }, 500);
     }
 
-    public void startGame(int level) {
+    public void startGame(int level, AllLevels.Month month, AllLevels.Complication complication) {
         bar.setNumberLevel(level);
 
-        fieldWinter = new FieldWinter(level);
+        fieldWinter = new FieldWinter(level, month, complication);
         fieldWinter.setOnControllerListener(this);
         fieldView.setFieldWinter(fieldWinter);
 
         fieldView.clearField();
         fieldView.createField();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(snowfall != null)
+            snowfall.startAnimation();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(snowfall != null)
+            snowfall.stopAnimation();
     }
 
     @Override

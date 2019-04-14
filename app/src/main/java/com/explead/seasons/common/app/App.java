@@ -25,6 +25,10 @@ public class App extends Application{
         levels = new AllLevels();
     }
 
+    public static AllLevels getLevels() {
+        return levels;
+    }
+
     public static float getWidthScreen() {
         return widthScreen;
     }

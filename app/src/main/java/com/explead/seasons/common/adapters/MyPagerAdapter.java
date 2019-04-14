@@ -13,7 +13,7 @@ import com.explead.seasons.winter.ui.fragments.WinterLevelsFragment;
 public class MyPagerAdapter extends FragmentPagerAdapter {
 
     private Fragment[] fragments = {
-            new WinterLevelsFragment(), new SummerLevelsFragment()
+            new WinterLevelsFragment()
     };
 
     public MyPagerAdapter(FragmentManager fragmentManager) {

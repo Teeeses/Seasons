@@ -27,9 +27,9 @@ public class FieldSummer implements Route.OnRouteListener {
 
     public FieldSummer(int level) {
         this.level = level;
-        LevelContainer container = App.getSummerLevels().get(level - 1);
-        createField(container.getCopyField());
-        addActionCellsOnField(container.getCopyCells());
+        //LevelContainer container = App.getSummerLevels().get(level - 1);
+        //createField(container.getCopyField());
+        //addActionCellsOnField(container.getCopyCells());
     }
 
     private void createField(int[][] mass) {

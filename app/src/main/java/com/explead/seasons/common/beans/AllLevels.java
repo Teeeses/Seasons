@@ -9,6 +9,30 @@ import java.util.ArrayList;
 
 public class AllLevels {
 
+    public enum Month {
+        DECEMBER(12, 31), JANUARY(1, 31);
+
+        private int id;
+        private int dais;
+
+        Month(int id, int dais) {
+            this.id = id;
+            this.dais = dais;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public int getDeis() {
+            return dais;
+        }
+    }
+
+    public enum Complication {
+        EASY, HARD;
+    }
+
     private ArrayList<LevelContainer> decemberEasyLevels;
     private ArrayList<LevelContainer> decemberHardLevels;
 
@@ -23,6 +47,25 @@ public class AllLevels {
         januaryHardLevels = new JanuaryHardLevels().getLevels();
     }
 
+    public LevelContainer get(int level, Month month, Complication complication) {
+        LevelContainer container = null;
+        if(complication == Complication.EASY) {
+            if(month == Month.DECEMBER) {
+                container = decemberEasyLevels.get(level);
+            }
+            if(month == Month.JANUARY) {
+                container = januaryEasyLevels.get(level);
+            }
+        } else {
+            if(month == Month.DECEMBER) {
+                container =  decemberHardLevels.get(level);
+            }
+            if(month == Month.JANUARY) {
+                container = januaryHardLevels.get(level);
+            }
+        }
+        return container;
+    }
 
     public ArrayList<LevelContainer> getDecemberEasyLevels() {
         return decemberEasyLevels;

@@ -10,11 +10,14 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.beans.Level;
 import com.explead.seasons.common.ui.fragments.LevelsFragment;
+import com.explead.seasons.common.utils.Utils;
 import com.explead.seasons.winter.ui.winter_views.SnowfallView;
 
 /**
@@ -43,11 +46,17 @@ public class WinterLevelsFragment extends LevelsFragment {
             }
         });
 
+        TextView tvDecember = view.findViewById(R.id.tvDecember);
+        tvDecember.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
+        TextView tvJanuary = view.findViewById(R.id.tvJanuary);
+        tvJanuary.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
+
+        ScrollView scroll = view.findViewById(R.id.scroll);
+        scroll.smoothScrollTo(0, 0);
 
         gvDecember = view.findViewById(R.id.gvDecember);
         gvJanuary = view.findViewById(R.id.gvJanuary);
-        gvFebruary = view.findViewById(R.id.gvFebruary);
-        createButtons(App.getWinterLevels().size(), Level.WINTER);
+        createButtons();
 
         ImageView bottomImage = view.findViewById(R.id.bottomImage);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) App.getWidthScreen(), (int)(App.getWidthScreen()*0.646f));

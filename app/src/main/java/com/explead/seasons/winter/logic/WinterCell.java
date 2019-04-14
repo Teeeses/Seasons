@@ -53,16 +53,16 @@ public class WinterCell extends Cell {
 
     public void findDirection(char id) {
         switch (id) {
-            case 'U':
+            case 'u':
                 direction = Direction.U;
                 break;
-            case 'R':
+            case 'r':
                 direction = Direction.R;
                 break;
-            case 'D':
+            case 'd':
                 direction = Direction.D;
                 break;
-            case 'L':
+            case 'l':
                 direction = Direction.L;
                 break;
         }

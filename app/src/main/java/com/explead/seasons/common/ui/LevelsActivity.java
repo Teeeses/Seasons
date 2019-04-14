@@ -8,15 +8,12 @@ import android.util.DisplayMetrics;
 import com.explead.seasons.R;
 import com.explead.seasons.common.adapters.MyPagerAdapter;
 import com.explead.seasons.common.app.App;
+import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.utils.Utils;
 
 import github.chenupt.springindicator.viewpager.ScrollerViewPager;
 
 public class LevelsActivity extends BaseActivity {
-
-    private ScrollerViewPager viewPager;
-    private MyPagerAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +26,18 @@ public class LevelsActivity extends BaseActivity {
         App.setWidthScreen(displaymetrics.widthPixels);
         App.setHeightScreen(displaymetrics.heightPixels);
 
-        viewPager = (ScrollerViewPager) findViewById(R.id.view_pager);
+        ScrollerViewPager viewPager = findViewById(R.id.view_pager);
 
-        adapter = new MyPagerAdapter(getSupportFragmentManager());
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.fixScrollSpeed();
 
     }
 
-    public void openGameActivity(int mode, int level) {
+    public void openGameActivity(int level, AllLevels.Month month) {
         Intent intent = new Intent(LevelsActivity.this, MainActivity.class);
-        intent.putExtra("mode", mode);
         intent.putExtra("level", level);
+        intent.putExtra("month", month);
         startActivity(intent);
     }
 }

@@ -6,18 +6,10 @@ package com.explead.seasons.common.beans;
 
 public class Level {
 
-    public static int SUMMER = 0, WINTER = 1;
-    private int mode;
-
     private int level;
 
-    public Level(int mode, int level) {
-        this.mode = mode;
+    public Level(int level) {
         this.level = level;
-    }
-
-    public int getMode() {
-        return mode;
     }
 
     public int getLevel() {
