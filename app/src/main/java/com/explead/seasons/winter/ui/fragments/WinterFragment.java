@@ -8,11 +8,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.explead.screenmovementfinger.WinterMovementFinger;
 import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.beans.AllLevels;
+import com.explead.seasons.common.dialogs.DialogHardIsClosed;
+import com.explead.seasons.common.dialogs.DialogLevelCompletion;
 import com.explead.seasons.common.dialogs.DialogWinterHelp;
 import com.explead.seasons.common.dialogs.DialogWinterWin;
 import com.explead.seasons.common.logic.Direction;
@@ -40,6 +43,9 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     private AllLevels.Month month;
     private AllLevels.Complication complication = AllLevels.Complication.EASY;
 
+    private RelativeLayout containerEasyLevel;
+    private RelativeLayout containerHardLevel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_winter, container, false);
@@ -47,6 +53,11 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         soundPool.load(getActivity(), R.raw.sound_win, 1);
         soundPool.load(getActivity(), R.raw.sound_move_cube, 2);
+
+        containerEasyLevel = view.findViewById(R.id.containerEasyLevel);
+        containerEasyLevel.setOnClickListener(changeOnEasy);
+        containerHardLevel = view.findViewById(R.id.containerHardLevel);
+        containerHardLevel.setOnClickListener(changeOnHard);
 
         snowfall = view.findViewById(R.id.snowfall);
         snowfall.setPeriodicityCreateSnowflake(400, 800);
@@ -156,6 +167,34 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         fieldView.clearField();
         fieldView.createField();
     }
+
+    private View.OnClickListener changeOnEasy = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(complication == AllLevels.Complication.HARD) {
+                containerEasyLevel.setVisibility(View.GONE);
+                containerHardLevel.setVisibility(View.VISIBLE);
+                complication = AllLevels.Complication.EASY;
+                startGame(level, month, complication);
+            }
+        }
+    };
+
+    private View.OnClickListener changeOnHard = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(!App.getSaverSpref().isLevelCompliated(month, level)) {
+                DialogHardIsClosed dialogHardClosed = new DialogHardIsClosed(getActivity());
+                dialogHardClosed.show();
+            }
+            else if(complication == AllLevels.Complication.EASY) {
+                containerHardLevel.setVisibility(View.GONE);
+                containerEasyLevel.setVisibility(View.VISIBLE);
+                complication = AllLevels.Complication.HARD;
+                startGame(level, month, complication);
+            }
+        }
+    };
 
     @Override
     public void onResume() {
