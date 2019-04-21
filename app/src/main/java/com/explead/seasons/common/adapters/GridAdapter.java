@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.explead.seasons.R;
+import com.explead.seasons.common.app.App;
+import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.beans.ButtonLevel;
 import com.explead.seasons.common.utils.Utils;
 
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 public class GridAdapter extends BaseAdapter {
 
     public interface OnLevelListener {
-        void onClickLevel(int level);
+        void onClickLevel(int level, AllLevels.Month month);
         void onLevelIsClose(int level);
     }
 
@@ -39,33 +41,34 @@ public class GridAdapter extends BaseAdapter {
     private Drawable star;
     private Drawable emptyStar;
 
-    public GridAdapter(Context context, int size, OnLevelListener onLevelListener){
+    private AllLevels.Month month;
+
+    private int sizeImage;
+    private int circuleRadiusStar;
+
+    public GridAdapter(Context context, ArrayList<ButtonLevel> array, AllLevels.Month month, OnLevelListener onLevelListener){
         this.context = context;
         this.onLevelListener = onLevelListener;
-        this.array.addAll(create(size));
+        this.month = month;
+        this.array.clear();
+        this.array.addAll(array);
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        sizeImage = (int)(App.getWidthScreen() - context.getResources().getDimension(R.dimen.standard_margin)*8)/3;
+        circuleRadiusStar = (int)(sizeImage/2.2f);
         imageOpen = context.getResources().getDrawable(R.drawable.circle_winter_level);
         imageClose = context.getResources().getDrawable(R.drawable.circle_closed);
         star = context.getResources().getDrawable(R.drawable.star);
         emptyStar = context.getResources().getDrawable(R.drawable.empty_start);
     }
 
-    private ArrayList<ButtonLevel> create(int size) {
-        ArrayList<ButtonLevel> array = new ArrayList<>();
-        for(int i = 0; i < size; i++) {
-            array.add(new ButtonLevel(i + 1));
-        }
-        refreshStatus();
-        return array;
-    }
-
     public void refreshStatus() {
-        //TODO: исправить на текущий открытый уровень
-        //int current = ((LevelsActivity)context).getPref().getInt(Utils.WINTER_CURRENT_LEVEL, 1);
-        int current = 31;
+        ArrayList<Integer> easyArray = App.getSaverSpref().getArray(month, AllLevels.Complication.EASY);
+        ArrayList<Integer> hardArray = App.getSaverSpref().getArray(month, AllLevels.Complication.HARD);
         for(int i = 0; i < array.size(); i++) {
-            array.get(i).installStatus(current);
+            int numberLevel = array.get(i).getNumber();
+            boolean isEasy = easyArray.contains(numberLevel);
+            boolean isHard = hardArray.contains(numberLevel);
+            array.get(i).installStatus(easyArray.size(), isEasy, isHard);
         }
         notifyDataSetChanged();
     }
@@ -78,9 +81,18 @@ public class GridAdapter extends BaseAdapter {
 
             viewHolder.levelLayout = convertView.findViewById(R.id.levelLayout);
             viewHolder.ivLevel = convertView.findViewById(R.id.ivLevel);
+            viewHolder.levelLayout.setLayoutParams(new ConstraintLayout.LayoutParams(sizeImage, sizeImage));
             viewHolder.ivStar1 = convertView.findViewById(R.id.ivStar_1);
             viewHolder.ivStar2 = convertView.findViewById(R.id.ivStart_2);
             viewHolder.tvLevel = convertView.findViewById(R.id.tvLevel);
+
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)viewHolder.ivStar1.getLayoutParams();
+            params.circleRadius = circuleRadiusStar;
+            viewHolder.ivStar1.setLayoutParams(params);
+
+            ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams)viewHolder.ivStar2.getLayoutParams();
+            params.circleRadius = circuleRadiusStar;
+            viewHolder.ivStar2.setLayoutParams(params2);
 
             viewHolder.tvLevel.setTypeface(Utils.getTypeFaceLevel(context.getAssets()));
             convertView.setTag(viewHolder);
@@ -91,32 +103,20 @@ public class GridAdapter extends BaseAdapter {
         final ButtonLevel buttonLevel = (ButtonLevel) getItem(position);
         viewHolder.tvLevel.setText(Integer.toString(buttonLevel.getNumber()));
         if(buttonLevel.getStatus() == ButtonLevel.STATUS_CURRENT) {
-            viewHolder.ivLevel.setBackgroundDrawable(imageOpen);
-            viewHolder.tvLevel.setVisibility(View.VISIBLE);
-            viewHolder.ivStar1.setVisibility(View.INVISIBLE);
-            viewHolder.ivStar2.setVisibility(View.INVISIBLE);
-            viewHolder.ivStar1.setBackgroundDrawable(emptyStar);
+            setStateLevel(imageOpen, View.VISIBLE, buttonLevel.isEasyCompleted(), buttonLevel.isHardCompleted());
         }
         if(buttonLevel.getStatus() == ButtonLevel.STATUS_OPEN) {
-            viewHolder.ivLevel.setBackgroundDrawable(imageOpen);
-            viewHolder.tvLevel.setVisibility(View.VISIBLE);
-            viewHolder.ivStar1.setVisibility(View.VISIBLE);
-            viewHolder.ivStar2.setVisibility(View.VISIBLE);
-            viewHolder.ivStar1.setBackgroundDrawable(star);
+            setStateLevel(imageOpen, View.VISIBLE, buttonLevel.isEasyCompleted(), buttonLevel.isHardCompleted());
         }
         if(buttonLevel.getStatus() == ButtonLevel.STATUS_CLOSE) {
-            viewHolder.ivLevel.setBackgroundDrawable(imageClose);
-            viewHolder.tvLevel.setVisibility(View.GONE);
-            viewHolder.ivStar1.setVisibility(View.INVISIBLE);
-            viewHolder.ivStar2.setVisibility(View.INVISIBLE);
-            viewHolder.ivStar1.setBackgroundDrawable(emptyStar);
+            setStateLevel(imageClose, View.INVISIBLE, buttonLevel.isEasyCompleted(), buttonLevel.isHardCompleted());
         }
 
         viewHolder.levelLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(buttonLevel.getStatus() == ButtonLevel.STATUS_OPEN || buttonLevel.getStatus() == ButtonLevel.STATUS_CURRENT) {
-                    onLevelListener.onClickLevel(buttonLevel.getNumber());
+                    onLevelListener.onClickLevel(buttonLevel.getNumber(), month);
                 } else {
                     onLevelListener.onLevelIsClose(buttonLevel.getNumber());
                 }
@@ -124,6 +124,25 @@ public class GridAdapter extends BaseAdapter {
         });
 
         return convertView;
+    }
+
+    private void setStateLevel(Drawable image, int tvVisible, boolean isEmpty, boolean isHard) {
+        viewHolder.ivLevel.setBackgroundDrawable(image);
+        viewHolder.tvLevel.setVisibility(tvVisible);
+        if(isEmpty) {
+            viewHolder.ivStar1.setVisibility(View.VISIBLE);
+            viewHolder.ivStar1.setBackgroundDrawable(star);
+        } else {
+            viewHolder.ivStar1.setVisibility(View.INVISIBLE);
+            viewHolder.ivStar1.setBackgroundDrawable(emptyStar);
+        }
+        if(isHard) {
+            viewHolder.ivStar2.setVisibility(View.VISIBLE);
+            viewHolder.ivStar2.setBackgroundDrawable(star);
+        } else {
+            viewHolder.ivStar2.setVisibility(View.INVISIBLE);
+            viewHolder.ivStar2.setBackgroundDrawable(emptyStar);
+        }
     }
 
     @Override

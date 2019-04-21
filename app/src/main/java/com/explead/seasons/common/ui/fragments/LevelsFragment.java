@@ -1,24 +1,31 @@
 package com.explead.seasons.common.ui.fragments;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.widget.GridView;
-import android.widget.Toast;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.adapters.GridAdapter;
-import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.beans.ButtonLevel;
 import com.explead.seasons.common.ui.CustomGridView;
 import com.explead.seasons.common.ui.LevelsActivity;
+import com.explead.seasons.common.utils.Utils;
 
 import java.util.ArrayList;
+
+import static com.explead.seasons.common.beans.AllLevels.Month.DECEMBER;
+import static com.explead.seasons.common.beans.AllLevels.Month.JANUARY;
 
 /**
  * Created by develop on 15.12.2016.
  */
-public class LevelsFragment extends Fragment {
+public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListener {
+
+    protected View view;
 
     protected LevelsActivity activity;
     protected CustomGridView gvDecember;
@@ -26,41 +33,56 @@ public class LevelsFragment extends Fragment {
     protected GridAdapter decemberAdapter;
     protected GridAdapter januaryAdapter;
 
+    private Snackbar sbLevelClosed;
+
     public void createButtons() {
-        createDecemberGrid();
-        createJanuaryGrid();
-    }
-
-    private void createDecemberGrid() {
-        decemberAdapter = new GridAdapter(activity, App.getLevels().getDecemberEasyLevels().size(), new GridAdapter.OnLevelListener() {
-            @Override
-            public void onClickLevel(int level) {
-                activity.openGameActivity(level, AllLevels.Month.DECEMBER);
-            }
-
-            @Override
-            public void onLevelIsClose(int number) {
-                Toast.makeText(activity, activity.getResources().getString(R.string.level_is_close), Toast.LENGTH_SHORT).show();
-            }
-        });
+        decemberAdapter = createGrid(DECEMBER);
         gvDecember.setAdapter(decemberAdapter);
         gvDecember.setNumColumns(3);
-    }
 
-    private void createJanuaryGrid() {
-        januaryAdapter = new GridAdapter(activity, App.getLevels().getJanuaryEasyLevels().size(), new GridAdapter.OnLevelListener() {
-            @Override
-            public void onClickLevel(int level) {
-                activity.openGameActivity(level, AllLevels.Month.JANUARY);
-            }
-
-            @Override
-            public void onLevelIsClose(int number) {
-                Toast.makeText(activity, activity.getResources().getString(R.string.level_is_close), Toast.LENGTH_SHORT).show();
-            }
-        });
+        januaryAdapter = createGrid(JANUARY);
         gvJanuary.setAdapter(januaryAdapter);
         gvJanuary.setNumColumns(3);
+
+        createSB();
+    }
+
+    private void createSB() {
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                sbLevelClosed = Snackbar.make(view, activity.getResources().getString(R.string.level_is_close), Snackbar.LENGTH_SHORT);
+                View view = sbLevelClosed.getView();
+                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                tv.setGravity(Gravity.CENTER_HORIZONTAL);
+                tv.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
+            }
+        });
+    }
+
+    private GridAdapter createGrid(final AllLevels.Month month) {
+        return new GridAdapter(activity, create(month), month, this);
+    }
+
+    @Override
+    public void onClickLevel(int level, AllLevels.Month month) {
+        activity.openGameActivity(level, month);
+    }
+
+    @Override
+    public void onLevelIsClose(int number) {
+        if(!sbLevelClosed.isShown()) {
+            sbLevelClosed.show();
+        }
+    }
+
+    private ArrayList<ButtonLevel> create(AllLevels.Month month) {
+        ArrayList<ButtonLevel> array = new ArrayList<>();
+        for(int i = 0; i < month.getDeis(); i++) {
+            array.add(new ButtonLevel(i + 1));
+        }
+        return array;
     }
 
     @Override
