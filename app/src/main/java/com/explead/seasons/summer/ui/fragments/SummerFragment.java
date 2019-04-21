@@ -103,7 +103,7 @@ public class SummerFragment extends GameFragment implements FieldSummerView.OnGa
 
     @Override
     public void onWin() {
-        activity.setCurrentSummerLevel(level);
+        //activity.setCurrentSummerLevel(level);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

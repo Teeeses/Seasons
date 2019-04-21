@@ -127,13 +127,14 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         public void onNextLevel() {
             level++;
             startGame(level, month, AllLevels.Complication.EASY);
+            complication = AllLevels.Complication.EASY;
         }
     };
 
     @Override
     public void onWin() {
+        App.getSaverSpref().saveCurrentLevel(level, month, complication);
         soundPool.play(1, 1f, 1f, 1, 0, 1f);
-        activity.setCurrentWinterLevel(level);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

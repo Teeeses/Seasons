@@ -10,7 +10,11 @@ import android.graphics.Typeface;
 public class Utils {
 
     public final static String SUMMER_CURRENT_LEVEL = "summer_current_level";
-    public final static String WINTER_CURRENT_LEVEL = "winter_current_level";
+
+    public final static String DECEMBER_EASY = "december_easy";
+    public final static String DECEMBER_HARD = "december_hard";
+    public final static String JANUARY_EASY = "january_easy";
+    public final static String JANUARY_HARD = "january_hard";
 
     public static final String APP_PREFERENCES = "mysettings";
 

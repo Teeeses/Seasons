@@ -1,6 +1,5 @@
 package com.explead.seasons.common.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -9,7 +8,6 @@ import com.explead.seasons.R;
 import com.explead.seasons.common.adapters.MyPagerAdapter;
 import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.beans.AllLevels;
-import com.explead.seasons.common.utils.Utils;
 
 import github.chenupt.springindicator.viewpager.ScrollerViewPager;
 
@@ -19,8 +17,6 @@ public class LevelsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levels);
-
-        sPref = getSharedPreferences(Utils.APP_PREFERENCES, Context.MODE_PRIVATE);
 
         DisplayMetrics displaymetrics = getResources().getDisplayMetrics();
         App.setWidthScreen(displaymetrics.widthPixels);

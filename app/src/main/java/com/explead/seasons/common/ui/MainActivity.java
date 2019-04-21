@@ -21,8 +21,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sPref = getSharedPreferences(Utils.APP_PREFERENCES, Context.MODE_PRIVATE);
-
         int level = getIntent().getExtras().getInt("level");
         AllLevels.Month month = (AllLevels.Month)getIntent().getExtras().get("month");
 
