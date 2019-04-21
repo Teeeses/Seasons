@@ -71,6 +71,10 @@ public class SaverSpref {
         return array.contains(currentLevel);
     }
 
+    public boolean isLevelCompliated(AllLevels.Month month, int level) {
+        return  isLevelInArray(level, getArray(month, AllLevels.Complication.EASY));
+    }
+
     private ArrayList<Integer> getArrayFromString(String str) {
         String replaceStr = str.replaceAll("[^0-9]+", " ");
         ArrayList<Integer> array = new ArrayList<>();
