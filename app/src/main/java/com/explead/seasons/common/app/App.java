@@ -18,11 +18,17 @@ public class App extends Application{
     private static float heightScreen;
 
     private static AllLevels levels;
+    private static SaverSpref saverSpref;
 
     @Override
     public void onCreate() {
         super.onCreate();
         levels = new AllLevels();
+        saverSpref = new SaverSpref(this);
+    }
+
+    public static SaverSpref getSaverSpref() {
+        return saverSpref;
     }
 
     public static AllLevels getLevels() {
