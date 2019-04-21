@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;
-import com.explead.seasons.common.beans.Level;
 import com.explead.seasons.common.ui.fragments.LevelsFragment;
 import com.explead.seasons.common.utils.Utils;
 import com.explead.seasons.winter.ui.winter_views.SnowfallView;
@@ -27,12 +25,11 @@ import com.explead.seasons.winter.ui.winter_views.SnowfallView;
 public class WinterLevelsFragment extends LevelsFragment {
 
     private SnowfallView snowfall;
-
     private SoundPool soundPool;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_levels_winter, container, false);
+        view = inflater.inflate(R.layout.fragment_levels_winter, container, false);
 
         snowfall = view.findViewById(R.id.snowfall);
         snowfall.startAnimation();
@@ -46,6 +43,7 @@ public class WinterLevelsFragment extends LevelsFragment {
             }
         });
 
+        //rootLayout = view.findViewById(R.id.rootLayout);
         TextView tvDecember = view.findViewById(R.id.tvDecember);
         tvDecember.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
         TextView tvJanuary = view.findViewById(R.id.tvJanuary);
@@ -65,5 +63,4 @@ public class WinterLevelsFragment extends LevelsFragment {
 
         return view;
     }
-
 }
