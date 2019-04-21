@@ -7,11 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.explead.seasons.R;
 
@@ -58,6 +60,14 @@ public class DialogWinterHelp extends Dialog {
             public void onAnimationRepeat(Animation arg0) {}
             @Override
             public void onAnimationStart(Animation arg0) {}
+        });
+
+        TextView tvClose = findViewById(R.id.tvClose);
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
         });
     }
 
