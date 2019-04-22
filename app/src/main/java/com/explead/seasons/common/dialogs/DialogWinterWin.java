@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.explead.seasons.R;
+import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.utils.Utils;
 
 public class DialogWinterWin extends Dialog {
@@ -22,16 +23,24 @@ public class DialogWinterWin extends Dialog {
 
     public interface OnDialogCompletionListener {
         void onMenu();
+        void onHardLevel();
         void onNextLevel();
     }
 
     private OnDialogCompletionListener mOnDialogCompletionListener;
 
     private Context context;
+    private AllLevels.Complication complication;
+    private AllLevels.Month month;
+    private int level;
 
-    public DialogWinterWin(@NonNull Context context, OnDialogCompletionListener mOnDialogCompletionListener) {
+    public DialogWinterWin(@NonNull Context context, OnDialogCompletionListener mOnDialogCompletionListener,
+                           AllLevels.Complication complication, AllLevels.Month month, int level) {
         super(context);
         this.context = context;
+        this.complication = complication;
+        this.month = month;
+        this.level = level;
         this.mOnDialogCompletionListener = mOnDialogCompletionListener;
     }
 
@@ -77,9 +86,25 @@ public class DialogWinterWin extends Dialog {
                 dismiss();
             }
         });
+        if(level >= month.getDeis()) {
+            btnNextLevel.setVisibility(View.GONE);
+        }
+
+        ImageView btnHardLevel = findViewById(R.id.btnHardLevel);
+        btnHardLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnDialogCompletionListener.onHardLevel();
+                dismiss();
+            }
+        });
+        if(complication == AllLevels.Complication.HARD) {
+            btnHardLevel.setVisibility(View.GONE);
+        }
 
         btnMenu.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_buttons_win));
         btnNextLevel.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_buttons_win));
+        btnHardLevel.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_buttons_win));
     }
 
     @Override

@@ -44,7 +44,7 @@ public class GridAdapter extends BaseAdapter {
     private AllLevels.Month month;
 
     private int sizeImage;
-    private int circuleRadiusStar;
+    private int circuleRadiusOneStar;
 
     public GridAdapter(Context context, ArrayList<ButtonLevel> array, AllLevels.Month month, OnLevelListener onLevelListener){
         this.context = context;
@@ -53,8 +53,8 @@ public class GridAdapter extends BaseAdapter {
         this.array.clear();
         this.array.addAll(array);
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        sizeImage = (int)(App.getWidthScreen() - context.getResources().getDimension(R.dimen.standard_margin)*8)/3;
-        circuleRadiusStar = (int)(sizeImage/2.2f);
+        sizeImage = (int)((App.getWidthScreen() - context.getResources().getDimension(R.dimen.standard_margin)*8)/2.6f);
+        circuleRadiusOneStar = (int)(sizeImage/2.6f);
         imageOpen = context.getResources().getDrawable(R.drawable.circle_winter_level);
         imageClose = context.getResources().getDrawable(R.drawable.circle_closed);
         star = context.getResources().getDrawable(R.drawable.star);
@@ -87,11 +87,11 @@ public class GridAdapter extends BaseAdapter {
             viewHolder.tvLevel = convertView.findViewById(R.id.tvLevel);
 
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)viewHolder.ivStar1.getLayoutParams();
-            params.circleRadius = circuleRadiusStar;
+            params.circleRadius = circuleRadiusOneStar;
             viewHolder.ivStar1.setLayoutParams(params);
 
             ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams)viewHolder.ivStar2.getLayoutParams();
-            params.circleRadius = circuleRadiusStar;
+            params2.circleRadius = circuleRadiusOneStar;
             viewHolder.ivStar2.setLayoutParams(params2);
 
             viewHolder.tvLevel.setTypeface(Utils.getTypeFaceLevel(context.getAssets()));

@@ -11,10 +11,13 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.explead.seasons.R;
+import com.explead.seasons.common.interfaces.OnClosedCallback;
 
 public class DialogHardIsClosed extends Dialog {
 
     private Context context;
+
+    private OnClosedCallback onClosedCallback;
 
     public DialogHardIsClosed(@NonNull Context context) {
         super(context);

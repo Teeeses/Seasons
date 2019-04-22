@@ -427,7 +427,7 @@ public class DecemberHardLevels {
                 {'0','0','0','0','0','0'},
                 {'x','0','x','0','x','x'},
                 {'0','0','0','0','0','x'},
-                {'0','0','z','0','x','x'}
+                {'0','0','x','0','x','x'}
         };
         containerCells = new ArrayList<>();
         containerCells.add(new ContainerCells(new WinterCell(1, 5), new WinterCell(0, 3), WinterCell.ColorCube.RED));

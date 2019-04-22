@@ -25,7 +25,7 @@ import com.explead.seasons.winter.ui.winter_views.SnowfallView;
 public class WinterLevelsFragment extends LevelsFragment {
 
     private SnowfallView snowfall;
-    private SoundPool soundPool;
+    //private SoundPool soundPool;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,16 +34,15 @@ public class WinterLevelsFragment extends LevelsFragment {
         snowfall = view.findViewById(R.id.snowfall);
         snowfall.startAnimation();
 
-        soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
+        /*soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         soundPool.load(getActivity(), R.raw.sound_winter_jingle, 1);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 soundPool.play(sampleId, 0.5f, 0.5f, 1, 0, 1f);
             }
-        });
+        });*/
 
-        //rootLayout = view.findViewById(R.id.rootLayout);
         TextView tvDecember = view.findViewById(R.id.tvDecember);
         tvDecember.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
         TextView tvJanuary = view.findViewById(R.id.tvJanuary);
@@ -62,5 +61,26 @@ public class WinterLevelsFragment extends LevelsFragment {
         bottomImage.setLayoutParams(params);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(snowfall != null)
+            snowfall.startAnimation();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(snowfall != null)
+            snowfall.stopAnimation();
+    }
+
+    @Override
+    public void onDestroy() {
+        if(snowfall != null)
+            snowfall.stopAnimation();
+        super.onDestroy();
     }
 }

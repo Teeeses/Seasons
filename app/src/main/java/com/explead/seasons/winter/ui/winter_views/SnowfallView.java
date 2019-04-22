@@ -50,6 +50,9 @@ public class SnowfallView  extends RelativeLayout {
     private int maxPeriodicitySnowflake = 500;
     private int periodicityCloud = 10000;
 
+    private ValueAnimator animatorSnowflake;
+    private ValueAnimator animatorCloud;
+
     public SnowfallView(Context context) {
         super(context);
         init(context);
@@ -100,11 +103,11 @@ public class SnowfallView  extends RelativeLayout {
         }
 
 
-        final ValueAnimator animator = ValueAnimator.ofFloat(-100, 1.5f*App.getHeightScreen());
-        animator.setDuration(randInt(8000, 14000));
-        animator.setInterpolator(new AccelerateInterpolator());
+        animatorSnowflake = ValueAnimator.ofFloat(-100, 1.5f*App.getHeightScreen());
+        animatorSnowflake.setDuration(randInt(8000, 14000));
+        animatorSnowflake.setInterpolator(new AccelerateInterpolator());
 
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        animatorSnowflake.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -115,15 +118,15 @@ public class SnowfallView  extends RelativeLayout {
             }
         });
 
-        animator.start();
+        animatorSnowflake.start();
     }
 
     public void startAnimationCloud(final ImageView view) {
-        final ValueAnimator animator = ValueAnimator.ofFloat(-0.5f*App.getWidthScreen(), 1.5f*App.getWidthScreen());
-        animator.setDuration(randInt(35000, 60000));
-        animator.setInterpolator(new LinearInterpolator());
+        animatorCloud = ValueAnimator.ofFloat(-0.5f*App.getWidthScreen(), 1.5f*App.getWidthScreen());
+        animatorCloud.setDuration(randInt(35000, 60000));
+        animatorCloud.setInterpolator(new LinearInterpolator());
 
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        animatorCloud.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -133,7 +136,7 @@ public class SnowfallView  extends RelativeLayout {
             }
         });
 
-        animator.start();
+        animatorCloud.start();
     }
 
     private void createSnowflake() {
@@ -208,6 +211,8 @@ public class SnowfallView  extends RelativeLayout {
     }
 
     public void stopAnimation() {
+        animatorSnowflake.cancel();
+        animatorCloud.cancel();
         timerSnowflake.cancel();
         timerCloud.cancel();
     }

@@ -15,9 +15,10 @@ import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.dialogs.DialogHardIsClosed;
-import com.explead.seasons.common.dialogs.DialogLevelCompletion;
+import com.explead.seasons.common.dialogs.DialogMonthIsClosed;
 import com.explead.seasons.common.dialogs.DialogWinterHelp;
 import com.explead.seasons.common.dialogs.DialogWinterWin;
+import com.explead.seasons.common.interfaces.OnClosedCallback;
 import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.common.ui.fragments.GameFragment;
 import com.explead.seasons.winter.logic.FieldWinter;
@@ -65,9 +66,6 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
         level = getArguments().getInt("level");
         month = (AllLevels.Month) getArguments().get("month");
-        if(level == 1) {
-            openHelpDialog();
-        }
 
         bar = view.findViewById(R.id.gameBar);
         bar.setOnMenuClickListener(this);
@@ -79,7 +77,17 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         WinterMovementFinger winterMovementFinger = new WinterMovementFinger(onSideFingerMovementCallback);
         winterMovementFinger.setTouchView(view);
 
+        checkOnDialogs();
+
         return view;
+    }
+
+    private void checkOnDialogs() {
+        if(level == 1 && month == AllLevels.Month.DECEMBER) {
+            openHelpDialog();
+        } else if(month == AllLevels.Month.JANUARY && !App.getSaverSpref().isLevelCompliated(AllLevels.Month.DECEMBER, 15)) {
+            openDialogMonthIsClosed();
+        }
     }
 
     public WinterMovementFinger.OnSideFingerMovementCallback onSideFingerMovementCallback =
@@ -104,6 +112,16 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
             fieldWinter.move(Direction.L);
         }
     };
+
+    private void openDialogMonthIsClosed() {
+        final DialogMonthIsClosed dialog = new DialogMonthIsClosed(getActivity(), new OnClosedCallback() {
+            @Override
+            public void onClosed() {
+                activity.onBackPressed();
+            }
+        });
+        dialog.show();
+    }
 
     private void openHelpDialog() {
         DialogWinterHelp dialog = new DialogWinterHelp(getActivity());
@@ -137,8 +155,12 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         @Override
         public void onNextLevel() {
             level++;
-            startGame(level, month, AllLevels.Complication.EASY);
-            complication = AllLevels.Complication.EASY;
+            changeOmEasy();
+        }
+
+        @Override
+        public void onHardLevel() {
+            changeOnHard();
         }
     };
 
@@ -149,10 +171,8 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(month.getDeis() > level) {
-                    DialogWinterWin dialog = new DialogWinterWin(activity, onDialogCompletionListener);
-                    dialog.show();
-                }
+                DialogWinterWin dialog = new DialogWinterWin(activity, onDialogCompletionListener, complication, month, level);
+                dialog.show();
             }
         }, 500);
     }
@@ -171,30 +191,36 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     private View.OnClickListener changeOnEasy = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(complication == AllLevels.Complication.HARD) {
-                containerEasyLevel.setVisibility(View.GONE);
-                containerHardLevel.setVisibility(View.VISIBLE);
-                complication = AllLevels.Complication.EASY;
-                startGame(level, month, complication);
-            }
+            changeOmEasy();
         }
     };
 
     private View.OnClickListener changeOnHard = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(!App.getSaverSpref().isLevelCompliated(month, level)) {
-                DialogHardIsClosed dialogHardClosed = new DialogHardIsClosed(getActivity());
-                dialogHardClosed.show();
-            }
-            else if(complication == AllLevels.Complication.EASY) {
-                containerHardLevel.setVisibility(View.GONE);
-                containerEasyLevel.setVisibility(View.VISIBLE);
-                complication = AllLevels.Complication.HARD;
-                startGame(level, month, complication);
-            }
+            changeOnHard();
         }
     };
+
+    private void changeOmEasy() {
+        containerEasyLevel.setVisibility(View.GONE);
+        containerHardLevel.setVisibility(View.VISIBLE);
+        complication = AllLevels.Complication.EASY;
+        startGame(level, month, complication);
+    }
+
+    private void changeOnHard() {
+        if(!App.getSaverSpref().isLevelCompliated(month, level)) {
+            DialogHardIsClosed dialogHardClosed = new DialogHardIsClosed(getActivity());
+            dialogHardClosed.show();
+        }
+        else {
+            containerHardLevel.setVisibility(View.GONE);
+            containerEasyLevel.setVisibility(View.VISIBLE);
+            complication = AllLevels.Complication.HARD;
+            startGame(level, month, complication);
+        }
+    }
 
     @Override
     public void onResume() {
@@ -212,7 +238,8 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
     @Override
     public void onDestroy() {
-        snowfall.stopAnimation();
+        if(snowfall != null)
+            snowfall.stopAnimation();
         super.onDestroy();
     }
 }

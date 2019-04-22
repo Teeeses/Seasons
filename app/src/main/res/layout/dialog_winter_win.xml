@@ -69,6 +69,13 @@
                 android:adjustViewBounds="true"
                 android:layout_marginRight="@dimen/standard_margin"/>
 
+            <ImageView
+                android:id="@+id/btnHardLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_hard_level"
+                android:layout_toRightOf="@id/btnMenu"
+                android:adjustViewBounds="true"/>
 
             <ImageView
                 android:id="@+id/btnNextLevel"
@@ -78,7 +85,7 @@
                 android:layout_alignTop="@+id/btnMenu"
                 android:layout_alignBottom="@+id/btnMenu"
                 android:adjustViewBounds="true"
-                android:layout_toRightOf="@id/btnMenu"
+                android:layout_toRightOf="@id/btnHardLevel"
                 android:layout_marginLeft="@dimen/standard_margin"/>
         </RelativeLayout>
 
