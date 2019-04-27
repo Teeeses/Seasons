@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Red-Blue</string>
+    <string name="app_name">Cube in cube</string>
     <string name="level">Level</string>
     <string name="level_is_close">Level closed!</string>
     <string name="completed">Passed</string>

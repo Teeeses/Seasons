@@ -2,6 +2,7 @@ package com.explead.seasons.winter.logic;
 
 import com.explead.seasons.common.logic.Cell;
 import com.explead.seasons.common.logic.Direction;
+import com.explead.seasons.winter.interfaces.OnMoveCubeCallback;
 import com.explead.seasons.winter.interfaces.OnMoveCubeListener;
 
 public class WinterCube extends Cell {
@@ -15,6 +16,7 @@ public class WinterCube extends Cell {
 
     //Есть ли движение
     private boolean MOVE = false;
+    private OnMoveCubeCallback onMoveCubeCallback;
 
     public WinterCube(int x, int y) {
         super(x, y);
@@ -36,13 +38,17 @@ public class WinterCube extends Cell {
 
     public void move() {
         if(lastDirection == Direction.U) {
-            onMoveListener.onUp(lastX, x);
+            if(lastX != x)
+                onMoveListener.onUp(lastX, x);
         } else if(lastDirection == Direction.R) {
-            onMoveListener.onRight(lastY, y);
+            if(lastY != y)
+                onMoveListener.onRight(lastY, y);
         } else if(lastDirection == Direction.D) {
-            onMoveListener.onDown(lastX, x);
+            if(lastX != x)
+                onMoveListener.onDown(lastX, x);
         } else if(lastDirection == Direction.L) {
-            onMoveListener.onLeft(lastY, y);
+            if(lastY != y)
+                onMoveListener.onLeft(lastY, y);
         }
     }
 
@@ -66,6 +72,14 @@ public class WinterCube extends Cell {
     public void setCoordinate(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void onFirstMove() {
+        onMoveCubeCallback.onFirstMove();
+    }
+
+    public void setOnMoveCubeCallback(OnMoveCubeCallback onMoveCubeCallback) {
+        this.onMoveCubeCallback = onMoveCubeCallback;
     }
 
     public void setDirection(Direction direction) {

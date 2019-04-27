@@ -53,7 +53,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
         soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         soundPool.load(getActivity(), R.raw.sound_win, 1);
-        soundPool.load(getActivity(), R.raw.sound_move_cube, 2);
+        soundPool.load(getActivity(), R.raw.sound_move_cube_two, 2);
 
         containerEasyLevel = view.findViewById(R.id.containerEasyLevel);
         containerEasyLevel.setOnClickListener(changeOnEasy);
@@ -167,7 +167,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     @Override
     public void onWin() {
         App.getSaverSpref().saveCurrentLevel(level, month, complication);
-        soundPool.play(1, 1f, 1f, 1, 0, 1f);
+        soundPool.play(1, 0.2f, 0.2f, 1, 0, 1f);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -175,6 +175,11 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
                 dialog.show();
             }
         }, 500);
+    }
+
+    @Override
+    public void onFirstMove() {
+        //soundPool.play(2, 1f, 1f, 1, 0, 1f);
     }
 
     public void startGame(int level, AllLevels.Month month, AllLevels.Complication complication) {

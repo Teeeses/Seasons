@@ -9,9 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:alpha="0.4"
+        android:scaleX="3"
+        android:scaleY="3"
+        android:alpha="0.3"
         android:src="@drawable/luminescence_background"/>
 
     <RelativeLayout
@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/imageCompleted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 android:src="@drawable/icon_full_red_cube"
                 android:layout_centerHorizontal="true"
                 android:adjustViewBounds="true"
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/completed"
-                android:textSize="64sp"
+                android:textSize="52sp"
                 android:autoSizeTextType="uniform"
                 android:shadowColor="@color/colorPrimary"
                 android:shadowDx="10"

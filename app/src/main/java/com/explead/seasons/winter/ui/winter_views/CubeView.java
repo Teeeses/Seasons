@@ -103,6 +103,7 @@ public class CubeView extends CellView implements OnMoveCubeListener {
                     animationQueue.get(0).start();
                 } else {
                     cell.setMOVE(false);
+                    cell.onFirstMove();
                 }
             }
         });

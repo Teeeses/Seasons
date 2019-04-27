@@ -211,10 +211,14 @@ public class SnowfallView  extends RelativeLayout {
     }
 
     public void stopAnimation() {
-        animatorSnowflake.cancel();
-        animatorCloud.cancel();
-        timerSnowflake.cancel();
-        timerCloud.cancel();
+        if(animatorSnowflake != null)
+            animatorSnowflake.cancel();
+        if(animatorCloud != null)
+            animatorCloud.cancel();
+        if(timerSnowflake != null)
+            timerSnowflake.cancel();
+        if(timerCloud != null)
+            timerCloud.cancel();
     }
 
     public void setPeriodicityCreateSnowflake(int min, int max) {

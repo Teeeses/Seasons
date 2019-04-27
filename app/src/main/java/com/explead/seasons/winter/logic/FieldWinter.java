@@ -7,6 +7,7 @@ import com.explead.seasons.common.logic.Cell;
 import com.explead.seasons.common.logic.ContainerCells;
 import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.winter.interfaces.OnActionMoveCubeListener;
+import com.explead.seasons.winter.interfaces.OnMoveCubeCallback;
 
 import java.util.ArrayList;
 
@@ -14,10 +15,11 @@ import java.util.ArrayList;
  * Created by Александр on 09.07.2017.
  */
 
-public class FieldWinter {
+public class FieldWinter implements OnMoveCubeCallback {
 
     public interface OnControllerListener {
         void onWin();
+        void onFirstMove();
     }
 
     private OnControllerListener onControllerListener;
@@ -62,6 +64,7 @@ public class FieldWinter {
             Cell insideCell = actionCells.get(i).getTwoCell();
             Cell.ColorCube color = actionCells.get(i).getColor();
             WinterCube winterCube = new WinterCube(cell.getX(), cell.getY());
+            winterCube.setOnMoveCubeCallback(this);
             WinterInsideCube winterInsideCube = new WinterInsideCube(insideCell.getX(), insideCell.getY(), color);
             winterCube.create(color, winterInsideCube);
 
@@ -249,6 +252,11 @@ public class FieldWinter {
         if(value) {
             onControllerListener.onWin();
         }
+    }
+
+    @Override
+    public void onFirstMove() {
+        onControllerListener.onFirstMove();
     }
 
     public int getLevel() {
