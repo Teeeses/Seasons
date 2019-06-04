@@ -2,6 +2,7 @@
     <string name="app_name">Cube in cube</string>
     <string name="level">Level</string>
     <string name="level_is_close">Level closed!</string>
+    <string name="open_new_mode">You opened the mode &#171;%s&#187;</string>
     <string name="completed">Passed</string>
     <string name="control">Control</string>
     <string name="delete">Delete</string>

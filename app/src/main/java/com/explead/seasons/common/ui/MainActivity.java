@@ -1,9 +1,13 @@
 package com.explead.seasons.common.ui;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.beans.AllLevels;

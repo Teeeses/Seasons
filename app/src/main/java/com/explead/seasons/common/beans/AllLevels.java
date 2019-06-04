@@ -30,7 +30,7 @@ public class AllLevels {
     }
 
     public enum Complication {
-        EASY, HARD;
+        EASY, HARD
     }
 
     private ArrayList<LevelContainer> decemberEasyLevels;

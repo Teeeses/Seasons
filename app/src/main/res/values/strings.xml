@@ -2,6 +2,7 @@
     <string name="app_name">Кубик в кубе</string>
     <string name="level">Уровень</string>
     <string name="level_is_close">Уровень закрыт!</string>
+    <string name="open_new_mode">Вы открыли режим &#171;%s&#187;</string>
     <string name="completed">Пройдено</string>
     <string name="control">Управление</string>
     <string name="delete">Удалить</string>

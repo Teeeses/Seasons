@@ -1,21 +1,21 @@
 <resources>
-    <string name="app_name">Кубик в кубе</string>
-    <string name="level">Уровень</string>
-    <string name="level_is_close">Уровень закрыт!</string>
-    <string name="open_new_mode">Вы открыли режим &#171;%s&#187;</string>
-    <string name="completed">Пройдено</string>
-    <string name="control">Управление</string>
-    <string name="delete">Удалить</string>
-    <string name="close">Закрыть</string>
-    <string name="continue_">Продолжить</string>
+    <string name="app_name">考える必要があります</string>
+    <string name="level">レベル</string>
+    <string name="level_is_close">レベルは閉じています！</string>
+    <string name="open_new_mode">あなたはモード&#171;%s&#187;を開いた</string>
+    <string name="completed">レベル合格</string>
+    <string name="control">管理</string>
+    <string name="delete">削除する</string>
+    <string name="close">開く</string>
+    <string name="continue_">続ける</string>
 
-    <string name="december">Декабрь</string>
-    <string name="january">Январь</string>
-    <string name="february">Февраль</string>
+    <string name="december">12月</string>
+    <string name="january">1月</string>
+    <string name="february">二月</string>
 
-    <string name="winter_help_text">Кубики стоят не на своих местах.\nДавай это исправим!\n\nПоставь их так, чтобы серединка соответствовала основному цвету кубика.</string>
-    <string name="hard_is_closed">Сложный уровень закрыт!\nПройдите сначала текущий.</string>
-    <string name="month_is_closed">Данный режим не доступен!\nПройдите 15 уровней предыдущего режима.</string>
+    <string name="winter_help_text">立方体はその場所にはありません。 色をつなぎます。</string>
+    <string name="hard_is_closed">難しいレベルは閉じられています！\n最初に現在のレベルを完了してください。</string>
+    <string name="month_is_closed">このモードは利用できません！\n前のモードの15のレベルをクリアしてください。</string>
 
     <!--<string name="summer_help_text">Все просто!\nПопробуй соединить кубики одного цвета между собой.\n\n Для этого зажми и веди выбранный кубик к его паре. </string>
     -->

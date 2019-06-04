@@ -72,7 +72,7 @@ public class SaverSpref {
     }
 
     public boolean isLevelCompliated(AllLevels.Month month, int level) {
-        return  isLevelInArray(level, getArray(month, AllLevels.Complication.EASY));
+        return isLevelInArray(level, getArray(month, AllLevels.Complication.EASY));
     }
 
     private ArrayList<Integer> getArrayFromString(String str) {

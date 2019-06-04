@@ -5,22 +5,28 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.explead.screenmovementfinger.WinterMovementFinger;
 import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.beans.AllLevels;
+import com.explead.seasons.common.beans.Level;
 import com.explead.seasons.common.dialogs.DialogHardIsClosed;
 import com.explead.seasons.common.dialogs.DialogMonthIsClosed;
 import com.explead.seasons.common.dialogs.DialogWinterHelp;
 import com.explead.seasons.common.dialogs.DialogWinterWin;
+import com.explead.seasons.common.firebase.Events;
 import com.explead.seasons.common.interfaces.OnClosedCallback;
 import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.common.ui.fragments.GameFragment;
+import com.explead.seasons.common.utils.Utils;
 import com.explead.seasons.winter.logic.FieldWinter;
 import com.explead.seasons.winter.ui.WinterGameBar;
 import com.explead.seasons.winter.ui.winter_views.FieldWinterView;
@@ -47,9 +53,11 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     private RelativeLayout containerEasyLevel;
     private RelativeLayout containerHardLevel;
 
+    private View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_winter, container, false);
+        view = inflater.inflate(R.layout.fragment_winter, container, false);
 
         soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         soundPool.load(getActivity(), R.raw.sound_win, 1);
@@ -85,7 +93,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     private void checkOnDialogs() {
         if(level == 1 && month == AllLevels.Month.DECEMBER) {
             openHelpDialog();
-        } else if(month == AllLevels.Month.JANUARY && !App.getSaverSpref().isLevelCompliated(AllLevels.Month.DECEMBER, 15)) {
+        } else if(month == AllLevels.Month.JANUARY && !App.getSaverSpref().isLevelCompliated(AllLevels.Month.DECEMBER, Level.LEVEL_NEXT_MODE)) {
             openDialogMonthIsClosed();
         }
     }
@@ -166,6 +174,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
     @Override
     public void onWin() {
+        checkOpenedMode(level);
         App.getSaverSpref().saveCurrentLevel(level, month, complication);
         soundPool.play(1, 0.2f, 0.2f, 1, 0, 1f);
         new Handler().postDelayed(new Runnable() {
@@ -175,6 +184,13 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
                 dialog.show();
             }
         }, 500);
+        activity.sendEventWinGame(level, month, complication);
+    }
+
+    private void checkOpenedMode(int level) {
+        if(level == Level.LEVEL_NEXT_MODE && !App.getSaverSpref().isLevelCompliated(AllLevels.Month.DECEMBER, level)) {
+            showSnackBarOpenNewMode();
+        }
     }
 
     @Override
@@ -183,6 +199,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     }
 
     public void startGame(int level, AllLevels.Month month, AllLevels.Complication complication) {
+        activity.sendEventStartGame(level, month, complication);
         bar.setNumberLevel(level);
 
         fieldWinter = new FieldWinter(level, month, complication);
@@ -216,7 +233,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
     private void changeOnHard() {
         if(!App.getSaverSpref().isLevelCompliated(month, level)) {
-            DialogHardIsClosed dialogHardClosed = new DialogHardIsClosed(getActivity());
+            DialogHardIsClosed dialogHardClosed = new DialogHardIsClosed(activity);
             dialogHardClosed.show();
         }
         else {
@@ -224,6 +241,20 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
             containerEasyLevel.setVisibility(View.VISIBLE);
             complication = AllLevels.Complication.HARD;
             startGame(level, month, complication);
+        }
+    }
+
+    public void showSnackBarOpenNewMode() {
+        if(view != null) {
+            Snackbar sb = Snackbar.make(view,
+                    String.format(activity.getResources().getString(R.string.open_new_mode), activity.getResources().getString(R.string.january)),
+                    Snackbar.LENGTH_LONG);
+            View view = sb.getView();
+            TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tv.setGravity(Gravity.CENTER_HORIZONTAL);
+            tv.setTypeface(Utils.getTypeFaceLevel(activity.getAssets()));
+            sb.show();
         }
     }
 
