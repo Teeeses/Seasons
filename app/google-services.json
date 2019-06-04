@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "291452730936",
+    "firebase_url": "https://seasons-f3bf8.firebaseio.com",
+    "project_id": "seasons-f3bf8",
+    "storage_bucket": "seasons-f3bf8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291452730936:android:f9241d2551b6ba24",
+        "android_client_info": {
+          "package_name": "com.explead.seasons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291452730936-p2b5gc624sii4ctaagto0md0jo22c224.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl-1sm4zRHatLylRj_Xmm3ZtTR7LRO7Gc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291452730936-p2b5gc624sii4ctaagto0md0jo22c224.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
