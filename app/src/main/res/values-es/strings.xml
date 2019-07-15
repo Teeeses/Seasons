@@ -13,6 +13,8 @@
     <string name="january">Enero</string>
     <string name="february">Febrero</string>
 
+    <string name="hard_level">Nivel \ndifícil!</string>
+
     <string name="winter_help_text">Los cubos no están en sus lugares.\nVamos a arreglarlo!\nColócalos de modo que el centro se corresponda con el color principal del cubo.</string>
     <string name="hard_is_closed">¡El nivel difícil está cerrado!\nIr a través de la corriente primero.</string>
     <string name="month_is_closed">¡Este modo no está disponible!\nCompleta 15 niveles del modo anterior.</string>

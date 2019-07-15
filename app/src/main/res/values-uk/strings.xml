@@ -13,6 +13,8 @@
     <string name="january">Січень</string>
     <string name="february">Лютий</string>
 
+    <string name="hard_level">Складний \nрівень!</string>
+
     <string name="winter_help_text">Кубики стоять не на своїх місцях.\nДавай це виправимо!\n\nПоставь їх так, щоб серединка відповідала основним кольором кубика.</string>
     <string name="hard_is_closed">Складний рівень закритий!]nПройдіте спочатку поточний.</string>
     <string name="month_is_closed">Даний режим не доступний!\nПройдіть 15 рівнів попереднього режиму.</string>

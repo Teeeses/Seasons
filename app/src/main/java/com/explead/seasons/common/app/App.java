@@ -1,18 +1,17 @@
 package com.explead.seasons.common.app;
 
-import android.app.Application;
+import android.content.Context;
+
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 import com.explead.seasons.common.beans.AllLevels;
-import com.explead.seasons.common.beans.LevelContainer;
-import com.explead.seasons.summer.SummerLevels;
-
-import java.util.ArrayList;
 
 /**
  * Created by Александр on 09.07.2017.
  */
 
-public class App extends Application{
+public class App extends MultiDexApplication {
 
     private static float widthScreen;
     private static float heightScreen;
@@ -25,6 +24,12 @@ public class App extends Application{
         super.onCreate();
         levels = new AllLevels();
         saverSpref = new SaverSpref(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     public static SaverSpref getSaverSpref() {

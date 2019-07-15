@@ -1,20 +1,14 @@
 package com.explead.seasons.common.ui;
 
-import android.content.Context;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.beans.AllLevels;
-import com.explead.seasons.common.beans.Level;
 import com.explead.seasons.summer.ui.fragments.SummerFragment;
 import com.explead.seasons.winter.ui.fragments.WinterFragment;
-import com.explead.seasons.common.utils.Utils;
 
 public class MainActivity extends BaseActivity {
 

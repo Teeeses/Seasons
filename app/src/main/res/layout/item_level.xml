@@ -1,4 +1,6 @@
-<android.support.constraint.ConstraintLayout android:id="@+id/levelLayout"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/levelLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
@@ -51,4 +53,4 @@
             app:layout_constraintCircleAngle="335"
             app:layout_constraintCircleRadius="40dp"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

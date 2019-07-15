@@ -13,6 +13,8 @@
     <string name="january">जनवरी</string>
     <string name="february">फरवरी</string>
 
+    <string name="hard_level">कठिन स्तर</string>
+
     <string name="winter_help_text">क्यूब्स अपने स्थानों पर नहीं हैं।\nरंग संयोजन करने की आवश्यकता है!</string>
     <string name="hard_is_closed">जटिल स्तर बंद है।\nपहले करंट से गुजरें।</string>
     <string name="month_is_closed">यह विधा उपलब्ध नहीं है।\nपिछले मोड के 15 स्तरों से गुजरें</string>

@@ -1,11 +1,11 @@
 package com.explead.seasons.common.ui.fragments;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.adapters.GridAdapter;
@@ -14,6 +14,7 @@ import com.explead.seasons.common.beans.ButtonLevel;
 import com.explead.seasons.common.ui.CustomGridView;
 import com.explead.seasons.common.ui.LevelsActivity;
 import com.explead.seasons.common.utils.Utils;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,7 @@ public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListe
             public void run() {
                 sbLevelClosed = Snackbar.make(view, activity.getResources().getString(R.string.level_is_close), Snackbar.LENGTH_SHORT);
                 View view = sbLevelClosed.getView();
-                TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = view.findViewById(R.id.snackbar_text);
                 tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 tv.setGravity(Gravity.CENTER_HORIZONTAL);
                 tv.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));

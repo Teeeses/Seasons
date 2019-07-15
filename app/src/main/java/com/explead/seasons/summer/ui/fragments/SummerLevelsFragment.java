@@ -1,12 +1,13 @@
 package com.explead.seasons.summer.ui.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;

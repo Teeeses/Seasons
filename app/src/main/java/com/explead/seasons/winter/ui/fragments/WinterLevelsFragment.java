@@ -1,9 +1,6 @@
 package com.explead.seasons.winter.ui.fragments;
 
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;

@@ -13,6 +13,8 @@
     <string name="january">January</string>
     <string name="february">February</string>
 
+    <string name="hard_level">Hard \nlevel!</string>
+
     <string name="winter_help_text">Cubes are placed incorrectly.\nLet is fix it!\n\nPlace them in a way that the middle part matches the cube main colour.</string>
     <string name="hard_is_closed">The harder level is closed.\nComplete this one first.</string>
     <string name="month_is_closed">This mode is not available.\nComplete 15 levels of the previous mode first.</string>

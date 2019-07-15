@@ -2,10 +2,11 @@ package com.explead.seasons.summer.summer_views.cubes;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.beans.GetIds;

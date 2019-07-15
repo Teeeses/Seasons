@@ -13,6 +13,8 @@
     <string name="january">1月</string>
     <string name="february">二月</string>
 
+    <string name="hard_level">難しいレベル</string>
+
     <string name="winter_help_text">立方体はその場所にはありません。 色をつなぎます。</string>
     <string name="hard_is_closed">難しいレベルは閉じられています！\n最初に現在のレベルを完了してください。</string>
     <string name="month_is_closed">このモードは利用できません！\n前のモードの15のレベルをクリアしてください。</string>

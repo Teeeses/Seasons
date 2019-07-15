@@ -4,14 +4,14 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.explead.screenmovementfinger.WinterMovementFinger;
 import com.explead.seasons.R;
@@ -22,7 +22,6 @@ import com.explead.seasons.common.dialogs.DialogHardIsClosed;
 import com.explead.seasons.common.dialogs.DialogMonthIsClosed;
 import com.explead.seasons.common.dialogs.DialogWinterHelp;
 import com.explead.seasons.common.dialogs.DialogWinterWin;
-import com.explead.seasons.common.firebase.Events;
 import com.explead.seasons.common.interfaces.OnClosedCallback;
 import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.common.ui.fragments.GameFragment;
@@ -31,6 +30,7 @@ import com.explead.seasons.winter.logic.FieldWinter;
 import com.explead.seasons.winter.ui.WinterGameBar;
 import com.explead.seasons.winter.ui.winter_views.FieldWinterView;
 import com.explead.seasons.winter.ui.winter_views.SnowfallView;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created by Александр on 09.07.2017.
@@ -250,7 +250,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
                     String.format(activity.getResources().getString(R.string.open_new_mode), activity.getResources().getString(R.string.january)),
                     Snackbar.LENGTH_LONG);
             View view = sb.getView();
-            TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+            TextView tv = view.findViewById(R.id.snackbar_text);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
             tv.setTypeface(Utils.getTypeFaceLevel(activity.getAssets()));

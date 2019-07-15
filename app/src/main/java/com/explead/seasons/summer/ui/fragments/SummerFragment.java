@@ -2,13 +2,14 @@ package com.explead.seasons.summer.ui.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.explead.seasons.R;
-import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.dialogs.DialogLevelCompletion;
 import com.explead.seasons.common.dialogs.DialogSummerHelp;
 import com.explead.seasons.common.logic.Cell;
@@ -30,7 +31,7 @@ public class SummerFragment extends GameFragment implements FieldSummerView.OnGa
     private ContainerDeleteRoutesView containerDeleteRoutesView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_summer, container, false);
 
         level = getArguments().getInt("level");

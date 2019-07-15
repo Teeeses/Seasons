@@ -4,10 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
 
 import com.explead.seasons.common.beans.GetIds;
 import com.explead.seasons.common.ui.CellView;

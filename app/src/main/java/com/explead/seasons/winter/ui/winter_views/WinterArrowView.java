@@ -1,10 +1,11 @@
 package com.explead.seasons.winter.ui.winter_views;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.ui.CellView;

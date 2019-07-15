@@ -13,6 +13,8 @@
     <string name="january">يناير</string>
     <string name="february">فبراير</string>
 
+    <string name="hard_level">مستوى صعب</string>
+
     <string name="winter_help_text">مكعبات ليست في أماكنهم. دعونا إصلاحه! ضعها بحيث يتوافق الوسط مع اللون الرئيسي للمكعب.</string>
     <string name="hard_is_closed">مستوى صعب مغلق! اذهب من خلال الحالي الأول.</string>
     <string name="month_is_closed">هذا الوضع غير متاح. أكمل 15 مستوى من الوضع السابق.</string>

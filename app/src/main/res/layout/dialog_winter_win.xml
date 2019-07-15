@@ -56,37 +56,58 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/giant_margin"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
             android:layout_below="@+id/layout">
 
             <ImageView
                 android:id="@+id/btnMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/giant_margin"
+                android:layout_height="@dimen/giant_margin"
                 android:src="@drawable/icon_menu"
                 android:adjustViewBounds="true"
                 android:layout_marginRight="@dimen/standard_margin"/>
 
-            <ImageView
-                android:id="@+id/btnHardLevel"
+            <LinearLayout
+                android:id="@+id/containerBtnHardLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_hard_level"
                 android:layout_toRightOf="@id/btnMenu"
-                android:adjustViewBounds="true"/>
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_toEndOf="@id/btnMenu">
+
+                <ImageView
+                    android:id="@+id/btnHardLevel"
+                    android:layout_width="@dimen/giant_margin"
+                    android:layout_height="@dimen/giant_margin"
+                    android:src="@drawable/icon_hard_level"
+                    android:layout_gravity="center_horizontal"
+                    android:adjustViewBounds="true"/>
+
+                <TextView
+                    android:id="@+id/hardLevelText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hard_level"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:textColor="@color/white" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/btnNextLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/giant_margin"
+                android:layout_height="@dimen/giant_margin"
                 android:src="@drawable/icon_next_level"
                 android:layout_alignTop="@+id/btnMenu"
                 android:layout_alignBottom="@+id/btnMenu"
                 android:adjustViewBounds="true"
-                android:layout_toRightOf="@id/btnHardLevel"
+                android:layout_toRightOf="@id/containerBtnHardLevel"
                 android:layout_marginLeft="@dimen/standard_margin"/>
+
         </RelativeLayout>
 
     </RelativeLayout>

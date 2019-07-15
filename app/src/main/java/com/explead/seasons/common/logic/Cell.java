@@ -1,6 +1,7 @@
 package com.explead.seasons.common.logic;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 public class Cell {
 

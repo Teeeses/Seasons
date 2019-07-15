@@ -3,11 +3,12 @@ package com.explead.seasons.common.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
 
 import com.explead.seasons.R;
 
