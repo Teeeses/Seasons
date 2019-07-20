@@ -76,6 +76,7 @@
                 android:layout_toRightOf="@id/btnMenu"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
+                android:visibility="visible"
                 android:layout_toEndOf="@id/btnMenu">
 
                 <ImageView

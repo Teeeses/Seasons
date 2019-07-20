@@ -101,8 +101,10 @@ public class DialogWinterWin extends Dialog {
                 dismiss();
             }
         });
+
         if(complication == AllLevels.Complication.HARD) {
             btnHardLevel.setVisibility(View.GONE);
+            hardLevelText.setVisibility(View.GONE);
         }
 
         btnMenu.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_buttons_win));
