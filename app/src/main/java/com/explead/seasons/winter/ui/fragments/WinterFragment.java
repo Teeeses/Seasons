@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.explead.screenmovementfinger.WinterMovementFinger;
@@ -22,7 +23,6 @@ import com.explead.seasons.common.dialogs.DialogHardIsClosed;
 import com.explead.seasons.common.dialogs.DialogMonthIsClosed;
 import com.explead.seasons.common.dialogs.DialogWinterHelp;
 import com.explead.seasons.common.dialogs.DialogWinterWin;
-import com.explead.seasons.common.interfaces.OnClosedCallback;
 import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.common.ui.fragments.GameFragment;
 import com.explead.seasons.common.utils.Utils;
@@ -45,7 +45,8 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     private WinterGameBar bar;
     private FieldWinter fieldWinter;
 
-    private SoundPool soundPool;
+    private SoundPool soundPoolWin;
+    private SoundPool soundPoolMove;
 
     private AllLevels.Month month;
     private AllLevels.Complication complication = AllLevels.Complication.EASY;
@@ -56,12 +57,13 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     private View view;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_winter, container, false);
 
-        soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
-        soundPool.load(getActivity(), R.raw.sound_win, 1);
-        soundPool.load(getActivity(), R.raw.sound_move_cube_two, 2);
+        soundPoolMove = new SoundPool(1, AudioManager.STREAM_MUSIC, 100);
+        soundPoolWin = new SoundPool(1, AudioManager.STREAM_MUSIC, 100);
+        soundPoolWin.load(getActivity(), R.raw.sound_win, 1);
+        soundPoolMove.load(getActivity(), R.raw.move, 1);
 
         containerEasyLevel = view.findViewById(R.id.containerEasyLevel);
         containerEasyLevel.setOnClickListener(changeOnEasy);
@@ -98,7 +100,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         }
     }
 
-    public WinterMovementFinger.OnSideFingerMovementCallback onSideFingerMovementCallback =
+    private WinterMovementFinger.OnSideFingerMovementCallback onSideFingerMovementCallback =
             new WinterMovementFinger.OnSideFingerMovementCallback() {
         @Override
         public void onUp() {
@@ -122,17 +124,12 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     };
 
     private void openDialogMonthIsClosed() {
-        final DialogMonthIsClosed dialog = new DialogMonthIsClosed(getActivity(), new OnClosedCallback() {
-            @Override
-            public void onClosed() {
-                activity.onBackPressed();
-            }
-        });
+        final DialogMonthIsClosed dialog = new DialogMonthIsClosed(requireActivity(), () -> activity.onBackPressed());
         dialog.show();
     }
 
     private void openHelpDialog() {
-        DialogWinterHelp dialog = new DialogWinterHelp(getActivity());
+        DialogWinterHelp dialog = new DialogWinterHelp(requireActivity());
         dialog.show();
     }
 
@@ -149,7 +146,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
     @Override
     public void onHelp() {
-        DialogWinterHelp dialog = new DialogWinterHelp(getActivity());
+        DialogWinterHelp dialog = new DialogWinterHelp(requireActivity());
         dialog.show();
     }
 
@@ -176,13 +173,10 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
     public void onWin() {
         checkOpenedMode(level);
         App.getSaverSpref().saveCurrentLevel(level, month, complication);
-        soundPool.play(1, 0.2f, 0.2f, 1, 0, 1f);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DialogWinterWin dialog = new DialogWinterWin(activity, onDialogCompletionListener, complication, month, level);
-                dialog.show();
-            }
+        soundPoolWin.play(1, 0.2f, 0.2f, 1, 0, 1f);
+        new Handler().postDelayed(() -> {
+            DialogWinterWin dialog = new DialogWinterWin(activity, onDialogCompletionListener, complication, month, level);
+            dialog.show();
         }, 500);
         activity.sendEventWinGame(level, month, complication);
     }
@@ -195,10 +189,10 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
 
     @Override
     public void onFirstMove() {
-        //soundPool.play(2, 1f, 1f, 1, 0, 1f);
+        soundPoolMove.play(1, 0.2f, 0.2f, 1, 0, 1f);
     }
 
-    public void startGame(int level, AllLevels.Month month, AllLevels.Complication complication) {
+    private void startGame(int level, AllLevels.Month month, AllLevels.Complication complication) {
         activity.sendEventStartGame(level, month, complication);
         bar.setNumberLevel(level);
 
@@ -210,19 +204,9 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         fieldView.createField();
     }
 
-    private View.OnClickListener changeOnEasy = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            changeOmEasy();
-        }
-    };
+    private View.OnClickListener changeOnEasy = v -> changeOmEasy();
 
-    private View.OnClickListener changeOnHard = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            changeOnHard();
-        }
-    };
+    private View.OnClickListener changeOnHard = v -> changeOnHard();
 
     private void changeOmEasy() {
         containerEasyLevel.setVisibility(View.GONE);
@@ -244,7 +228,7 @@ public class WinterFragment extends GameFragment implements FieldWinter.OnContro
         }
     }
 
-    public void showSnackBarOpenNewMode() {
+    private void showSnackBarOpenNewMode() {
         if(view != null) {
             Snackbar sb = Snackbar.make(view,
                     String.format(activity.getResources().getString(R.string.open_new_mode), activity.getResources().getString(R.string.january)),

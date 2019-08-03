@@ -73,21 +73,15 @@ public class DialogWinterWin extends Dialog {
         imageCompleted.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_image_win_cube));
 
         ImageView btnMenu = findViewById(R.id.btnMenu);
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mOnDialogCompletionListener.onMenu();
-                dismiss();
-            }
+        btnMenu.setOnClickListener(view -> {
+            mOnDialogCompletionListener.onMenu();
+            dismiss();
         });
 
         ImageView btnNextLevel = findViewById(R.id.btnNextLevel);
-        btnNextLevel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mOnDialogCompletionListener.onNextLevel();
-                dismiss();
-            }
+        btnNextLevel.setOnClickListener(view -> {
+            mOnDialogCompletionListener.onNextLevel();
+            dismiss();
         });
         if(level >= month.getDeis()) {
             btnNextLevel.setVisibility(View.GONE);
@@ -101,10 +95,9 @@ public class DialogWinterWin extends Dialog {
                 dismiss();
             }
         });
-
+        View container = findViewById(R.id.containerBtnHardLevel);
         if(complication == AllLevels.Complication.HARD) {
-            btnHardLevel.setVisibility(View.GONE);
-            hardLevelText.setVisibility(View.GONE);
+            container.setVisibility(View.GONE);
         }
 
         btnMenu.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_buttons_win));

@@ -49,16 +49,13 @@ public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListe
     }
 
     private void createSB() {
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                sbLevelClosed = Snackbar.make(view, activity.getResources().getString(R.string.level_is_close), Snackbar.LENGTH_SHORT);
-                View view = sbLevelClosed.getView();
-                TextView tv = view.findViewById(R.id.snackbar_text);
-                tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                tv.setGravity(Gravity.CENTER_HORIZONTAL);
-                tv.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
-            }
+        view.post(() -> {
+            sbLevelClosed = Snackbar.make(view, activity.getResources().getString(R.string.level_is_close), Snackbar.LENGTH_SHORT);
+            View view = sbLevelClosed.getView();
+            TextView tv = view.findViewById(R.id.snackbar_text);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tv.setGravity(Gravity.CENTER_HORIZONTAL);
+            tv.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
         });
     }
 

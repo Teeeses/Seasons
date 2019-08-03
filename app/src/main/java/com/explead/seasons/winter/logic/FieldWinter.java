@@ -30,8 +30,11 @@ public class FieldWinter implements OnMoveCubeCallback {
     private WinterCell[][] field;
     private ArrayList<WinterCube> cubes = new ArrayList<>();
 
+    private boolean isCanMove;
+
     public FieldWinter(int level, AllLevels.Month month, AllLevels.Complication complication) {
         this.level = level;
+        this.isCanMove = true;
         LevelContainer container = App.getLevels().get(level - 1, month, complication);
         createField(container.getCopyField());
         addActionCellsOnField(container.getCopyCells());
@@ -101,18 +104,19 @@ public class FieldWinter implements OnMoveCubeCallback {
     }
 
     public void move(Direction direction) {
-
-        if(canNextMove()) {
-            setDirections(direction);
-            while (!isEndMove()) {
-                setLastInfoCube();
-                for (WinterCube cube : cubes) {
-                    moveCube(cube);
+        if(isCanMove) {
+            if (canNextMove()) {
+                setDirections(direction);
+                while (!isEndMove()) {
+                    setLastInfoCube();
+                    for (WinterCube cube : cubes) {
+                        moveCube(cube);
+                    }
+                    moveCubeAnimation();
+                    installDirectionArrows();
                 }
-                moveCubeAnimation();
-                installDirectionArrows();
+                checkWin();
             }
-            checkWin();
         }
     }
 
@@ -250,6 +254,7 @@ public class FieldWinter implements OnMoveCubeCallback {
             }
         }
         if(value) {
+            setCanMove(false);
             onControllerListener.onWin();
         }
     }
@@ -277,5 +282,9 @@ public class FieldWinter implements OnMoveCubeCallback {
 
     public void setOnControllerListener(OnControllerListener onControllerListener) {
         this.onControllerListener = onControllerListener;
+    }
+
+    public void setCanMove(boolean canMove) {
+        isCanMove = canMove;
     }
 }
