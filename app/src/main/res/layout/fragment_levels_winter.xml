@@ -1,84 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_w"
-    android:clickable="true" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <com.explead.seasons.winter.ui.winter_views.SnowfallView
-        android:id="@+id/snowfall"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@drawable/background_w"
+        android:clickable="true"
+        android:focusable="true">
 
-    <ScrollView
-        android:id="@+id/scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <com.explead.seasons.winter.ui.winter_views.SnowfallView
+            android:id="@+id/snowfall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_december"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/big_text"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/big_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:text="@string/december"/>
+
+                <com.explead.seasons.common.ui.CustomGridView
+                    android:id="@+id/gv_december"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:padding="@dimen/more_standard_margin"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="@dimen/big_margin"
+                    android:horizontalSpacing="@dimen/more_standard_margin"/>
+
+                <TextView
+                    android:id="@+id/tv_january"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/big_text"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:text="@string/january"/>
+
+                <com.explead.seasons.common.ui.CustomGridView
+                    android:id="@+id/gv_january"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    android:paddingTop="@dimen/more_standard_margin"
+                    android:paddingLeft="@dimen/more_standard_margin"
+                    android:paddingRight="@dimen/more_standard_margin"
+                    android:paddingBottom="200dp"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="@dimen/big_margin"
+                    android:horizontalSpacing="@dimen/more_standard_margin"
+                    android:clipToPadding="false" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/bottom_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bottom_winter_layout"
+            android:adjustViewBounds="true" />
 
-            <TextView
-                android:id="@+id/tvDecember"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/big_text"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/big_margin"
-                android:layout_marginBottom="@dimen/standard_margin"
-                android:text="@string/december"/>
+    </RelativeLayout>
 
-            <com.explead.seasons.common.ui.CustomGridView
-                android:id="@+id/gvDecember"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:padding="@dimen/more_standard_margin"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="@dimen/big_margin"
-                android:horizontalSpacing="@dimen/more_standard_margin"/>
-
-            <TextView
-                android:id="@+id/tvJanuary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/big_text"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:layout_marginBottom="@dimen/standard_margin"
-                android:text="@string/january"/>
-
-            <com.explead.seasons.common.ui.CustomGridView
-                android:id="@+id/gvJanuary"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"
-                android:paddingTop="@dimen/more_standard_margin"
-                android:paddingLeft="@dimen/more_standard_margin"
-                android:paddingRight="@dimen/more_standard_margin"
-                android:paddingBottom="200dp"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="@dimen/big_margin"
-                android:horizontalSpacing="@dimen/more_standard_margin"
-                android:clipToPadding="false" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <ImageView
-        android:id="@+id/bottomImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_winter_layout"
-        android:adjustViewBounds="true" />
-
-</RelativeLayout>
+</layout>

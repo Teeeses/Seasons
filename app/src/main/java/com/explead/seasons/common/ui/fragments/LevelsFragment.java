@@ -1,25 +1,25 @@
 package com.explead.seasons.common.ui.fragments;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.adapters.GridAdapter;
 import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.beans.ButtonLevel;
-import com.explead.seasons.common.ui.CustomGridView;
 import com.explead.seasons.common.ui.LevelsActivity;
 import com.explead.seasons.common.utils.Utils;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
-import static com.explead.seasons.common.beans.AllLevels.Month.DECEMBER;
-import static com.explead.seasons.common.beans.AllLevels.Month.JANUARY;
 
 /**
  * Created by develop on 15.12.2016.
@@ -29,37 +29,25 @@ public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListe
     protected View view;
 
     protected LevelsActivity activity;
-    protected CustomGridView gvDecember;
-    protected CustomGridView gvJanuary;
-    protected GridAdapter decemberAdapter;
-    protected GridAdapter januaryAdapter;
 
     private Snackbar sbLevelClosed;
 
-    public void createButtons() {
-        decemberAdapter = createGrid(DECEMBER);
-        gvDecember.setAdapter(decemberAdapter);
-        gvDecember.setNumColumns(3);
-
-        januaryAdapter = createGrid(JANUARY);
-        gvJanuary.setAdapter(januaryAdapter);
-        gvJanuary.setNumColumns(3);
-
-        createSB();
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        createSB(view);
     }
 
-    private void createSB() {
-        view.post(() -> {
-            sbLevelClosed = Snackbar.make(view, activity.getResources().getString(R.string.level_is_close), Snackbar.LENGTH_SHORT);
-            View view = sbLevelClosed.getView();
-            TextView tv = view.findViewById(R.id.snackbar_text);
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            tv.setGravity(Gravity.CENTER_HORIZONTAL);
-            tv.setTypeface(Utils.getTypeFaceLevel(getContext().getAssets()));
-        });
+    private void createSB(@NonNull View view) {
+        sbLevelClosed = Snackbar.make(view, activity.getResources().getString(R.string.level_is_close), Snackbar.LENGTH_SHORT);
+        View sbView = sbLevelClosed.getView();
+        TextView tv = sbView.findViewById(R.id.snackbar_text);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv.setGravity(Gravity.CENTER_HORIZONTAL);
+        tv.setTypeface(Utils.getTypeFaceLevel(requireContext().getAssets()));
     }
 
-    private GridAdapter createGrid(final AllLevels.Month month) {
+    protected GridAdapter createGrid(final AllLevels.Month month) {
         return new GridAdapter(activity, create(month), month, this);
     }
 
@@ -85,10 +73,6 @@ public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListe
 
     @Override
     public void onResume() {
-        if(decemberAdapter != null)
-            decemberAdapter.refreshStatus();
-        if(januaryAdapter != null)
-            januaryAdapter.refreshStatus();
         super.onResume();
     }
 

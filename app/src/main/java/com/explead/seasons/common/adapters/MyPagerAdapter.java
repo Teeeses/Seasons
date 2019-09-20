@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.explead.seasons.spring.ui.fragments.SpringLevelsFragment;
 import com.explead.seasons.winter.ui.fragments.WinterLevelsFragment;
 
 /**
@@ -13,7 +14,8 @@ import com.explead.seasons.winter.ui.fragments.WinterLevelsFragment;
 public class MyPagerAdapter extends FragmentPagerAdapter {
 
     private Fragment[] fragments = {
-            new WinterLevelsFragment()
+            new WinterLevelsFragment(),
+            new SpringLevelsFragment()
     };
 
     public MyPagerAdapter(FragmentManager fragmentManager) {

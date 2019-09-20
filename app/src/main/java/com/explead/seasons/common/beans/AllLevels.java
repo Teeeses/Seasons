@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class AllLevels {
 
     public enum Month {
-        DECEMBER(12, 31), JANUARY(1, 31);
+        DECEMBER(12, 31), JANUARY(1, 31), MARCH(3, 31), APRIL(4, 30);
 
         private int id;
         private int dais;
