@@ -2,9 +2,6 @@ package com.explead.seasons.winter.logic;
 
 import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.beans.AllLevels;
-import com.explead.seasons.common.beans.LevelContainer;
-import com.explead.seasons.common.logic.Cell;
-import com.explead.seasons.common.logic.ContainerCells;
 import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.winter.interfaces.OnActionMoveCubeListener;
 import com.explead.seasons.winter.interfaces.OnMoveCubeCallback;
@@ -65,7 +62,7 @@ public class FieldWinter implements OnMoveCubeCallback {
         for (int i = 0; i < actionCells.size(); i++) {
             Cell cell = actionCells.get(i).getOneCell();
             Cell insideCell = actionCells.get(i).getTwoCell();
-            Cell.ColorCube color = actionCells.get(i).getColor();
+            Cell.ColorMember color = actionCells.get(i).getColor();
             WinterCube winterCube = new WinterCube(cell.getX(), cell.getY());
             winterCube.setOnMoveCubeCallback(this);
             WinterInsideCube winterInsideCube = new WinterInsideCube(insideCell.getX(), insideCell.getY(), color);

@@ -1,7 +1,6 @@
 package com.explead.seasons.winter.logic;
 
 
-import com.explead.seasons.common.logic.Cell;
 import com.explead.seasons.common.logic.Direction;
 
 public class WinterCell extends Cell {

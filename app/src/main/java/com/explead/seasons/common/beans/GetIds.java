@@ -1,73 +1,73 @@
 package com.explead.seasons.common.beans;
 
 import com.explead.seasons.R;
-import com.explead.seasons.common.logic.Cell;
+import com.explead.seasons.common.logic.ColorMember;
 
 public class GetIds {
 
-    public static int getIdCubeFromColor(Cell.ColorCube color) {
+    public static int getIdCubeFromColor(ColorMember color) {
         Integer id = null;
-        if(color == Cell.ColorCube.RED) {
+        if(color == ColorMember.RED) {
             id = R.drawable.red;
         }
-        if(color == Cell.ColorCube.BLUE) {
+        if(color == ColorMember.BLUE) {
             id = R.drawable.blue;
         }
-        if(color == Cell.ColorCube.GREEN) {
+        if(color == ColorMember.GREEN) {
             id = R.drawable.green;
         }
-        if(color == Cell.ColorCube.YELLOW) {
+        if(color == ColorMember.YELLOW) {
             id = R.drawable.yellow;
         }
-        if(color == Cell.ColorCube.VIOLET) {
+        if(color == ColorMember.VIOLET) {
             id = R.drawable.violet;
         }
         return id.intValue();
     }
 
-    public static int getIdRouteFromColor(Cell.ColorCube color) {
+    public static int getIdRouteFromColor(ColorMember color) {
         Integer id = null;
-        if(color == Cell.ColorCube.RED) {
+        if(color == ColorMember.RED) {
             id = R.drawable.red_route;
         }
-        if(color == Cell.ColorCube.BLUE) {
+        if(color == ColorMember.BLUE) {
             id = R.drawable.blue_route;
         }
-        if(color == Cell.ColorCube.GREEN) {
+        if(color == ColorMember.GREEN) {
             id = R.drawable.green_route;
         }
-        if(color == Cell.ColorCube.YELLOW) {
+        if(color == ColorMember.YELLOW) {
             id = R.drawable.yellow_route;
         }
-        if(color == Cell.ColorCube.VIOLET) {
+        if(color == ColorMember.VIOLET) {
             id = R.drawable.violet_route;
         }
         return id.intValue();
     }
 
-    public static int getIdWinterInsideCubeFromColor(Cell.ColorCube color) {
+    public static int getIdWinterInsideCubeFromColor(ColorMember color) {
         Integer id = null;
-        if(color == Cell.ColorCube.RED) {
+        if(color == ColorMember.RED) {
             id = R.drawable.icon_inside_red_cube;
         }
-        if(color == Cell.ColorCube.BLUE) {
+        if(color == ColorMember.BLUE) {
             id = R.drawable.icon_inside_blue_cube;
         }
-        if(color == Cell.ColorCube.YELLOW) {
+        if(color == ColorMember.YELLOW) {
             id = R.drawable.icon_inside_yellow_cube;
         }
         return id.intValue();
     }
 
-    public static int getIdWinterCubeFromColor(Cell.ColorCube color) {
+    public static int getIdWinterCubeFromColor(ColorMember color) {
         Integer id = null;
-        if(color == Cell.ColorCube.RED) {
+        if(color == ColorMember.RED) {
             id = R.drawable.icon_red_cube;
         }
-        if(color == Cell.ColorCube.BLUE) {
+        if(color == ColorMember.BLUE) {
             id = R.drawable.icon_blue_cube;
         }
-        if(color == Cell.ColorCube.YELLOW) {
+        if(color == ColorMember.YELLOW) {
             id = R.drawable.icon_yellow_cube;
         }
         return id.intValue();

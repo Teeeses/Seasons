@@ -15,6 +15,7 @@ import com.explead.seasons.R;
 import com.explead.seasons.common.app.App;
 import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.beans.ButtonLevel;
+import com.explead.seasons.common.beans.LevelButtonConfig;
 import com.explead.seasons.common.utils.Utils;
 
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ public class GridAdapter extends BaseAdapter {
     }
 
     private OnLevelListener onLevelListener;
-    private Context context;
 
     private ArrayList<ButtonLevel> array = new ArrayList<>();
     private LayoutInflater lInflater;
@@ -48,7 +48,7 @@ public class GridAdapter extends BaseAdapter {
     private int circuleRadiusOneStar;
 
     public GridAdapter(Context context, ArrayList<ButtonLevel> array, AllLevels.Month month, OnLevelListener onLevelListener){
-        this.context = context;
+        Context context1 = context;
         this.onLevelListener = onLevelListener;
         this.month = month;
         this.array.clear();
@@ -102,24 +102,21 @@ public class GridAdapter extends BaseAdapter {
 
         final ButtonLevel buttonLevel = (ButtonLevel) getItem(position);
         viewHolder.tvLevel.setText(Integer.toString(buttonLevel.getNumber()));
-        if(buttonLevel.getStatus() == ButtonLevel.STATUS_CURRENT) {
+        if(buttonLevel.getStatus() == LevelButtonConfig.STATUS_CURRENT) {
             setStateLevel(imageOpen, View.VISIBLE, buttonLevel.isEasyCompleted(), buttonLevel.isHardCompleted());
         }
-        if(buttonLevel.getStatus() == ButtonLevel.STATUS_OPEN) {
+        if(buttonLevel.getStatus() == LevelButtonConfig.STATUS_OPEN) {
             setStateLevel(imageOpen, View.VISIBLE, buttonLevel.isEasyCompleted(), buttonLevel.isHardCompleted());
         }
-        if(buttonLevel.getStatus() == ButtonLevel.STATUS_CLOSE) {
+        if(buttonLevel.getStatus() == LevelButtonConfig.STATUS_CLOSE) {
             setStateLevel(imageClose, View.INVISIBLE, buttonLevel.isEasyCompleted(), buttonLevel.isHardCompleted());
         }
 
-        viewHolder.levelLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(buttonLevel.getStatus() == ButtonLevel.STATUS_OPEN || buttonLevel.getStatus() == ButtonLevel.STATUS_CURRENT) {
-                    onLevelListener.onClickLevel(buttonLevel.getNumber(), month);
-                } else {
-                    onLevelListener.onLevelIsClose(buttonLevel.getNumber());
-                }
+        viewHolder.levelLayout.setOnClickListener(view -> {
+            if(buttonLevel.getStatus() == LevelButtonConfig.STATUS_OPEN || buttonLevel.getStatus() == LevelButtonConfig.STATUS_CURRENT) {
+                onLevelListener.onClickLevel(buttonLevel.getNumber(), month);
+            } else {
+                onLevelListener.onLevelIsClose(buttonLevel.getNumber());
             }
         });
 

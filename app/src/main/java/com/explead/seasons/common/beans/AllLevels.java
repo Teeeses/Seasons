@@ -1,9 +1,10 @@
 package com.explead.seasons.common.beans;
 
-import com.explead.seasons.winter.levels.DecemberEasyLevels;
-import com.explead.seasons.winter.levels.DecemberHardLevels;
-import com.explead.seasons.winter.levels.JanuaryEasyLevels;
-import com.explead.seasons.winter.levels.JanuaryHardLevels;
+import com.explead.seasons.common.logic.LevelField;
+import com.explead.seasons.winter.levels.DecemberLevelEasy;
+import com.explead.seasons.winter.levels.DecemberLevelHard;
+import com.explead.seasons.winter.levels.JanuaryLevelEasy;
+import com.explead.seasons.winter.levels.JanuaryLevelHard;
 
 import java.util.ArrayList;
 
@@ -33,22 +34,22 @@ public class AllLevels {
         EASY, HARD
     }
 
-    private ArrayList<LevelContainer> decemberEasyLevels;
-    private ArrayList<LevelContainer> decemberHardLevels;
+    private ArrayList<LevelField> decemberEasyLevels;
+    private ArrayList<LevelField> decemberHardLevels;
 
-    private ArrayList<LevelContainer> januaryEasyLevels;
-    private ArrayList<LevelContainer> januaryHardLevels;
+    private ArrayList<LevelField> januaryEasyLevels;
+    private ArrayList<LevelField> januaryHardLevels;
 
     public AllLevels() {
-        decemberEasyLevels = new DecemberEasyLevels().getLevels();
-        decemberHardLevels = new DecemberHardLevels().getLevels();
+        decemberEasyLevels = new DecemberLevelEasy().getLevels();
+        decemberHardLevels = new DecemberLevelHard().getLevels();
 
-        januaryEasyLevels = new JanuaryEasyLevels().getLevels();
-        januaryHardLevels = new JanuaryHardLevels().getLevels();
+        januaryEasyLevels = new JanuaryLevelEasy().getLevels();
+        januaryHardLevels = new JanuaryLevelHard().getLevels();
     }
 
-    public LevelContainer get(int level, Month month, Complication complication) {
-        LevelContainer container = null;
+    public LevelField get(int level, Month month, Complication complication) {
+        LevelField container = null;
         if(complication == Complication.EASY) {
             if(month == Month.DECEMBER) {
                 container = decemberEasyLevels.get(level);
@@ -67,35 +68,35 @@ public class AllLevels {
         return container;
     }
 
-    public ArrayList<LevelContainer> getDecemberEasyLevels() {
+    public ArrayList<LevelField> getDecemberEasyLevels() {
         return decemberEasyLevels;
     }
 
-    public void setDecemberEasyLevels(ArrayList<LevelContainer> decemberEasyLevels) {
+    public void setDecemberEasyLevels(ArrayList<LevelField> decemberEasyLevels) {
         this.decemberEasyLevels = decemberEasyLevels;
     }
 
-    public ArrayList<LevelContainer> getDecemberHardLevels() {
+    public ArrayList<LevelField> getDecemberHardLevels() {
         return decemberHardLevels;
     }
 
-    public void setDecemberHardLevels(ArrayList<LevelContainer> decemberHardLevels) {
+    public void setDecemberHardLevels(ArrayList<LevelField> decemberHardLevels) {
         this.decemberHardLevels = decemberHardLevels;
     }
 
-    public ArrayList<LevelContainer> getJanuaryEasyLevels() {
+    public ArrayList<LevelField> getJanuaryEasyLevels() {
         return januaryEasyLevels;
     }
 
-    public void setJanuaryEasyLevels(ArrayList<LevelContainer> januaryEasyLevels) {
+    public void setJanuaryEasyLevels(ArrayList<LevelField> januaryEasyLevels) {
         this.januaryEasyLevels = januaryEasyLevels;
     }
 
-    public ArrayList<LevelContainer> getJanuaryHardLevels() {
+    public ArrayList<LevelField> getJanuaryHardLevels() {
         return januaryHardLevels;
     }
 
-    public void setJanuaryHardLevels(ArrayList<LevelContainer> januaryHardLevels) {
+    public void setJanuaryHardLevels(ArrayList<LevelField> januaryHardLevels) {
         this.januaryHardLevels = januaryHardLevels;
     }
 }

@@ -1,6 +1,6 @@
 package com.explead.seasons.winter.logic;
 
-import com.explead.seasons.common.logic.Cell;
+import com.explead.seasons.common.logic.ColorMember;
 import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.winter.interfaces.OnMoveCubeCallback;
 import com.explead.seasons.winter.interfaces.OnMoveCubeListener;
@@ -27,7 +27,7 @@ public class WinterCube extends Cell {
         this.color = cube.getColor();
     }
 
-    public void create(ColorCube color, WinterInsideCube insideCube) {
+    public void create(ColorMember color, WinterInsideCube insideCube) {
         this.color = color;
         this.insideCube = insideCube;
     }

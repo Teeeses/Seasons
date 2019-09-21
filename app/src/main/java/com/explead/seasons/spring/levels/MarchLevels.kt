@@ -1,31 +1,31 @@
 package com.explead.seasons.spring.levels
 
 import com.explead.screenmovementfinger.beans.Coordinate
-import com.explead.seasons.common.logic.Cell
-import com.explead.seasons.spring.logic.LevelField
+import com.explead.seasons.common.logic.ColorMember
+import com.explead.seasons.common.logic.LevelField
 import com.explead.seasons.spring.logic.SpringMember
-
-import java.util.ArrayList
+import java.util.*
 
 class MarchLevels {
 
-    val levels: ArrayList<LevelField> = ArrayList()
+    private val levels: ArrayList<LevelField> = ArrayList()
 
     init {
         createLevels()
     }
 
     private fun createLevels() {
-        levels.add(LevelField.Builder()
+        levels.add(LevelField()
                 .count(1)
-                .addMember(SpringMember(Coordinate(0, 0), Cell.ColorCube.RED))
-                .field(arrayOf(
-                        arrayOf('0', '0', 'x', 'x', 'x'),
-                        arrayOf('0', '0', '0', 'x', 'x'),
-                        arrayOf('x', '0', '0', '0', 'x'),
-                        arrayOf('x', 'x', '0', '0', '0'),
-                        arrayOf('x', 'x', 'x', '0', '0'))
-                )
-                .build())
+                .addMember(SpringMember()
+                        .coordinate(0, 0)
+                        .color(ColorMember.RED))
+                .field(listOf(
+                        listOf('0', '0', 'x', 'x', 'x'),
+                        listOf('0', '0', '0', 'x', 'x'),
+                        listOf('x', '0', '0', '0', 'x'),
+                        listOf('x', 'x', '0', '0', '0'),
+                        listOf('x', 'x', 'x', '0', '0'))
+                ))
     }
 }
