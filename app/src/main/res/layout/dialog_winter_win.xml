@@ -37,6 +37,7 @@
                 android:layout_marginBottom="@dimen/more_standard_margin"/>
 
             <TextView
+                style="@style/GeckoFontStyle"
                 android:id="@+id/textCompleted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,6 +88,7 @@
                     android:adjustViewBounds="true"/>
 
                 <TextView
+                    style="@style/GeckoFontStyle"
                     android:id="@+id/hardLevelText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

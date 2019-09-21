@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.beans.AllLevels;
-import com.explead.seasons.summer.ui.fragments.SummerFragment;
 import com.explead.seasons.winter.ui.fragments.WinterFragment;
 
 public class MainActivity extends BaseActivity {
@@ -23,10 +22,6 @@ public class MainActivity extends BaseActivity {
         AllLevels.Month month = (AllLevels.Month)getIntent().getExtras().get("month");
 
         openWinterFragment(level, month);
-    }
-
-    public void openSummerFragment(int level, AllLevels.Month month) {
-        openFragment(new SummerFragment(), level, month);
     }
 
     public void openWinterFragment(int level, AllLevels.Month month) {

@@ -95,7 +95,6 @@ public class GridAdapter extends BaseAdapter {
             params2.circleRadius = circuleRadiusOneStar;
             viewHolder.ivStar2.setLayoutParams(params2);
 
-            viewHolder.tvLevel.setTypeface(Utils.getTypeFaceLevel(context.getAssets()));
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

@@ -2,11 +2,11 @@ package com.explead.seasons.spring.logic
 
 class LevelField(val level: Int,
                  val field: Array<Array<Char>>,
-                 val members: ArrayList<Member>) {
+                 val members: ArrayList<SpringMember>) {
 
     data class Builder(var level: Int = 0,
                        var field: Array<Array<Char>> = arrayOf(arrayOf()),
-                       var members: ArrayList<Member> = ArrayList()) {
+                       var members: ArrayList<SpringMember> = ArrayList()) {
 
 
         fun count(level: Int) = apply {
@@ -17,7 +17,7 @@ class LevelField(val level: Int,
                 this.field = field
         }
 
-        fun addMember(member: Member) = apply {
+        fun addMember(member: SpringMember) = apply {
                 this.members.add(member)
         }
 

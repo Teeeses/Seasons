@@ -11,4 +11,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="GeckoFontStyle">
+        <item name="android:fontFamily">@font/gecko</item>
+    </style>
+
+    <style name="LevelFontStyle">
+        <item name="android:fontFamily">@font/level_personal</item>
+    </style>
 </resources>

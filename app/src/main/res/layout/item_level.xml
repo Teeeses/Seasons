@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/levelLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,6 +21,7 @@
             android:adjustViewBounds="false" />
 
         <TextView
+            style="@style/LevelFontStyle"
             android:id="@+id/tvLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +42,8 @@
             android:adjustViewBounds="true"
             app:layout_constraintCircle="@+id/ivLevel"
             app:layout_constraintCircleAngle="295"
-            app:layout_constraintCircleRadius="40dp"/>
+            app:layout_constraintCircleRadius="40dp"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/ivStart_2"
@@ -51,6 +53,7 @@
             android:adjustViewBounds="true"
             app:layout_constraintCircle="@+id/ivLevel"
             app:layout_constraintCircleAngle="335"
-            app:layout_constraintCircleRadius="40dp"/>
+            app:layout_constraintCircleRadius="40dp"
+            tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

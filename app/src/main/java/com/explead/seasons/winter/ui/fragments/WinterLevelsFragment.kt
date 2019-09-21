@@ -32,9 +32,6 @@ internal class WinterLevelsFragment : LevelsFragment() {
 
         viewHolder.snowfall.startAnimation()
 
-        viewHolder.tvDecember.typeface = Utils.getTypeFaceLevel(context!!.assets)
-        viewHolder.tvJanuary.typeface = Utils.getTypeFaceLevel(context!!.assets)
-
         val params = RelativeLayout.LayoutParams(App.getWidthScreen().toInt(), (App.getWidthScreen() * 0.646f).toInt())
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
         viewHolder.bottomImage.layoutParams = params

@@ -24,9 +24,6 @@ internal class SpringLevelsFragment : LevelsFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewHolder = FragmentLevelsSpringBinding.inflate(inflater, container, false)
 
-        viewHolder.april.typeface = Utils.getTypeFaceLevel(requireContext().assets)
-        viewHolder.march.typeface = Utils.getTypeFaceLevel(requireContext().assets)
-
         viewHolder.scroll.smoothScrollTo(0, 0)
 
         val params = RelativeLayout.LayoutParams(App.getWidthScreen().toInt(), (App.getWidthScreen() * 0.646f).toInt())

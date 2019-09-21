@@ -19,11 +19,7 @@ public class Utils {
     public static final String APP_PREFERENCES = "mysettings";
 
     public static Typeface getTypeFaceLevel(AssetManager manager) {
-        return Typeface.createFromAsset(manager,"fonts/level_personal.ttf");
-    }
-
-    public static Typeface getTypeGecko(AssetManager manager) {
-        return Typeface.createFromAsset(manager,"fonts/gecko.ttf");
+        return Typeface.createFromAsset(manager, "font/level_personal.ttf");
     }
 
 }

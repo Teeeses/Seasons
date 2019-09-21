@@ -64,9 +64,6 @@ public class DialogWinterWin extends Dialog {
         imageLuminescence.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_luminescence));
 
         TextView textCompleted = findViewById(R.id.textCompleted);
-        TextView hardLevelText = findViewById(R.id.hardLevelText);
-        hardLevelText.setTypeface(Utils.getTypeGecko(context.getAssets()));
-        textCompleted.setTypeface(Utils.getTypeGecko(context.getAssets()));
         textCompleted.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_text_completed));
 
         ImageView imageCompleted = findViewById(R.id.imageCompleted);

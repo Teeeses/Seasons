@@ -1,12 +1,9 @@
 package com.explead.seasons.spring.levels
 
 import com.explead.screenmovementfinger.beans.Coordinate
-import com.explead.seasons.common.beans.LevelContainer
 import com.explead.seasons.common.logic.Cell
-import com.explead.seasons.common.logic.ContainerCells
 import com.explead.seasons.spring.logic.LevelField
-import com.explead.seasons.spring.logic.Member
-import com.explead.seasons.winter.logic.WinterCell
+import com.explead.seasons.spring.logic.SpringMember
 
 import java.util.ArrayList
 
@@ -21,7 +18,7 @@ class MarchLevels {
     private fun createLevels() {
         levels.add(LevelField.Builder()
                 .count(1)
-                .addMember(Member(Coordinate(0, 0), Cell.ColorCube.RED))
+                .addMember(SpringMember(Coordinate(0, 0), Cell.ColorCube.RED))
                 .field(arrayOf(
                         arrayOf('0', '0', 'x', 'x', 'x'),
                         arrayOf('0', '0', '0', 'x', 'x'),

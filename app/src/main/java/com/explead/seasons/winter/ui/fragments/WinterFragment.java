@@ -23,11 +23,12 @@ import com.explead.seasons.common.dialogs.DialogHardIsClosed;
 import com.explead.seasons.common.dialogs.DialogMonthIsClosed;
 import com.explead.seasons.common.dialogs.DialogWinterHelp;
 import com.explead.seasons.common.dialogs.DialogWinterWin;
+import com.explead.seasons.common.interfaces.OnGameBarClickListener;
 import com.explead.seasons.common.logic.Direction;
 import com.explead.seasons.common.ui.fragments.GameFragment;
 import com.explead.seasons.common.utils.Utils;
 import com.explead.seasons.winter.logic.FieldWinter;
-import com.explead.seasons.winter.ui.WinterGameBar;
+import com.explead.seasons.winter.ui.GameBar;
 import com.explead.seasons.winter.ui.winter_views.FieldWinterView;
 import com.explead.seasons.winter.ui.winter_views.SnowfallView;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,13 +37,13 @@ import com.google.android.material.snackbar.Snackbar;
  * Created by Александр on 09.07.2017.
  */
 
-public class WinterFragment extends GameFragment implements FieldWinter.OnControllerListener, WinterGameBar.OnMenuClickListener {
+public class WinterFragment extends GameFragment implements FieldWinter.OnControllerListener, OnGameBarClickListener {
 
     private FieldWinterView fieldView;
     private int level;
 
     private SnowfallView snowfall;
-    private WinterGameBar bar;
+    private GameBar bar;
     private FieldWinter fieldWinter;
 
     private SoundPool soundPoolWin;
