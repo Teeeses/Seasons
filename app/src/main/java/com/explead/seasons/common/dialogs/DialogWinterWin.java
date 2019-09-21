@@ -17,16 +17,10 @@ import androidx.annotation.NonNull;
 
 import com.explead.seasons.R;
 import com.explead.seasons.common.beans.AllLevels;
+import com.explead.seasons.common.interfaces.OnDialogCompletionListener;
 import com.explead.seasons.common.utils.Utils;
 
 public class DialogWinterWin extends Dialog {
-
-
-    public interface OnDialogCompletionListener {
-        void onMenu();
-        void onHardLevel();
-        void onNextLevel();
-    }
 
     private OnDialogCompletionListener mOnDialogCompletionListener;
 

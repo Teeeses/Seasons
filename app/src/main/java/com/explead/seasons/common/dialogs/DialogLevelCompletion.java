@@ -11,17 +11,13 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 
 import com.explead.seasons.R;
+import com.explead.seasons.common.interfaces.OnDialogCompletionListener;
 
 /**
  * Created by develop on 12.09.2017.
  */
 
 public class DialogLevelCompletion extends Dialog {
-
-    public interface OnDialogCompletionListener {
-        void onMenu();
-        void onNextLevel();
-    }
 
     private OnDialogCompletionListener mOnDialogCompletionListener;
 

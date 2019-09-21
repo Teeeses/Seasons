@@ -16,12 +16,6 @@ public class GameFragment extends Fragment {
 
     protected MainActivity activity;
 
-    protected ImageView btnRestart;
-    protected ImageView btnMenu;
-    protected ImageView btnHelp;
-    protected TextView tvNumberLevel;
-    protected TextView tvLevel;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

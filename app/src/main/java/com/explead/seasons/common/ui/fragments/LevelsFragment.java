@@ -1,6 +1,7 @@
 package com.explead.seasons.common.ui.fragments;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -15,7 +16,6 @@ import com.explead.seasons.common.adapters.GridAdapter;
 import com.explead.seasons.common.beans.AllLevels;
 import com.explead.seasons.common.beans.ButtonLevel;
 import com.explead.seasons.common.ui.LevelsActivity;
-import com.explead.seasons.common.utils.Utils;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListe
         TextView tv = sbView.findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv.setGravity(Gravity.CENTER_HORIZONTAL);
-        tv.setTypeface(Utils.getTypeFaceLevel(requireContext().getAssets()));
+        tv.setTypeface(Typeface.createFromAsset(requireContext().getAssets(), "font/level_personal.ttf"));
     }
 
     protected GridAdapter createGrid(final AllLevels.Month month) {

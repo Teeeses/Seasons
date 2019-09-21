@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.explead.seasons.common.interfaces.OnGameBarClickListener
-import com.explead.seasons.common.utils.Utils
 import com.explead.seasons.databinding.WinterGameBarBinding
 
 

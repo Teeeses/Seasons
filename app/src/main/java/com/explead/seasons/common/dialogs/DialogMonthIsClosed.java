@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -45,12 +44,9 @@ public class DialogMonthIsClosed extends Dialog {
         getWindow().setBackgroundDrawable(drawable);
 
         TextView close = findViewById(R.id.close);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                onClosedCallback.onClosed();
-            }
+        close.setOnClickListener(v -> {
+            dismiss();
+            onClosedCallback.onClosed();
         });
     }
 

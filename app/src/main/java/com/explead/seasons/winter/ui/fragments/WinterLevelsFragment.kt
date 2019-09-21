@@ -11,9 +11,7 @@ import com.explead.seasons.common.app.App
 import com.explead.seasons.common.beans.AllLevels.Month.DECEMBER
 import com.explead.seasons.common.beans.AllLevels.Month.JANUARY
 import com.explead.seasons.common.ui.fragments.LevelsFragment
-import com.explead.seasons.common.utils.Utils
 import com.explead.seasons.databinding.FragmentLevelsWinterBinding
-import com.explead.seasons.winter.ui.winter_views.SnowfallView
 
 /**
  * Created by Александр on 09.07.2017.
@@ -21,7 +19,6 @@ import com.explead.seasons.winter.ui.winter_views.SnowfallView
 
 internal class WinterLevelsFragment : LevelsFragment() {
 
-    private var snowfall: SnowfallView? = null
     private lateinit var viewHolder: FragmentLevelsWinterBinding
 
     private lateinit var decemberAdapter: GridAdapter
@@ -57,16 +54,16 @@ internal class WinterLevelsFragment : LevelsFragment() {
         super.onResume()
         decemberAdapter.refreshStatus()
         januaryAdapter.refreshStatus()
-        snowfall?.startAnimation()
+        viewHolder.snowfall.startAnimation()
     }
 
     override fun onStop() {
         super.onStop()
-        snowfall?.stopAnimation()
+        viewHolder.snowfall.stopAnimation()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        snowfall?.stopAnimation()
+        viewHolder.snowfall.stopAnimation()
     }
 }
