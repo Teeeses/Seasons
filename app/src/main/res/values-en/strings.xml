@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cube in cube</string>
+    <string name="app_name">Cube in member</string>
     <string name="level">Level</string>
     <string name="level_is_close">Level closed!</string>
     <string name="open_new_mode">You opened the mode &#171;%s&#187;</string>
@@ -15,7 +15,7 @@
 
     <string name="hard_level">Hard \nlevel!</string>
 
-    <string name="winter_help_text">Cubes are placed incorrectly.\nLet is fix it!\n\nPlace them in a way that the middle part matches the cube main colour.</string>
+    <string name="winter_help_text">Cubes are placed incorrectly.\nLet is fix it!\n\nPlace them in a way that the middle part matches the member main colour.</string>
     <string name="hard_is_closed">The harder level is closed.\nComplete this one first.</string>
     <string name="month_is_closed">This mode is not available.\nComplete 15 levels of the previous mode first.</string>
 

@@ -1,8 +1,8 @@
 package com.explead.seasons.common.logic
 
-data class LevelField(var level: Int = 0,
+data class LevelField<T: Member>(var level: Int = 0,
                       var field: List<List<Char>> = mutableListOf(),
-                      val members: ArrayList<Member> = ArrayList()) {
+                      val members: ArrayList<T> = ArrayList()) {
 
     fun count(level: Int) = apply {
         this.level = level
@@ -12,7 +12,7 @@ data class LevelField(var level: Int = 0,
         this.field = field
     }
 
-    fun addMember(member: Member) = apply {
+    fun addMember(member: T) = apply {
         this.members.add(member)
     }
 }

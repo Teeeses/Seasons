@@ -11,8 +11,6 @@ import com.explead.seasons.winter.ui.fragments.WinterFragment;
 
 public class MainActivity extends BaseActivity {
 
-    private Fragment fragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +28,6 @@ public class MainActivity extends BaseActivity {
 
     public void openFragment(Fragment fragment, int level, AllLevels.Month month) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        this.fragment = fragment;
         Bundle bundle = new Bundle();
         bundle.putInt("level", level);
         bundle.putSerializable("month", month);
@@ -43,9 +40,5 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-    }
-
-    public Fragment getFragment() {
-        return fragment;
     }
 }

@@ -15,11 +15,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class BaseActivity extends AppCompatActivity {
 
-
-    public void sendEvent(String event, Bundle params) {
-        FirebaseAnalytics.getInstance(this).logEvent(event, params);
-    }
-
     public void sendEventWinGame(int level, AllLevels.Month month, AllLevels.Complication complication) {
         Bundle bundle = new Bundle();
         bundle.putInt("level", level);

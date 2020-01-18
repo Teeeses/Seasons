@@ -25,7 +25,7 @@ public class FieldWinter implements OnMoveCubeCallback {
 
     private int level;
     private WinterCell[][] field;
-    private ArrayList<WinterCube> cubes = new ArrayList<>();
+    private ArrayList<WinterMember> cubes = new ArrayList<>();
 
     private boolean isCanMove;
 
@@ -63,17 +63,17 @@ public class FieldWinter implements OnMoveCubeCallback {
             Cell cell = actionCells.get(i).getOneCell();
             Cell insideCell = actionCells.get(i).getTwoCell();
             Cell.ColorMember color = actionCells.get(i).getColor();
-            WinterCube winterCube = new WinterCube(cell.getX(), cell.getY());
-            winterCube.setOnMoveCubeCallback(this);
+            WinterMember winterMember = new WinterMember(cell.getX(), cell.getY());
+            winterMember.setOnMoveCubeCallback(this);
             WinterInsideCube winterInsideCube = new WinterInsideCube(insideCell.getX(), insideCell.getY(), color);
-            winterCube.create(color, winterInsideCube);
+            winterMember.create(color, winterInsideCube);
 
-            cubes.add(winterCube);
+            cubes.add(winterMember);
         }
     }
 
     private boolean canNextMove() {
-        for(WinterCube cube: cubes) {
+        for(WinterMember cube: cubes) {
             if(cube.getMOVE()) {
                 return false;
             }
@@ -82,20 +82,20 @@ public class FieldWinter implements OnMoveCubeCallback {
     }
 
     private void setDirections(Direction direction) {
-        for(WinterCube cube: cubes) {
+        for(WinterMember cube: cubes) {
             cube.setDirection(direction);
         }
     }
 
     private void setLastInfoCube() {
-        for(WinterCube cube: cubes) {
+        for(WinterMember cube: cubes) {
             cube.setLastCoordinate();
             cube.setLastDirection();
         }
     }
 
     private void moveCubeAnimation() {
-        for(WinterCube cube: cubes) {
+        for(WinterMember cube: cubes) {
             cube.move();
         }
     }
@@ -106,7 +106,7 @@ public class FieldWinter implements OnMoveCubeCallback {
                 setDirections(direction);
                 while (!isEndMove()) {
                     setLastInfoCube();
-                    for (WinterCube cube : cubes) {
+                    for (WinterMember cube : cubes) {
                         moveCube(cube);
                     }
                     moveCubeAnimation();
@@ -140,7 +140,7 @@ public class FieldWinter implements OnMoveCubeCallback {
     }
 
     private void installDirectionArrows() {
-        for (WinterCube cube: cubes) {
+        for (WinterMember cube: cubes) {
             WinterCell winterCell = field[cube.getX()][cube.getY()];
             if(winterCell.getPurpose() == WinterCell.PurposeCell.ARROW) {
                 Direction direction = winterCell.getDirection();
@@ -155,7 +155,7 @@ public class FieldWinter implements OnMoveCubeCallback {
         WinterCell cell = getNextFieldCell(x, y, direction);
         //Если такая клеткая существет
         if(cell != null) {
-            WinterCube nextCube = isCubeOnPlace(cell.getX(), cell.getY());
+            WinterMember nextCube = isCubeOnPlace(cell.getX(), cell.getY());
             if(nextCube != null && nextCube.getDirection() == null) {
                 nextCube.setDirection(direction);
                 setDirectionNextCube(cell.getX(), cell.getY(), direction);
@@ -163,7 +163,7 @@ public class FieldWinter implements OnMoveCubeCallback {
         }
     }
 
-    private void actionMoveCube(WinterCube cube, WinterCube cubeOnPlace, WinterCell cell,
+    private void actionMoveCube(WinterMember cube, WinterMember cubeOnPlace, WinterCell cell,
                                 OnActionMoveCubeListener onActionMoveCubeListener) {
 
         if (cell.getPurpose() == WinterCell.PurposeCell.WALL) {
@@ -187,14 +187,14 @@ public class FieldWinter implements OnMoveCubeCallback {
         }
     }
 
-    private void moveCube(final WinterCube cube) {
+    private void moveCube(final WinterMember cube) {
 
         WinterCell cell = getNextFieldCell(cube.getX(), cube.getY(), cube.getDirection());
         if(cell != null) {
             final int x = cell.getX();
             final int y = cell.getY();
             //null - если клетка свободна
-            WinterCube cubeOnPlace = isCubeOnPlace(x, y);
+            WinterMember cubeOnPlace = isCubeOnPlace(x, y);
 
             actionMoveCube(cube, cubeOnPlace, cell, new OnActionMoveCubeListener() {
                 @Override
@@ -214,7 +214,7 @@ public class FieldWinter implements OnMoveCubeCallback {
                 }
 
                 @Override
-                public void onCubeOnPlace(WinterCube cubeOnPlace) {
+                public void onCubeOnPlace(WinterMember cubeOnPlace) {
                     moveCube(cubeOnPlace);
                     moveCube(cube);
                 }
@@ -224,8 +224,8 @@ public class FieldWinter implements OnMoveCubeCallback {
         }
     }
 
-    private WinterCube isCubeOnPlace(int x, int y) {
-        for(WinterCube cube: cubes) {
+    private WinterMember isCubeOnPlace(int x, int y) {
+        for(WinterMember cube: cubes) {
             if(cube.getX() == x && cube.getY() == y) {
                 return cube;
             }
@@ -234,7 +234,7 @@ public class FieldWinter implements OnMoveCubeCallback {
     }
 
     private boolean isEndMove() {
-        for(WinterCube cube: cubes) {
+        for(WinterMember cube: cubes) {
             if(cube.getDirection() != null) {
                 return false;
             }
@@ -245,7 +245,7 @@ public class FieldWinter implements OnMoveCubeCallback {
     private void checkWin() {
         boolean value = true;
         for (int i = 0; i < cubes.size(); i++) {
-            WinterCube cube = cubes.get(i);
+            WinterMember cube = cubes.get(i);
             if(!cube.isTruePlace()) {
                 value = false;
             }
@@ -269,7 +269,7 @@ public class FieldWinter implements OnMoveCubeCallback {
         return field;
     }
 
-    public ArrayList<WinterCube> getCubes() {
+    public ArrayList<WinterMember> getCubes() {
         return cubes;
     }
 

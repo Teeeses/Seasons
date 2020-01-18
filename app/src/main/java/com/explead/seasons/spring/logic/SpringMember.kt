@@ -8,7 +8,8 @@ class SpringMember(var coordinate: Coordinate? = null): Member() {
 
     fun coordinate(x: Int, y: Int) = apply {
         this.coordinate = Coordinate(x, y)
-        currentCoordinate = this.coordinate as Coordinate
+        this.x = x
+        this.y = y
     }
 
     fun color(color: ColorMember) = apply {

@@ -13,13 +13,13 @@ import androidx.annotation.Nullable;
 import com.explead.seasons.common.beans.GetIds;
 import com.explead.seasons.common.ui.CellView;
 import com.explead.seasons.winter.interfaces.OnMoveCubeListener;
-import com.explead.seasons.winter.logic.WinterCube;
+import com.explead.seasons.winter.logic.WinterMember;
 
 import java.util.ArrayList;
 
 public class CubeView extends CellView implements OnMoveCubeListener {
 
-    protected WinterCube cell;
+    protected WinterMember cell;
     private ArrayList<ValueAnimator> animationQueue = new ArrayList<>();
 
     private final int DURATION = 300;
@@ -43,7 +43,7 @@ public class CubeView extends CellView implements OnMoveCubeListener {
         this.context = context;
     }
 
-    public void create(float size, WinterCube cell) {
+    public void create(float size, WinterMember cell) {
         this.size = size;
         this.cell = cell;
         cell.setOnMoveListener(this);
@@ -117,7 +117,7 @@ public class CubeView extends CellView implements OnMoveCubeListener {
         animationQueue.add(valueAnimator);
     }
 
-    public WinterCube getCell() {
+    public WinterMember getCell() {
         return cell;
     }
 }

@@ -8,8 +8,7 @@ import com.explead.seasons.common.app.App;
 import com.explead.seasons.winter.logic.FieldWinter;
 import com.explead.seasons.winter.logic.WinterArrow;
 import com.explead.seasons.winter.logic.WinterCell;
-import com.explead.seasons.winter.logic.WinterCube;
-import com.explead.seasons.winter.logic.WinterInsideCube;
+import com.explead.seasons.winter.logic.WinterMember;
 
 import java.util.ArrayList;
 
@@ -21,7 +20,7 @@ public class FieldWinterView extends RelativeLayout {
 
     private Context context;
 
-    private ArrayList<WinterCube> cubes = new ArrayList<>();
+    private ArrayList<WinterMember> cubes = new ArrayList<>();
 
     private float size;
     private FieldWinter fieldWinter;
@@ -75,9 +74,9 @@ public class FieldWinterView extends RelativeLayout {
 
         cubes = fieldWinter.getCubes();
         for (int i = 0; i < cubes.size(); i++) {
-            WinterCube winterCube = cubes.get(i);
+            WinterMember winterMember = cubes.get(i);
             CubeView cubeView = new CubeView(context);
-            cubeView.create(sizeCell, winterCube);
+            cubeView.create(sizeCell, winterMember);
             this.addView(cubeView);
 
             WinterInsideCube winterInsideCube = cubes.get(i).getInsideCube();

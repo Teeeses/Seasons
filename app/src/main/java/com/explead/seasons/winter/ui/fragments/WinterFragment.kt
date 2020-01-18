@@ -23,6 +23,7 @@ import com.explead.seasons.common.interfaces.OnClosedCallback
 import com.explead.seasons.common.interfaces.OnDialogCompletionListener
 import com.explead.seasons.common.interfaces.OnGameBarClickListener
 import com.explead.seasons.common.logic.Direction
+import com.explead.seasons.common.ui.MainActivity
 import com.explead.seasons.common.ui.fragments.GameFragment
 import com.explead.seasons.databinding.FragmentWinterBinding
 import com.explead.seasons.winter.logic.FieldWinter
@@ -37,14 +38,11 @@ class WinterFragment : GameFragment(), FieldWinter.OnControllerListener, OnGameB
 
     private lateinit var viewHolder: FragmentWinterBinding
 
-    private var level: Int = 0
-
     private var fieldWinter: FieldWinter? = null
 
     private var soundPoolWin: SoundPool? = null
     private var soundPoolMove: SoundPool? = null
 
-    private var month: AllLevels.Month? = null
     private var complication: AllLevels.Complication = AllLevels.Complication.EASY
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +56,8 @@ class WinterFragment : GameFragment(), FieldWinter.OnControllerListener, OnGameB
 
         soundPoolMove = SoundPool(1, AudioManager.STREAM_MUSIC, 100)
         soundPoolWin = SoundPool(1, AudioManager.STREAM_MUSIC, 100)
-        soundPoolWin?.load(getActivity(), R.raw.sound_win, 1)
-        soundPoolMove?.load(getActivity(), R.raw.move, 1)
+        soundPoolWin?.load(requireActivity(), R.raw.sound_win, 1)
+        soundPoolMove?.load(requireActivity(), R.raw.move, 1)
 
         initListener()
         createSnowfall()
@@ -132,10 +130,10 @@ class WinterFragment : GameFragment(), FieldWinter.OnControllerListener, OnGameB
         App.getSaverSpref().saveCurrentLevel(level, month, complication)
         soundPoolWin?.play(1, 0.2f, 0.2f, 1, 0, 1f)
         Handler().postDelayed({
-            val dialog = DialogWinterWin(activity, this, complication, month, level)
+            val dialog = DialogWinterWin(requireActivity(), this, complication, month, level)
             dialog.show()
         }, 500)
-        activity.sendEventWinGame(level, month, complication)
+        (requireActivity() as MainActivity).sendEventWinGame(level, month, complication)
     }
 
     private fun checkOpenedMode(level: Int) {
@@ -149,7 +147,7 @@ class WinterFragment : GameFragment(), FieldWinter.OnControllerListener, OnGameB
     }
 
     private fun startGame(level: Int, month: AllLevels.Month?, complication: AllLevels.Complication) {
-        activity.sendEventStartGame(level, month, complication)
+        (requireActivity() as MainActivity).sendEventStartGame(level, month, complication)
         viewHolder.gameBar.setNumberLevel(level)
 
         fieldWinter = FieldWinter(level, month, complication)
@@ -169,7 +167,7 @@ class WinterFragment : GameFragment(), FieldWinter.OnControllerListener, OnGameB
 
     private fun changeOnHard() {
         if (!App.getSaverSpref().isLevelCompliated(month, level)) {
-            val dialogHardClosed = DialogHardIsClosed(activity)
+            val dialogHardClosed = DialogHardIsClosed(requireActivity())
             dialogHardClosed.show()
         } else {
             viewHolder.containerHardLevel.visibility = View.GONE
@@ -182,7 +180,7 @@ class WinterFragment : GameFragment(), FieldWinter.OnControllerListener, OnGameB
     private fun showSnackBarOpenNewMode() {
         if (view != null) {
             val sb = Snackbar.make(viewHolder.root,
-                    String.format(activity.resources.getString(R.string.open_new_mode), activity.resources.getString(R.string.january)),
+                    String.format(requireContext().resources.getString(R.string.open_new_mode), requireContext().resources.getString(R.string.january)),
                     Snackbar.LENGTH_LONG)
             val view = sb.view
             val tv = view.findViewById<TextView>(R.id.snackbar_text)
@@ -194,11 +192,11 @@ class WinterFragment : GameFragment(), FieldWinter.OnControllerListener, OnGameB
     }
 
     override fun onClosed() {
-
+        requireActivity().onBackPressed()
     }
 
     override fun onMenu() {
-        activity.onBackPressed()
+        requireActivity().onBackPressed()
     }
 
     override fun onNextLevel() {

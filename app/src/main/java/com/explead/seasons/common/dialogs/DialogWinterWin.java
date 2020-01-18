@@ -79,12 +79,9 @@ public class DialogWinterWin extends Dialog {
         }
 
         ImageView btnHardLevel = findViewById(R.id.btnHardLevel);
-        btnHardLevel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mOnDialogCompletionListener.onHardLevel();
-                dismiss();
-            }
+        btnHardLevel.setOnClickListener(view -> {
+            mOnDialogCompletionListener.onHardLevel();
+            dismiss();
         });
         View container = findViewById(R.id.containerBtnHardLevel);
         if(complication == AllLevels.Complication.HARD) {

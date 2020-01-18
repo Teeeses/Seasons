@@ -1,6 +1,5 @@
 package com.explead.seasons.common.ui.fragments;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -26,10 +25,6 @@ import java.util.ArrayList;
  */
 public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListener {
 
-    protected View view;
-
-    protected LevelsActivity activity;
-
     private Snackbar sbLevelClosed;
 
     @Override
@@ -39,7 +34,7 @@ public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListe
     }
 
     private void createSB(@NonNull View view) {
-        sbLevelClosed = Snackbar.make(view, activity.getResources().getString(R.string.level_is_close), Snackbar.LENGTH_SHORT);
+        sbLevelClosed = Snackbar.make(view, requireContext().getResources().getString(R.string.level_is_close), Snackbar.LENGTH_SHORT);
         View sbView = sbLevelClosed.getView();
         TextView tv = sbView.findViewById(R.id.snackbar_text);
         tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -48,12 +43,12 @@ public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListe
     }
 
     protected GridAdapter createGrid(final AllLevels.Month month) {
-        return new GridAdapter(activity, create(month), month, this);
+        return new GridAdapter(requireActivity(), create(month), month, this);
     }
 
     @Override
     public void onClickLevel(int level, AllLevels.Month month) {
-        activity.openGameActivity(level, month);
+        ((LevelsActivity)requireActivity()).openGameActivity(level, month);
     }
 
     @Override
@@ -69,16 +64,5 @@ public class LevelsFragment extends Fragment implements GridAdapter.OnLevelListe
             array.add(new ButtonLevel(i + 1));
         }
         return array;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        activity = (LevelsActivity)context;
     }
 }

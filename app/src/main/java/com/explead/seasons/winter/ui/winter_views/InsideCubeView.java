@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 
 import com.explead.seasons.common.beans.GetIds;
 import com.explead.seasons.common.ui.CellView;
-import com.explead.seasons.winter.logic.WinterInsideCube;
 
 public class InsideCubeView extends CellView {
 
